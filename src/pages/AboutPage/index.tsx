@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-export const IndexPage: FC = () => {
+export const AboutPage: FC = () => {
   return (
     <>
     </>
