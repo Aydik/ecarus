@@ -3,9 +3,11 @@
   width: 100%;
   box-sizing: border-box;
   bottom: 0;
+  background: white;
+  z-index: 9;
   height: var(--footer-height);
   border-top: var(--default-border);
-  padding: 0 var(--horizontal-padding);
+  padding: 0 var(--horizontal-content-padding);
   display: flex;
   align-items: center;
 

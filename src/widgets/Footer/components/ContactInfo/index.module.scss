@@ -1,14 +1,14 @@
 .contactInfo {
   display: flex;
   align-items: center;
-  color: var(--color-dark);
+  color: rgb(var(--color-dark));
 
   .icon {
-    opacity: 0.32;
+    opacity: var(--opacity-4);
   }
 
   .title {
+    opacity: var(--opacity-3);
     margin-left: 8px;
-    opacity: 0.64;
   }
 }

@@ -2,9 +2,11 @@
   position: fixed;
   box-sizing: border-box;
   width: 100%;
+  background: white;
+  z-index: 9;
   height: var(--header-desktop-height);
   border-bottom: var(--default-border);
-  padding: 0 var(--horizontal-padding);
+  padding: 0 var(--horizontal-content-padding);
   display: flex;
   justify-content: space-between;
   align-items: center;

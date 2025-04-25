@@ -2,7 +2,7 @@ import { FC } from 'react';
 import styles from './index.module.scss';
 import { contacts } from 'entities/about/contacts.ts';
 import { CopyableText } from 'shared/ui/CopyableText';
-import { ContactInfo } from './ui/ContactInfo';
+import { ContactInfo } from '../ContactInfo';
 
 export const Footer: FC = () => {
   return (

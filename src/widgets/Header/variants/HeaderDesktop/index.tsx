@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import styles from './index.module.scss';
-import { LinkLogo } from 'widgets/Header/ui/LinkLogo';
-import { NavLink } from 'widgets/Header/ui/NavLink';
+import { LinkLogo } from 'widgets/Header/components/LinkLogo';
+import { NavLink } from 'widgets/Header/components/NavLink';
 import { pages } from 'entities/nav/pages.ts';
 import { useLocation } from 'react-router-dom';
 

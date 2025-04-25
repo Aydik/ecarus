@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Header } from 'widgets/Header';
+import { Footer } from 'widgets/Footer';
 import { Outlet } from 'react-router-dom';
-import { Footer } from 'src/widgets/Footer';
 import styles from './index.module.scss';
 
 export const MainLayout: FC = () => {

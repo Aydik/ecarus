@@ -4,8 +4,8 @@
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: var(--color-dark);
-  opacity: 0.8;
+  color: rgb(var(--color-dark));
+  opacity: var(--opacity-1);
 
 
   .text {
@@ -14,11 +14,10 @@
   }
 
   &_selected {
-    color: black;
     opacity: 1;
 
     .rectangle {
-      background: var(--color-primary);
+      background: rgb(var(--color-primary));
       height: 3px;
       position: absolute;
       left: 0;

@@ -1,0 +1,23 @@
+.slideButton {
+  all: unset;
+  cursor: pointer;
+  box-sizing: border-box;
+  height: 44px;
+  width: 44px;
+  padding: 10px;
+  border-radius: 22px;
+  background: white;
+  transition: 0.2s;
+  color: rgba(var(--color-dark), var(--opacity-2));
+  box-shadow: 0 4px 24px rgba(var(--color-dark), var(--opacity-5));
+
+  &:active{
+    color: rgba(var(--color-dark), var(--opacity-1));
+    background: var(--color-button-onclick);
+    transform: scale(0.95);
+  }
+
+  .arrowReversed{
+    transform: rotate(180deg);
+  }
+}

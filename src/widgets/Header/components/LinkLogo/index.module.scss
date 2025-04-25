@@ -4,10 +4,9 @@
   padding: 31px 0;
   display: flex;
   justify-content: space-between;
-  align-items: stretch;
+  align-items: center;
 
   &__text {
-    color: var(--color-dark);
-    opacity: 0.72;
+    color: rgba(var(--color-dark), var(--opacity-2));
   }
 }

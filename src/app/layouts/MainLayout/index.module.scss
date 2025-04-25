@@ -1,0 +1,12 @@
+.mainLayout {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-height: 100vh;
+
+  .main {
+    flex: 1;
+    margin-top: var(--header-desktop-height);
+    padding: var(--main-padding-top) var(--horizontal-content-padding) 0 var(--horizontal-content-padding);
+  }
+}
