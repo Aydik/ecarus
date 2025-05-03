@@ -10,8 +10,13 @@ interface Props {
 
 export const SlideButton: FC<Props> = ({ onClick, reversed = false, className }) => {
   return (
-    <button className={`${styles.slideButton} ${className}`} onClick={onClick}>
-      <Icon name={'arrow'} className={reversed ? styles.arrowReversed : ''} />
+    <button
+      className={`${styles.slideButton} 
+      ${reversed ? styles.slideButton_next : styles.slideButton_prev} 
+      ${className}`}
+      onClick={onClick}
+    >
+      <Icon name={'arrow_slide'} className={styles.arrowReversed} />
     </button>
   );
 };

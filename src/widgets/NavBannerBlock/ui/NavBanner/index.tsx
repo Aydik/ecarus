@@ -1,35 +1,35 @@
 import { FC } from 'react';
-import { ISlideItem } from '../../model/types';
+import { INavBanner } from '../../model/types';
 import styles from './index.module.scss';
 import { Typography } from 'shared/ui/Typography';
 import { Button } from 'shared/ui/Button';
+import { Icon } from 'shared/ui/Icon/Icon.tsx';
 
 interface Props {
-  item: ISlideItem;
+  item: INavBanner;
 }
 
-export const SlideItem: FC<Props> = ({ item }) => {
+export const NavBanner: FC<Props> = ({ item }) => {
   return (
     <div
-      className={styles.slideItem}
+      className={styles.navBanner}
       style={{
-        backgroundColor: item.backgroundColor,
         backgroundImage: item.backgroundImage
           ? `url(/assets/images/bannerBackgrounds/${item.backgroundImage})`
           : 'none',
-        backgroundSize: item.backgroundSize || '560px 320px',
+        backgroundSize: item.backgroundSize || '300px 300px',
         backgroundPosition: item.backgroundPosition || 'top right',
       }}
     >
       <div className={styles.content}>
         <div>
-          <Typography variant={'h1'}>{item.title}</Typography>
+          <Typography variant={'h3'}>{item.title}</Typography>
           <Typography className={styles.description} variant={'p'}>
             {item.description}
           </Typography>
         </div>
-        <Button className={styles.button} style={'primary'}>
-          {item.buttonText}
+        <Button className={styles.button} style={'secondary'}>
+          <Icon name={'arrow'} />
         </Button>
       </div>
     </div>

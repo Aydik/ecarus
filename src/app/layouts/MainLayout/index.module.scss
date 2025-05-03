@@ -6,6 +6,7 @@
 
   .main {
     flex: 1;
+    box-sizing: border-box;
     margin-top: var(--header-desktop-height);
     padding: var(--main-padding-top) var(--horizontal-content-padding) 0 var(--horizontal-content-padding);
   }

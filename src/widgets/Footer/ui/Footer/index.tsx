@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import styles from './index.module.scss';
-import { contacts } from 'entities/about/contacts.ts';
+import { contacts } from '../../model/contacts.ts';
 import { CopyableText } from 'shared/ui/CopyableText';
 import { ContactInfo } from '../ContactInfo';
 

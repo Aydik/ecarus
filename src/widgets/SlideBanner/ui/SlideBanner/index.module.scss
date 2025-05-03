@@ -6,14 +6,12 @@
     position: absolute;
     top: 138px;
 
-    &_left {
+    &_prev {
       left: 0;
-      transform: translateX(-50%);
     }
 
-    &_right {
+    &_next {
       right: 0;
-      transform: translateX(50%);
     }
   }
 

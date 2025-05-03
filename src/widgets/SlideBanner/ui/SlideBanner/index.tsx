@@ -28,11 +28,11 @@ export const SlideBanner: FC = () => {
       </div>
       <SlideButton
         onClick={() => navigate('prev')}
-        className={`${styles.slideButton} ${styles.slideButton_left}`}
+        className={`${styles.slideButton} ${styles.slideButton_prev}`}
       />
       <SlideButton
         onClick={() => navigate('next')}
-        className={`${styles.slideButton} ${styles.slideButton_right}`}
+        className={`${styles.slideButton} ${styles.slideButton_next}`}
         reversed={true}
       />
     </div>

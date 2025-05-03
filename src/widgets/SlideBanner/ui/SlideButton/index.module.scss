@@ -7,17 +7,31 @@
   padding: 10px;
   border-radius: 22px;
   background: white;
-  transition: 0.2s;
+  transition: var(--button-transition);
   color: rgba(var(--color-dark), var(--opacity-2));
   box-shadow: 0 4px 24px rgba(var(--color-dark), var(--opacity-5));
 
-  &:active{
-    color: rgba(var(--color-dark), var(--opacity-1));
-    background: var(--color-button-onclick);
-    transform: scale(0.95);
+  &:active {
+    filter: brightness(var(--button-brightness-active));
   }
 
-  .arrowReversed{
-    transform: rotate(180deg);
+  &_prev {
+    transform: translateX(-50%);
+
+    &:active {
+      transform: translateX(-50%) scale(0.95);
+    }
+  }
+
+  &_next {
+    transform: translateX(50%);
+
+    &:active {
+      transform: translateX(50%) scale(0.95);
+    }
+
+    .arrowReversed {
+      transform: rotate(180deg);
+    }
   }
 }

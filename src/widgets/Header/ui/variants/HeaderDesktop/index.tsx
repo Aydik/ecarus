@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import styles from './index.module.scss';
-import { LinkLogo } from 'widgets/Header/components/LinkLogo';
-import { NavLink } from 'widgets/Header/components/NavLink';
-import { pages } from 'entities/nav/pages.ts';
+import { LinkLogo } from '../../components/LinkLogo';
+import { NavLink } from '../../components/NavLink';
+import { pages } from '../../../model/pages.ts';
 import { useLocation } from 'react-router-dom';
 
 export const HeaderDesktop: FC = () => {
