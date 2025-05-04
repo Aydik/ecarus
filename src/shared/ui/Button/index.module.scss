@@ -1,0 +1,27 @@
+.button {
+  all: unset;
+  cursor: pointer;
+  box-sizing: border-box;
+  border-radius: 8px;
+  height: 56px;
+  padding: 16px 0;
+  letter-spacing: -0.25px;
+  font-weight: 500;
+  transition: var(--button-transition);
+
+  &_primary{
+    background: rgb(var(--color-primary));
+    color: white;
+  }
+
+  &_secondary{
+    background: rgba(var(--color-secondary), 0.08);
+    color: rgba(var(--color-dark), var(--opacity-1));
+  }
+
+  &:active {
+    transform: scale(0.95);
+    filter: brightness(var(--button-brightness-active));
+    box-shadow: 0 0 24px rgba(var(--color-dark), var(--opacity-5));
+  }
+}

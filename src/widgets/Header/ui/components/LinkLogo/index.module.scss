@@ -1,0 +1,12 @@
+.linkLogo {
+  box-sizing: border-box;
+  height: 100%;
+  padding: 31px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__text {
+    color: rgba(var(--color-dark), var(--opacity-2));
+  }
+}

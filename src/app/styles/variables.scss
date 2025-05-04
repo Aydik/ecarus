@@ -1,17 +1,28 @@
 :root {
   // colors
-  --color-primary: #07C88E;
-  --color-dark: #000B26;
+  --color-primary: 7, 200, 142;
+  --color-secondary: 62, 80, 114;
+  --color-dark: 0, 11, 38;
+
+  //opacity
+  --opacity-1: 0.8;
+  --opacity-2: 0.72;
+  --opacity-3: 0.64;
+  --opacity-4: 0.32;
+  --opacity-5: 0.12;
+  --button-brightness-active: 0.9;
 
   //sizes
   --header-desktop-height: 80px;
   --header-mobile-height: 64px;
   --footer-height: 64px;
-  --horizontal-padding: 12.5%;
+  --horizontal-content-padding: 12.5%;
+  --main-padding-top: 40px;
 
   //font-sizes
   --header-font-size: 14px;
 
   // properties
-  --default-border: 0.5px solid rgba(0, 0, 0, 0.12);
+  --default-border: 0.5px solid rgba(0, 0, 0, var(--opacity-5));
+  --button-transition: 0.2s;
 }

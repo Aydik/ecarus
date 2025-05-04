@@ -3,7 +3,7 @@ import { IndexPage } from 'pages/IndexPage';
 import { AboutPage } from 'pages/AboutPage';
 import { PointsPage } from 'pages/PointsPage';
 import { MarketPage } from 'pages/MarketPage';
-import { MainLayout } from 'shared/layouts/MainLayout';
+import { MainLayout } from 'app/layouts/MainLayout';
 
 export const routeConfig: RouteObject[] = [
   {

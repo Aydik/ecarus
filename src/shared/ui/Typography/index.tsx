@@ -8,7 +8,8 @@ interface Props {
 }
 
 export const Typography: FC<Props> = ({ variant = 'span', className = '', children }) => {
-  const finalClassName: string = `${className} ${styles.typography} `;
+  const finalClassName: string = `${styles.typography} ${styles[variant]} ${className}`;
+
   switch (variant) {
     case 'h1':
       return <h1 className={finalClassName}>{children}</h1>;

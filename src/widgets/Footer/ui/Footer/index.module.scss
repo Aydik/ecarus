@@ -1,0 +1,24 @@
+.footer {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  background: white;
+  height: var(--footer-height);
+  border-top: var(--default-border);
+  padding: 0 var(--horizontal-content-padding);
+  display: flex;
+  align-items: center;
+
+  .contactList {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+
+    &__item {
+      margin-right: 32px;
+    }
+  }
+
+}
