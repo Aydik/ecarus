@@ -1,7 +1,7 @@
 import { FC } from 'react';
-import { useBreakpoint } from 'shared/lib/hooks/useBreakpoints.ts';
-import { HeaderMobile } from './ui/variants/HeaderMobile';
-import { HeaderDesktop } from './ui/variants/HeaderDesktop';
+import { useBreakpoint } from 'shared/hooks/useBreakpoints.ts';
+import { HeaderMobile } from './variants/HeaderMobile';
+import { HeaderDesktop } from './variants/HeaderDesktop';
 
 export const Header: FC = () => {
   const breakpoint = useBreakpoint();
