@@ -1,0 +1,11 @@
+.amountContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .amount {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 600;
+  }
+}

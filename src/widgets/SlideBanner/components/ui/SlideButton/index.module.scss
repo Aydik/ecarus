@@ -9,7 +9,7 @@
   background: white;
   transition: var(--button-transition);
   color: rgba(var(--color-dark), var(--opacity-2));
-  box-shadow: 0 4px 24px rgba(var(--color-dark), var(--opacity-5));
+  box-shadow: 0 4px 24px rgba(var(--color-dark), var(--opacity-6));
 
   &:active {
     filter: brightness(var(--button-brightness-active));
