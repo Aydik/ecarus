@@ -1,10 +1,11 @@
 import { FC } from 'react';
 import styles from './index.module.scss';
-import { LinkLogo } from '../../components/LinkLogo';
-import { NavLink } from '../../components/NavLink';
+import { LinkLogo } from 'widgets/Header/components/LinkLogo';
+import { NavLink } from './components/NavLink';
 import { pages } from 'widgets/Header/constants';
 import { useLocation } from 'react-router-dom';
 import { City } from 'entities/City';
+import { LoginButton } from 'widgets/Header/components/LoginButton';
 
 export const HeaderDesktop: FC = () => {
   const location = useLocation();
@@ -23,8 +24,9 @@ export const HeaderDesktop: FC = () => {
           ))}
         </ul>
       </nav>
-      <div>
+      <div className={styles.info}>
         <City />
+        <LoginButton />
       </div>
     </header>
   );
