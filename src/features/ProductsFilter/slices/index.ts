@@ -23,7 +23,7 @@ const initialState: filtersState = {
   }, {} as BrandFlags),
 };
 
-export const sortSlice = createSlice({
+export const filterSlice = createSlice({
   name: 'filters',
   initialState,
   reducers: {
@@ -39,5 +39,5 @@ export const sortSlice = createSlice({
   },
 });
 
-export const { setGenres, setBrands, setCategories } = sortSlice.actions;
-export default sortSlice.reducer;
+export const { setGenres, setBrands, setCategories } = filterSlice.actions;
+export default filterSlice.reducer;
