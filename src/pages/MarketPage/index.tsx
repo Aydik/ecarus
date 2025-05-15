@@ -1,19 +1,6 @@
 import { FC } from 'react';
-import { ProductCard } from 'entities/Product';
-
-const product = {
-  id: 1,
-  name: 'Vodka Stolichnaya',
-  description: 'Для всех',
-  brand: 'K&B',
-  price: 55,
-  image: 'vodka.png',
-};
+import { Catalog } from 'widgets/Catalog';
 
 export const MarketPage: FC = () => {
-  return (
-    <>
-      <ProductCard product={product} />
-    </>
-  );
+  return <Catalog />;
 };

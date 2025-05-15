@@ -1,14 +1,14 @@
 import { FC } from 'react';
-import { Product } from 'entities/Product/types';
+import { Product, ProductCardType } from 'entities/Product/types';
 import styles from './index.module.scss';
 import { Amount } from 'shared/components/Amount';
 import { Typography } from 'shared/ui/Typography';
 
-interface Props {
-  product: Omit<Product, 'gender' | 'type'>;
-}
+export type { Product, ProductCardType };
 
-export type { Product };
+interface Props {
+  product: ProductCardType;
+}
 
 export const ProductCard: FC<Props> = ({ product }) => {
   return (

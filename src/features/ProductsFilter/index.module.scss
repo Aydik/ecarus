@@ -1,0 +1,12 @@
+.sortTypes {
+  display: flex;
+  gap: 12px;
+
+  .sortButton {
+    height: 40px;
+    border-radius: 61px;
+    padding: 10px 20px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+}

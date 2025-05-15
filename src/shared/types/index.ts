@@ -9,6 +9,9 @@ export interface NavLink {
   text: string;
 }
 
-export type ProductType = 'Обувь' | 'Одежда' | 'Аксессуары';
-
-export type Gender = 'Мужской' | 'Женский';
+export const CATEGORIES = ['Обувь', 'Одежда', 'Аксессуары'] as const;
+export type Category = (typeof CATEGORIES)[number];
+export const GENDERS = ['Мужской', 'Женский'] as const;
+export type Gender = (typeof GENDERS)[number];
+export const BRANDS = ['K&B', 'NIKE', 'ADIDAS'] as const;
+export type Brand = (typeof BRANDS)[number];

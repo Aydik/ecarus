@@ -5,10 +5,11 @@ interface Props {
   onClick?: () => void;
   className?: string;
   children?: ReactNode;
-  style?: 'primary' | 'secondary';
+  style?: 'primary' | 'secondary' | 'selected';
+  bold?: boolean;
 }
 
-export const Button: FC<Props> = ({ children, onClick, className, style }) => {
+export const Button: FC<Props> = ({ children, onClick, className, style, bold = true }) => {
   let styleClass = '';
   switch (style) {
     case 'primary':
@@ -17,11 +18,17 @@ export const Button: FC<Props> = ({ children, onClick, className, style }) => {
     case 'secondary':
       styleClass = styles.button_secondary;
       break;
+    case 'selected':
+      styleClass = styles.button_selected;
+      break;
     default:
       styleClass = '';
   }
   return (
-    <button onClick={onClick} className={`${styles.button} ${styleClass} ${className}`}>
+    <button
+      onClick={onClick}
+      className={`${styles.button} ${styleClass} ${bold ? 'button_bold' : ''} ${className}`}
+    >
       {children}
     </button>
   );

@@ -5,18 +5,26 @@
   border-radius: 8px;
   height: 56px;
   padding: 16px 0;
-  letter-spacing: -0.25px;
-  font-weight: 500;
   transition: var(--button-transition);
 
-  &_primary{
+  &_bold {
+    letter-spacing: -0.25px;
+    font-weight: 500;
+  }
+
+  &_primary {
     background: rgb(var(--color-primary));
     color: white;
   }
 
-  &_secondary{
+  &_secondary {
     background: rgba(var(--color-secondary), 0.08);
     color: rgba(var(--color-dark), var(--opacity-1));
+  }
+
+  &_selected {
+    background: rgba(var(--color-dark), var(--opacity-0));
+    color: white;
   }
 
   &:active {
