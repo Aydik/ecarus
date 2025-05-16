@@ -6,6 +6,7 @@ import { fetchProducts } from './api/productsApi.ts';
 import { store } from './store';
 import { ProductsSort } from 'features/ProductsSort';
 import { Typography } from 'shared/ui/Typography';
+import { ProductsFilters } from 'features/ProductsFilters';
 
 export const Catalog: FC = () => {
   const [products, setProducts] = useState<ProductCardType[]>([]);
@@ -24,6 +25,10 @@ export const Catalog: FC = () => {
         <div className={styles.catalogCaption}>
           <Typography variant={'h2'}>ЭкоМаркет</Typography>
           <ProductsSort />
+        </div>
+        <div className={styles.filtersAndProductsContainer}>
+          <ProductsFilters />
+          <div />
         </div>
       </div>
     </Provider>

@@ -3,9 +3,9 @@
   cursor: pointer;
   box-sizing: border-box;
   border-radius: 8px;
-  height: 56px;
   padding: 16px 0;
   transition: var(--button-transition);
+  text-align: center;
 
   &_bold {
     letter-spacing: -0.25px;

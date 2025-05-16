@@ -1,0 +1,29 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+
+  .label {
+    font-size: 14px;
+    line-height: 20px;
+    color: rgba(var(--color-dark), var(--opacity-2));
+
+    &_checked {
+      font-weight: 500;
+    }
+  }
+}
+
