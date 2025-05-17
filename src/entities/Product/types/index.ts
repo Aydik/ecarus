@@ -7,8 +7,8 @@ export interface Product {
   brand: Brand;
   price: number;
   image: string;
-  type: Category;
+  category: Category;
   gender: Gender;
 }
 
-export type ProductCardType = Omit<Product, 'gender' | 'type'>;
+export type ProductCardType = Omit<Product, 'gender' | 'category'>;

@@ -1,9 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Sort } from 'features/ProductsSort/types';
-
-interface SortState {
-  sortBy: Sort;
-}
+import { Sort, SortState } from 'features/ProductsSort/types';
 
 const initialState: SortState = { sortBy: null };
 

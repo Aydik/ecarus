@@ -1,24 +1,13 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import styles from './index.module.scss';
-import { ProductCardType } from 'entities/Product';
 import { Provider } from 'react-redux';
-import { fetchProducts } from './api/productsApi.ts';
 import { store } from './store';
 import { ProductsSort } from 'features/ProductsSort';
 import { Typography } from 'shared/ui/Typography';
 import { ProductsFilters } from 'features/ProductsFilters';
+import { Products } from 'features/Products';
 
 export const Catalog: FC = () => {
-  const [products, setProducts] = useState<ProductCardType[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchProducts().then((data) => {
-      setProducts(data);
-      setLoading(false);
-    });
-  }, []);
-  console.log(products, loading);
   return (
     <Provider store={store}>
       <div className={styles.catalog}>
@@ -28,7 +17,7 @@ export const Catalog: FC = () => {
         </div>
         <div className={styles.filtersAndProductsContainer}>
           <ProductsFilters />
-          <div />
+          <Products />
         </div>
       </div>
     </Provider>
