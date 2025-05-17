@@ -3,6 +3,7 @@ import styles from './index.module.scss';
 import { Link } from 'react-router-dom';
 import { NavLink as NavLinkType } from 'shared/types';
 import { Typography } from 'shared/ui/Typography';
+import clsx from 'clsx';
 
 interface Props extends NavLinkType {
   selected?: boolean;
@@ -10,7 +11,7 @@ interface Props extends NavLinkType {
 
 export const NavLink: FC<Props> = ({ url, text, selected = false }: Props) => {
   return (
-    <Link to={url} className={`${styles.navLink} ${selected ? styles.navLink_selected : ''}`}>
+    <Link to={url} className={clsx(styles.navLink, selected ? styles.navLink_selected : '')}>
       <Typography className={styles.text}>{text}</Typography>
       {selected && <div className={styles.rectangle} />}
     </Link>

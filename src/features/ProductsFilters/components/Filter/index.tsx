@@ -6,6 +6,8 @@ import { Typography } from 'shared/ui/Typography';
 import { CheckBox } from 'shared/ui/CheckBox';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { JSX, useMemo } from 'react';
+import { useBreakpoint } from 'shared/hooks/useBreakpoints.ts';
+import { Scrollbar } from 'shared/ui/ScrollBar';
 
 interface Props<T extends FilterTypes> {
   title: string;
@@ -20,7 +22,7 @@ export const Filter = <T extends FilterTypes>({
 }: Props<T>): JSX.Element => {
   const dispatch: AppDispatch = useDispatch();
 
-  const hasSelectAll = title !== 'Пол';
+  const hasSelectAll = Object.keys(filterFlags).length > 2;
   const isAllSelected = useMemo(() => {
     return (Object.values(filterFlags) as boolean[]).every((flag) => flag);
   }, [filterFlags]);
@@ -43,30 +45,32 @@ export const Filter = <T extends FilterTypes>({
 
   return (
     <div className={styles.filter}>
-      <Typography className={styles.filterCaption}>{title}</Typography>
-      <ul
-        className={styles.checkboxContainer}
-        style={{ marginTop: hasSelectAll ? '12px' : '16px' }}
+      <Typography className={styles.filterCaption} variant={'h4'}>
+        {title}
+      </Typography>
+      {hasSelectAll && (
+        <CheckBox
+          id={title + '_selectAll'}
+          checked={isAllSelected}
+          onChange={() => handleSelectAll()}
+        >
+          Выбрать все
+        </CheckBox>
+      )}
+      <Scrollbar
+        style={{ marginTop: hasSelectAll ? 12 : 16 }}
+        maxHeight={useBreakpoint() === 'mobile' ? 167 : 137}
       >
-        {hasSelectAll && (
-          <li key={'all'} className={styles.item}>
-            <CheckBox
-              id={'selectAll ' + title}
-              checked={isAllSelected}
-              onChange={() => handleSelectAll()}
-            >
-              Выбрать все
-            </CheckBox>
-          </li>
-        )}
-        {(Object.entries(filterFlags) as [T, boolean][]).map(([key, value]) => (
-          <li key={key} className={styles.item}>
-            <CheckBox id={key} checked={value} onChange={() => handleChange(key)}>
-              {key}
-            </CheckBox>
-          </li>
-        ))}
-      </ul>
+        <ul className={styles.checkboxContainer}>
+          {(Object.entries(filterFlags) as [T, boolean][]).map(([key, value]) => (
+            <li key={key} className={styles.item}>
+              <CheckBox id={key} checked={value} onChange={() => handleChange(key)}>
+                {key}
+              </CheckBox>
+            </li>
+          ))}
+        </ul>
+      </Scrollbar>
     </div>
   );
 };

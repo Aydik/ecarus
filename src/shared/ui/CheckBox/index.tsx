@@ -1,6 +1,7 @@
 import { FC, ReactNode, useState } from 'react';
 import styles from './index.module.scss';
 import { Icon } from 'shared/ui/Icon/Icon.tsx';
+import clsx from 'clsx';
 
 interface Props {
   id: string;
@@ -25,7 +26,7 @@ export const CheckBox: FC<Props> = ({ children, id, checked = false, onChange })
       />
       <label htmlFor={id} className={styles.checkbox} aria-checked={isChecked}>
         <Icon name={`checkbox_${isChecked ? 'enabled' : 'disabled'}`} />
-        <span className={`${styles.label} ${isChecked ? styles.label_checked : ''}`}>
+        <span className={clsx(styles.label, isChecked ? styles.label_checked : '')}>
           {children}
         </span>
       </label>

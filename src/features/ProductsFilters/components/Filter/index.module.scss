@@ -2,9 +2,11 @@
   .filterCaption {
     color: rgba(var(--color-dark), var(--opacity-1));
     font-weight: 500;
+    margin-bottom: 12px;
   }
 
   .checkboxContainer {
+    position: relative;
     list-style: none;
     padding: 0;
     margin: 0;
