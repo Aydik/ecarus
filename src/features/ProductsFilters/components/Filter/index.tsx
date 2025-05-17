@@ -1,34 +1,48 @@
 import styles from './index.module.scss';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from 'widgets/Catalog/store';
-import { FilterFlags, FilterTypes } from 'features/ProductsFilters/types';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from 'widgets/Catalog/store';
 import { Typography } from 'shared/ui/Typography';
 import { CheckBox } from 'shared/ui/CheckBox';
-import { PayloadAction } from '@reduxjs/toolkit';
-import { JSX, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useBreakpoint } from 'shared/hooks/useBreakpoints.ts';
 import { Scrollbar } from 'shared/ui/ScrollBar';
+import { FilterFlags, FilterKind, FilterTypeMap } from 'features/ProductsFilters/types';
+import { setGenres, setBrands, setCategories } from 'features/ProductsFilters/slices';
 
-interface Props<T extends FilterTypes> {
+const reducerMap: {
+  [K in FilterKind]: (
+    payload: FilterFlags<FilterTypeMap[K]>,
+  ) => ReturnType<typeof setGenres | typeof setCategories | typeof setBrands>;
+} = {
+  genders: setGenres,
+  categories: setCategories,
+  brands: setBrands,
+};
+
+interface Props<K extends FilterKind> {
   title: string;
-  filterFlags: FilterFlags<T>;
-  reducer: (updatedFlags: FilterFlags<T>) => PayloadAction<FilterFlags<T>>;
+  filter: K;
 }
 
-export const Filter = <T extends FilterTypes>({
-  title,
-  filterFlags,
-  reducer,
-}: Props<T>): JSX.Element => {
+export const Filter = <K extends FilterKind>({ title, filter }: Props<K>) => {
   const dispatch: AppDispatch = useDispatch();
 
-  const hasSelectAll = Object.keys(filterFlags).length > 2;
-  const isAllSelected = useMemo(() => {
-    return (Object.values(filterFlags) as boolean[]).every((flag) => flag);
-  }, [filterFlags]);
+  const filterFlags = useSelector(
+    (state: RootState) => state.filters[filter],
+    shallowEqual,
+  ) as FilterFlags<FilterTypeMap[K]>;
 
-  const handleChange = (key: T) => {
-    const updated: FilterFlags<T> = {
+  const reducer = reducerMap[filter];
+
+  const hasSelectAll = Object.keys(filterFlags).length > 2;
+
+  const isAllSelected = useMemo(
+    (): boolean => Object.values(filterFlags).every((flag) => flag),
+    [filterFlags],
+  );
+
+  const handleChange = (key: FilterTypeMap[K]) => {
+    const updated: FilterFlags<FilterTypeMap[K]> = {
       ...filterFlags,
       [key]: !filterFlags[key],
     };
@@ -36,13 +50,12 @@ export const Filter = <T extends FilterTypes>({
   };
 
   const handleSelectAll = () => {
-    const updated: FilterFlags<T> = {} as FilterFlags<T>;
-    for (const key of Object.keys(filterFlags) as T[]) {
+    const updated: FilterFlags<FilterTypeMap[K]> = {} as FilterFlags<FilterTypeMap[K]>;
+    for (const key of Object.keys(filterFlags) as Array<keyof FilterFlags<FilterTypeMap[K]>>) {
       updated[key] = !isAllSelected;
     }
     dispatch(reducer(updated));
   };
-
   return (
     <div className={styles.filter}>
       <Typography className={styles.filterCaption} variant={'h4'}>
@@ -50,9 +63,10 @@ export const Filter = <T extends FilterTypes>({
       </Typography>
       {hasSelectAll && (
         <CheckBox
+          key={`${title}_selectAll_${isAllSelected}`}
           id={title + '_selectAll'}
           checked={isAllSelected}
-          onChange={() => handleSelectAll()}
+          onChange={handleSelectAll}
         >
           Выбрать все
         </CheckBox>
@@ -62,9 +76,13 @@ export const Filter = <T extends FilterTypes>({
         maxHeight={useBreakpoint() === 'mobile' ? 167 : 137}
       >
         <ul className={styles.checkboxContainer}>
-          {(Object.entries(filterFlags) as [T, boolean][]).map(([key, value]) => (
-            <li key={key} className={styles.item}>
-              <CheckBox id={key} checked={value} onChange={() => handleChange(key)}>
+          {(Object.entries(filterFlags) as [string, boolean][]).map(([key, value]) => (
+            <li key={key + value} className={styles.item}>
+              <CheckBox
+                id={key}
+                checked={value}
+                onChange={() => handleChange(key as FilterTypeMap[K])}
+              >
                 {key}
               </CheckBox>
             </li>

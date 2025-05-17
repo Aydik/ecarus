@@ -6,7 +6,8 @@
 
 .filters {
   margin-top: 40px;
-  width: 282px;
+  width: 100%;
+  box-sizing: border-box;
   border-radius: 16px;
   padding: 24px;
   border: var(--default-border);

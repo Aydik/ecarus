@@ -6,8 +6,9 @@
   }
 
   .filtersAndProductsContainer{
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 282px auto;
+    column-gap: 47px;
     margin-bottom: 59px;
   }
 }

@@ -10,4 +10,10 @@ export interface FiltersState {
   brands: FilterFlags<Brand>;
 }
 
-export type FilterTypes = Brand | Gender | Category;
+export type FilterKind = 'genders' | 'categories' | 'brands';
+
+export interface FilterTypeMap {
+  genders: Gender;
+  categories: Category;
+  brands: Brand;
+}
