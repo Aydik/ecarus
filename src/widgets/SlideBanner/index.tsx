@@ -4,6 +4,7 @@ import { SlideButton } from './components/ui/SlideButton';
 import { SlideItem } from './components/SlideItem';
 import { SLIDES } from './constants';
 import { useSlideBanner } from './hooks/useSlideBanner.ts';
+import clsx from 'clsx';
 
 export const SlideBanner: FC = () => {
   const { offset, isAnimating, visibleSlides, navigate } = useSlideBanner(SLIDES);
@@ -28,11 +29,11 @@ export const SlideBanner: FC = () => {
       </div>
       <SlideButton
         onClick={() => navigate('prev')}
-        className={`${styles.slideButton} ${styles.slideButton_prev}`}
+        className={clsx(styles.slideButton, styles.slideButton_prev)}
       />
       <SlideButton
         onClick={() => navigate('next')}
-        className={`${styles.slideButton} ${styles.slideButton_next}`}
+        className={clsx(styles.slideButton, styles.slideButton_next)}
         reversed={true}
       />
     </div>

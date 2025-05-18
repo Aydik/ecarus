@@ -1,5 +1,6 @@
 import { FC, ReactNode, useState } from 'react';
 import styles from './index.module.scss';
+import clsx from 'clsx';
 
 interface Props {
   text: string;
@@ -21,7 +22,7 @@ export const CopyableText: FC<Props> = ({ text, children, className = '' }) => {
   };
 
   return (
-    <button onClick={handleCopy} className={`${styles.copyButton} ${className}`}>
+    <button onClick={handleCopy} className={clsx(styles.copyButton, className)}>
       {children}
       {copied && <span className={styles.tooltip}>Скопировано!</span>}
     </button>

@@ -1,0 +1,15 @@
+.catalog {
+  .catalogCaption {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .filtersAndProductsContainer{
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: 282px auto;
+    column-gap: 47px;
+    margin-bottom: 59px;
+  }
+}
