@@ -1,10 +1,12 @@
 import { FC } from 'react';
 import { Product, ProductCardType } from 'entities/Product/types';
+import { ProductCardSkeleton } from './components/ProductCardSkeleton';
 import styles from './index.module.scss';
 import { Amount } from 'shared/components/Amount';
 import { Typography } from 'shared/ui/Typography';
 
 export type { Product, ProductCardType };
+export { ProductCardSkeleton };
 
 interface Props {
   product: ProductCardType;
