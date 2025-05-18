@@ -45,9 +45,9 @@ export function useFilteredProducts() {
         case 'По цене':
           return productA.price - productB.price;
         case 'По популярности':
-          return productB.price - productA.price;
+          return productB.rating - productA.rating;
         case 'По новизне':
-          return productA.price - productB.price;
+          return productA.date.getTime() - productB.date.getTime();
         default:
           return 0;
       }

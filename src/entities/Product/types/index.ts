@@ -9,6 +9,8 @@ export interface Product {
   image: string;
   category: Category;
   gender: Gender;
+  rating: number;
+  date: Date;
 }
 
 export type ProductCardType = Omit<Product, 'gender' | 'category'>;
