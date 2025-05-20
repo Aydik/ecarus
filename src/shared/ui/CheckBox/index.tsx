@@ -25,7 +25,10 @@ export const CheckBox: FC<Props> = ({ children, id, checked = false, onChange })
         className={styles.input}
       />
       <label htmlFor={id} className={styles.checkbox} aria-checked={isChecked}>
-        <Icon name={`checkbox_${isChecked ? 'enabled' : 'disabled'}`} />
+        <Icon
+          name={`checkbox_${isChecked ? 'enabled' : 'disabled'}`}
+          size={{ width: 20, height: 20 }}
+        />
         <span className={clsx(styles.label, isChecked ? styles.label_checked : '')}>
           {children}
         </span>

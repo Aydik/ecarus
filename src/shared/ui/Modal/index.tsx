@@ -1,20 +1,48 @@
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, MouseEvent, CSSProperties } from 'react';
 import ReactDOM from 'react-dom';
 import styles from './index.module.scss';
+import { Icon } from 'shared/ui/Icon/Icon.tsx';
+import { Button } from 'shared/ui/Button';
 
 interface Props {
-  open: boolean;
+  isOpened: boolean;
   onClose: () => void;
   children: ReactNode;
+  isCloseOnButton?: boolean;
+  style?: CSSProperties;
 }
 
-export const Modal: FC<Props> = ({ open, onClose, children }) => {
-  if (!open) return null;
+export const Modal: FC<Props> = ({
+  isOpened,
+  onClose,
+  children,
+  isCloseOnButton = false,
+  style,
+}) => {
+  if (!isOpened) return null;
+
+  const handleClickBackground = (e: MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
 
   return ReactDOM.createPortal(
-    <button className={styles.background} onClick={onClose}>
-      <div className={styles.modal}>{children}</div>
-    </button>,
+    <div className={styles.background} onClick={handleClickBackground}>
+      <div className={styles.modal} style={style}>
+        {children}
+        {!isCloseOnButton && (
+          <button className={styles.closeIconButton} onClick={onClose}>
+            <Icon name={'close'} size={{ width: 32, height: 32 }} />
+          </button>
+        )}
+        {isCloseOnButton && (
+          <Button style={'primary'} onClick={onClose}>
+            Закрыть
+          </Button>
+        )}
+      </div>
+    </div>,
     document.getElementById('modal-root')!,
   );
 };

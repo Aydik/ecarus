@@ -28,7 +28,7 @@ export const Button: FC<Props> = ({ children, onClick, className, style, bold = 
   return (
     <button
       onClick={onClick}
-      className={clsx(styles.button, styleClass, bold ? 'button_bold' : '', className)}
+      className={clsx(styles.button, styleClass, bold ? styles.button_bold : '', className)}
     >
       {children}
     </button>
