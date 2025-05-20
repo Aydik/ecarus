@@ -1,4 +1,4 @@
-import { FC, ReactNode, MouseEvent, CSSProperties } from 'react';
+import { FC, ReactNode, MouseEvent } from 'react';
 import ReactDOM from 'react-dom';
 import styles from './index.module.scss';
 import { Icon } from 'shared/ui/Icon/Icon.tsx';
@@ -9,16 +9,9 @@ interface Props {
   onClose: () => void;
   children: ReactNode;
   isCloseOnButton?: boolean;
-  style?: CSSProperties;
 }
 
-export const Modal: FC<Props> = ({
-  isOpened,
-  onClose,
-  children,
-  isCloseOnButton = false,
-  style,
-}) => {
+export const Modal: FC<Props> = ({ isOpened, onClose, children, isCloseOnButton = false }) => {
   if (!isOpened) return null;
 
   const handleClickBackground = (e: MouseEvent<HTMLDivElement>) => {
@@ -29,7 +22,7 @@ export const Modal: FC<Props> = ({
 
   return ReactDOM.createPortal(
     <div className={styles.background} onClick={handleClickBackground}>
-      <div className={styles.modal} style={style}>
+      <div className={styles.modal}>
         {children}
         {!isCloseOnButton && (
           <button className={styles.closeIconButton} onClick={onClose}>

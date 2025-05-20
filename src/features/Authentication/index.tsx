@@ -12,7 +12,7 @@ interface Props {
 export const Authentication: FC<Props> = ({ isOpened, onClose }) => {
   const [formType, setFormType] = useState<FormType>('login');
   return (
-    <Modal isOpened={isOpened} onClose={onClose} style={{ width: 384 }}>
+    <Modal isOpened={isOpened} onClose={onClose}>
       {formType === 'login' && <LoginForm setFormType={setFormType} />}
       {formType === 'register' && <RegisterForm setFormType={setFormType} />}
     </Modal>
