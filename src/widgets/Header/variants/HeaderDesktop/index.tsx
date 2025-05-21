@@ -4,7 +4,7 @@ import { LinkLogo } from 'widgets/Header/components/LinkLogo';
 import { NavLink } from './components/NavLink';
 import { pages } from 'widgets/Header/constants';
 import { useLocation } from 'react-router-dom';
-import { City } from 'src/shared/components/City';
+import { City } from 'src/entities/City';
 import { LoginButton } from 'widgets/Header/components/LoginButton';
 
 export const HeaderDesktop: FC = () => {
