@@ -1,10 +1,15 @@
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormType } from 'features/Authentication/types';
-import { FormLayout } from 'features/Authentication/layouts/FormLayout';
 import { Button } from 'shared/ui/Button';
-import styles from './index.module.scss';
 import { Typography } from 'shared/ui/Typography';
+import styles from 'features/Authentication/styles/index.module.scss';
+import { Input } from 'src/features/Authentication/components/ui/Input';
+
+interface LoginFormData {
+  phone: string;
+  password?: string;
+}
 
 interface Props {
   setFormType: (type: FormType) => void;
@@ -14,56 +19,60 @@ export const LoginForm: FC<Props> = ({ setFormType }) => {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
-  } = useForm();
+  } = useForm<LoginFormData>();
 
-  const onSubmit = (data: unknown) => {
+  const onSubmit = (data: LoginFormData) => {
     console.log('Форма отправлена:', data);
   };
 
   return (
-    <FormLayout>
+    <>
       <Typography variant={'h4'} className={styles.title}>
         Вход
       </Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.inputGrid}>
-          <div className={styles.inputContainer}>
-            <input
-              type="tel"
-              placeholder="Телефон"
-              {...register('phone', {
-                required: 'Телефон обязателен',
-                pattern: {
-                  value: /^\+?[0-9]{10,14}$/,
-                  message: 'Неверный формат телефона',
-                },
-              })}
-              style={errors.phone?.message ? { border: '#FF4545 2px solid' } : {}}
-            />
-            {errors.phone?.message && (
-              <Typography variant={'p'} className={styles.inputError}>
-                {String(errors.phone.message)}
-              </Typography>
-            )}
-          </div>
-          <div className={styles.inputContainer}>
-            <input
-              type="password"
-              placeholder="Пароль"
-              {...register('password', {
-                required: 'Введите пароль',
-              })}
-              style={errors.password?.message ? { border: '#FF4545 2px solid' } : {}}
-            />
-            {errors.password?.message && (
-              <Typography variant={'p'} className={styles.inputError}>
-                {String(errors.password.message)}
-              </Typography>
-            )}
-          </div>
+          <Input
+            name="phone"
+            label="Телефон"
+            mask="+7 (999) 999-99-99"
+            control={control}
+            error={errors.phone}
+            rules={{
+              required: 'Телефон обязателен',
+              validate: (value: string) => {
+                const digitsOnly = value.replace(/\D/g, '');
+                return digitsOnly.length === 11 || 'Неверный формат телефона';
+              },
+            }}
+          />
+          {/*  <div className={styles.inputContainer}>*/}
+          {/*    <div*/}
+          {/*      className={clsx(styles.inputWrapper, errors.phone ? styles.inputWrapper_error : '')}*/}
+          {/*    >*/}
+          {/*      <input*/}
+          {/*        type="password"*/}
+          {/*        id="password"*/}
+          {/*        placeholder=" "*/}
+          {/*        {...register('password', {*/}
+          {/*          required: 'Введите пароль',*/}
+          {/*        })}*/}
+          {/*        className={styles.inputField}*/}
+          {/*      />*/}
+          {/*      <label htmlFor="password" className={styles.floatingLabel}>*/}
+          {/*        Пароль*/}
+          {/*      </label>*/}
+          {/*    </div>*/}
+          {/*    {errors.password?.message && (*/}
+          {/*      <Typography variant={'p'} className={styles.inputErrorMessage}>*/}
+          {/*        {String(errors.password.message)}*/}
+          {/*      </Typography>*/}
+          {/*    )}*/}
+          {/*  </div>*/}
         </div>
-        <Button style={'primary'} className={styles.button} onClick={() => setFormType('login')}>
+        <Button style="primary" className={styles.button} type="submit">
           Войти
         </Button>
         <div className={styles.linkContainer}>
@@ -74,10 +83,15 @@ export const LoginForm: FC<Props> = ({ setFormType }) => {
             Регистрация
           </button>
         </div>
-        <Button style={'secondary'} className={styles.button} onClick={() => setFormType('login')}>
+        <Button
+          key={'loginForPartners'}
+          style={'secondary'}
+          className={styles.button}
+          onClick={() => setFormType('login')}
+        >
           Вход для партнеров
         </Button>
       </form>
-    </FormLayout>
+    </>
   );
 };

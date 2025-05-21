@@ -8,9 +8,17 @@ interface Props {
   children?: ReactNode;
   style?: 'primary' | 'secondary' | 'selected';
   bold?: boolean;
+  type?: 'button' | 'submit' | 'reset';
 }
 
-export const Button: FC<Props> = ({ children, onClick, className, style, bold = true }) => {
+export const Button: FC<Props> = ({
+  children,
+  onClick,
+  className,
+  style,
+  bold = true,
+  type = 'button',
+}) => {
   let styleClass;
   switch (style) {
     case 'primary':
@@ -29,6 +37,7 @@ export const Button: FC<Props> = ({ children, onClick, className, style, bold = 
     <button
       onClick={onClick}
       className={clsx(styles.button, styleClass, bold ? styles.button_bold : '', className)}
+      type={type}
     >
       {children}
     </button>
