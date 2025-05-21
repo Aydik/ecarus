@@ -7,7 +7,7 @@ import {
   Merge,
   RegisterOptions,
 } from 'react-hook-form';
-import InputMask from 'react-input-mask';
+// import InputMask from 'react-input-mask';
 import clsx from 'clsx';
 import styles from './index.module.scss';
 import { Typography } from 'shared/ui/Typography';

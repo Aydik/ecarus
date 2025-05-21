@@ -17,7 +17,7 @@ interface Props {
 
 export const LoginForm: FC<Props> = ({ setFormType }) => {
   const {
-    register,
+    // register,
     handleSubmit,
     control,
     formState: { errors },
