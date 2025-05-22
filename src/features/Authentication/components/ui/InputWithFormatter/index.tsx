@@ -1,21 +1,27 @@
 import React from 'react';
-import { Controller, Control, FieldError } from 'react-hook-form';
+import {
+  Controller,
+  Control,
+  FieldError,
+  FieldPath,
+  FieldValues,
+  RegisterOptions,
+} from 'react-hook-form';
 import styles from './index.module.scss';
 import clsx from 'clsx';
 import { Typography } from 'shared/ui/Typography';
 
-interface InputWithFormatterProps {
-  name: string;
+interface InputWithFormatterProps<TFieldValues extends FieldValues> {
+  name: FieldPath<TFieldValues>;
   label: string;
-  control: Control<any>;
+  control: Control<TFieldValues>;
   format?: (value: string) => string;
   error?: FieldError;
-  rules?: object;
+  rules?: RegisterOptions<TFieldValues, FieldPath<TFieldValues>>;
   type?: string;
-  placeholder?: string;
 }
 
-export const InputWithFormatter: React.FC<InputWithFormatterProps> = ({
+export const InputWithFormatter = <TFieldValues extends FieldValues>({
   name,
   label,
   control,
@@ -23,8 +29,7 @@ export const InputWithFormatter: React.FC<InputWithFormatterProps> = ({
   error,
   rules,
   type = 'text',
-  placeholder = ' ',
-}) => {
+}: InputWithFormatterProps<TFieldValues>) => {
   return (
     <Controller
       name={name}
@@ -33,11 +38,7 @@ export const InputWithFormatter: React.FC<InputWithFormatterProps> = ({
       render={({ field: { value, onChange, onBlur, ref } }) => {
         const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
           const inputVal = e.target.value;
-          if (format) {
-            onChange(format(inputVal));
-          } else {
-            onChange(inputVal);
-          }
+          onChange(format ? format(inputVal) : inputVal);
         };
 
         return (
@@ -50,7 +51,7 @@ export const InputWithFormatter: React.FC<InputWithFormatterProps> = ({
                 onChange={handleChange}
                 onBlur={onBlur}
                 ref={ref}
-                placeholder={placeholder}
+                placeholder={' '}
                 className={styles.inputField}
               />
               <label htmlFor={name} className={styles.floatingLabel}>

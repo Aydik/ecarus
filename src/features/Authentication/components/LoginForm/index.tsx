@@ -9,7 +9,7 @@ import { formatPhone } from 'features/Authentication/utils/phoneFormatter.ts';
 
 interface LoginFormData {
   phone: string;
-  password?: string;
+  password: string;
 }
 
 interface Props {
@@ -34,7 +34,7 @@ export const LoginForm: FC<Props> = ({ setFormType }) => {
       </Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.inputGrid}>
-          <InputWithFormatter
+          <InputWithFormatter<LoginFormData>
             name="phone"
             label="Телефон"
             type="tel"
@@ -43,13 +43,14 @@ export const LoginForm: FC<Props> = ({ setFormType }) => {
             error={errors.phone}
             rules={{
               required: 'Телефон обязателен',
-              validate: (value: string) => {
+              validate: (value: string | undefined) => {
+                if (!value) return false;
                 const digitsOnly = value.replace(/\D/g, '');
                 return digitsOnly.length === 11 || 'Неверный формат телефона';
               },
             }}
           />
-          <InputWithFormatter
+          <InputWithFormatter<LoginFormData>
             name="password"
             label="Пароль"
             type="password"
@@ -61,7 +62,8 @@ export const LoginForm: FC<Props> = ({ setFormType }) => {
                 value: 6,
                 message: 'Пароль должен содержать минимум 6 символов',
               },
-              validate: (value: string) => {
+              validate: (value: string | undefined) => {
+                if (!value) return false;
                 const hasUpperCase = /[A-ZА-Я]/.test(value);
                 const hasNumber = /\d/.test(value);
 
@@ -83,7 +85,7 @@ export const LoginForm: FC<Props> = ({ setFormType }) => {
           <button type="button" className={styles.link}>
             Войти с помощью смс
           </button>
-          <button type="button" className={styles.link}>
+          <button type="button" className={styles.link} onClick={() => setFormType('register')}>
             Регистрация
           </button>
         </div>

@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { ISlideItem } from '../model/types';
+import { SlideItem } from '../types';
 
-export const useSlideBanner = (items: ISlideItem[]) => {
+export const useSlideBanner = (items: SlideItem[]) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [offset, setOffset] = useState(-33.33);
   const [isAnimating, setIsAnimating] = useState(false);
 
-  const getAdjacentItems = (): ISlideItem[] => {
+  const getAdjacentItems = (): SlideItem[] => {
     if (items.length === 0) return [];
 
     const totalItems = items.length;
