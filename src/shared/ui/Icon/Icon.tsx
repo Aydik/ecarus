@@ -16,7 +16,7 @@ export const Icon: FC<Props> = ({ name, size = { width: 24, height: 24 }, classN
       }}
       className={className}
     >
-      <use xlinkHref={`/public/assets/images/vector/sprites.svg#${name}`}></use>
+      <use xlinkHref={`/assets/images/vector/sprites.svg#${name}`}></use>
     </svg>
   );
 };

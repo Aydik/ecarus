@@ -4,7 +4,8 @@ import { FormType } from 'features/Authentication/types';
 import { Button } from 'shared/ui/Button';
 import { Typography } from 'shared/ui/Typography';
 import styles from 'features/Authentication/styles/index.module.scss';
-import { Input } from 'src/features/Authentication/components/ui/Input';
+import { InputWithFormatter } from 'features/Authentication/components/ui/InputWithFormatter';
+import { formatPhone } from 'features/Authentication/utils/phoneFormatter.ts';
 
 interface LoginFormData {
   phone: string;
@@ -17,7 +18,6 @@ interface Props {
 
 export const LoginForm: FC<Props> = ({ setFormType }) => {
   const {
-    // register,
     handleSubmit,
     control,
     formState: { errors },
@@ -34,11 +34,12 @@ export const LoginForm: FC<Props> = ({ setFormType }) => {
       </Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.inputGrid}>
-          <Input
+          <InputWithFormatter
             name="phone"
             label="Телефон"
-            mask="+7 (999) 999-99-99"
+            type="tel"
             control={control}
+            format={formatPhone}
             error={errors.phone}
             rules={{
               required: 'Телефон обязателен',
@@ -48,29 +49,32 @@ export const LoginForm: FC<Props> = ({ setFormType }) => {
               },
             }}
           />
-          {/*  <div className={styles.inputContainer}>*/}
-          {/*    <div*/}
-          {/*      className={clsx(styles.inputWrapper, errors.phone ? styles.inputWrapper_error : '')}*/}
-          {/*    >*/}
-          {/*      <input*/}
-          {/*        type="password"*/}
-          {/*        id="password"*/}
-          {/*        placeholder=" "*/}
-          {/*        {...register('password', {*/}
-          {/*          required: 'Введите пароль',*/}
-          {/*        })}*/}
-          {/*        className={styles.inputField}*/}
-          {/*      />*/}
-          {/*      <label htmlFor="password" className={styles.floatingLabel}>*/}
-          {/*        Пароль*/}
-          {/*      </label>*/}
-          {/*    </div>*/}
-          {/*    {errors.password?.message && (*/}
-          {/*      <Typography variant={'p'} className={styles.inputErrorMessage}>*/}
-          {/*        {String(errors.password.message)}*/}
-          {/*      </Typography>*/}
-          {/*    )}*/}
-          {/*  </div>*/}
+          <InputWithFormatter
+            name="password"
+            label="Пароль"
+            type="password"
+            control={control}
+            error={errors.password}
+            rules={{
+              required: 'Введите пароль',
+              minLength: {
+                value: 6,
+                message: 'Пароль должен содержать минимум 6 символов',
+              },
+              validate: (value: string) => {
+                const hasUpperCase = /[A-ZА-Я]/.test(value);
+                const hasNumber = /\d/.test(value);
+
+                if (!hasUpperCase) {
+                  return 'Пароль должен содержать хотя бы одну заглавную букву';
+                }
+                if (!hasNumber) {
+                  return 'Пароль должен содержать хотя бы одну цифру';
+                }
+                return true;
+              },
+            }}
+          />
         </div>
         <Button style="primary" className={styles.button} type="submit">
           Войти

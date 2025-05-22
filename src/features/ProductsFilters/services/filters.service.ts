@@ -20,7 +20,7 @@ export const getItemCategories = async () => {
 
 export const getShopNames = async () => {
   try {
-    const res = await axiosInstance.get('handbooks/item-categories');
+    const res = await axiosInstance.get('shops/name');
     return res.data;
   } catch (err) {
     throw err;
