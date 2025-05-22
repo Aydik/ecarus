@@ -5,14 +5,14 @@ import { Button } from 'shared/ui/Button';
 import { Typography } from 'shared/ui/Typography';
 import styles from 'features/Authentication/styles/index.module.scss';
 import { InputWithFormatter } from 'features/Authentication/components/ui/InputWithFormatter';
-import { formatPhone } from 'features/Authentication/utils/phoneFormatter.ts';
+import { formatPhone, formatPhoneBeforeRequest } from 'shared/utils/phoneFormatter.ts';
+import { authUser, registerUser } from 'features/Authentication/services/auth.service.ts';
 
 interface RegisterFormData {
   phone: string;
   email: string;
-  firstName: string;
-  lastName: string;
-  username: string;
+  firstname: string;
+  lastname: string;
   password: string;
   confirmPassword: string;
 }
@@ -27,10 +27,31 @@ export const RegisterForm: FC<Props> = ({ setFormType }) => {
     control,
     watch,
     formState: { errors },
+    setError,
   } = useForm<RegisterFormData>();
 
-  const onSubmit = (data: RegisterFormData) => {
-    console.log('Форма регистрации отправлена:', data);
+  const onSubmit = async (data: RegisterFormData) => {
+    try {
+      await registerUser({
+        login: formatPhoneBeforeRequest(data.phone),
+        firstname: data.firstname,
+        lastname: data.lastname,
+        phone_number: formatPhoneBeforeRequest(data.phone),
+        email: data.email,
+        password: data.password,
+      });
+      await authUser({
+        login: formatPhoneBeforeRequest(data.phone),
+        password: data.password,
+      });
+      window.location.reload();
+    } catch (e) {
+      console.error('Ошибка авторизации:', e);
+      setError('phone', {
+        type: 'manual',
+        message: 'Номер телефона или email уже используется',
+      });
+    }
   };
 
   const passwordValue = watch('password');
@@ -43,37 +64,23 @@ export const RegisterForm: FC<Props> = ({ setFormType }) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.inputGrid}>
           <InputWithFormatter<RegisterFormData>
-            name="firstName"
+            name="firstname"
             label="Имя"
             type="text"
             control={control}
-            error={errors.firstName}
+            error={errors.firstname}
             rules={{
               required: 'Имя обязательно',
             }}
           />
           <InputWithFormatter<RegisterFormData>
-            name="lastName"
+            name="lastname"
             label="Фамилия"
             type="text"
             control={control}
-            error={errors.lastName}
+            error={errors.lastname}
             rules={{
               required: 'Фамилия обязательна',
-            }}
-          />
-          <InputWithFormatter<RegisterFormData>
-            name="username"
-            label="Отображаемое имя"
-            type="text"
-            control={control}
-            error={errors.username}
-            rules={{
-              required: 'Username обязателен',
-              minLength: {
-                value: 4,
-                message: 'Username должен содержать минимум 4 символа',
-              },
             }}
           />
           <InputWithFormatter<RegisterFormData>

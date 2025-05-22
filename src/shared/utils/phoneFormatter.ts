@@ -39,3 +39,7 @@ export const formatPhone = (value: string) => {
 
   return `+7 (${part1}) ${part2} ${part3} ${part4}`;
 };
+
+export const formatPhoneBeforeRequest = (value: string) => {
+  return value.replace(/[^0-9]/g, '');
+};

@@ -5,7 +5,8 @@ import { Button } from 'shared/ui/Button';
 import { Typography } from 'shared/ui/Typography';
 import styles from 'features/Authentication/styles/index.module.scss';
 import { InputWithFormatter } from 'features/Authentication/components/ui/InputWithFormatter';
-import { formatPhone } from 'features/Authentication/utils/phoneFormatter.ts';
+import { formatPhone, formatPhoneBeforeRequest } from 'shared/utils/phoneFormatter.ts';
+import { authUser, getProfile } from 'features/Authentication/services/auth.service.ts';
 
 interface LoginFormData {
   phone: string;
@@ -21,10 +22,24 @@ export const LoginForm: FC<Props> = ({ setFormType }) => {
     handleSubmit,
     control,
     formState: { errors },
+    setError,
   } = useForm<LoginFormData>();
 
-  const onSubmit = (data: LoginFormData) => {
-    console.log('Форма отправлена:', data);
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      await authUser({
+        login: formatPhoneBeforeRequest(data.phone),
+        password: data.password,
+      });
+      await getProfile();
+      window.location.reload();
+    } catch (e) {
+      console.error('Ошибка авторизации:', e);
+      setError('password', {
+        type: 'manual',
+        message: 'Неверный телефон или пароль',
+      });
+    }
   };
 
   return (
@@ -61,19 +76,6 @@ export const LoginForm: FC<Props> = ({ setFormType }) => {
               minLength: {
                 value: 6,
                 message: 'Пароль должен содержать минимум 6 символов',
-              },
-              validate: (value: string | undefined) => {
-                if (!value) return false;
-                const hasUpperCase = /[A-ZА-Я]/.test(value);
-                const hasNumber = /\d/.test(value);
-
-                if (!hasUpperCase) {
-                  return 'Пароль должен содержать хотя бы одну заглавную букву';
-                }
-                if (!hasNumber) {
-                  return 'Пароль должен содержать хотя бы одну цифру';
-                }
-                return true;
               },
             }}
           />
