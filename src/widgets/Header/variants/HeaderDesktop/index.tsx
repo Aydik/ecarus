@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom';
 import { City } from 'src/entities/City';
 import { LoginButton } from 'widgets/Header/components/LoginButton';
 import { ProfileButton } from 'entities/User/components/ProfileButton';
+import { Amount } from 'shared/ui/Amount';
 
 export const HeaderDesktop: FC = () => {
   const location = useLocation();
@@ -15,6 +16,7 @@ export const HeaderDesktop: FC = () => {
 
   const [userName, setUserName] = useState<string | null>(null);
   const [userPhoto, setPhoto] = useState<string | null>(null);
+  const [userBalance, setUserBalance] = useState<number | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem('authToken');
@@ -25,6 +27,7 @@ export const HeaderDesktop: FC = () => {
           const parsed = JSON.parse(userData);
           setUserName(parsed.firstname);
           setPhoto(parsed.photo_url);
+          setUserBalance(parsed.balance);
         } catch (e) {
           console.error('Ошибка при разборе user:', e);
         }
@@ -46,7 +49,14 @@ export const HeaderDesktop: FC = () => {
       </nav>
       <div className={styles.info}>
         <City />
-        {userName ? <ProfileButton src={userPhoto} firstName={userName} /> : <LoginButton />}
+        {userName ? (
+          <div className={styles.userInfo}>
+            <Amount amount={userBalance} />
+            <ProfileButton src={userPhoto} firstName={userName} />
+          </div>
+        ) : (
+          <LoginButton />
+        )}
       </div>
     </header>
   );
