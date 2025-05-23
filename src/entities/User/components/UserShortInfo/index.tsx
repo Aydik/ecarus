@@ -11,7 +11,7 @@ export const UserShortInfo: FC = () => {
 
   useEffect(() => {
     getProfile().then((res) => {
-      setUserName(res.firstname as string);
+      setUserName(res.firstname);
       setPhoto(res.photo_url);
       setUserBalance(res.balance);
     });
@@ -21,7 +21,7 @@ export const UserShortInfo: FC = () => {
     return (
       <div className={styles.userInfo}>
         <Amount amount={userBalance} />
-        <ProfileButton src={userPhoto} firstName={userName} />
+        <ProfileButton src={userPhoto} firstName={userName as string} />
       </div>
     );
   }
