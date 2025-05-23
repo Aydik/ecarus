@@ -1,4 +1,4 @@
-import { FC, ReactNode, MouseEvent } from 'react';
+import { FC, ReactNode, MouseEvent, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import styles from './index.module.scss';
 import { Icon } from 'shared/ui/Icon/Icon.tsx';
@@ -13,18 +13,30 @@ interface Props {
 }
 
 export const Modal: FC<Props> = ({ isOpened, onClose, children, isCloseOnButton = false }) => {
-  document.body.style.overflow = isOpened ? 'hidden' : '';
+  const mouseDownTarget = useRef<EventTarget | null>(null);
+
+  useEffect(() => {
+    document.body.style.overflow = isOpened ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpened]);
 
   if (!isOpened) return null;
 
-  const handleClickBackground = (e: MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) {
+  const handleMouseDown = (e: MouseEvent<HTMLDivElement>) => {
+    mouseDownTarget.current = e.target;
+  };
+
+  const handleMouseUp = (e: MouseEvent<HTMLDivElement>) => {
+    if (mouseDownTarget.current === e.currentTarget && e.target === e.currentTarget) {
       onClose();
     }
+    mouseDownTarget.current = null;
   };
 
   return ReactDOM.createPortal(
-    <div className={styles.background} onClick={handleClickBackground}>
+    <div className={styles.background} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
       <div className={styles.modal}>
         <Scrollbar maxHeight={'75vh'} scrollBar={false} topShadow={false}>
           {children}

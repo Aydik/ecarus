@@ -15,16 +15,7 @@ export const authUser = async (data: AuthorizeUserData) => {
   try {
     const res = await axiosInstance.post('login', data);
     localStorage.setItem('authToken', res.data.token);
-    return res.data;
-  } catch (err) {
-    throw err;
-  }
-};
-
-export const getProfile = async () => {
-  try {
-    const res = await axiosInstance.get('profile');
-    localStorage.setItem('user', JSON.stringify(res.data));
+    window.location.reload();
     return res.data;
   } catch (err) {
     throw err;

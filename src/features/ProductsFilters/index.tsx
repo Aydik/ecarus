@@ -31,7 +31,7 @@ export const ProductsFilters: FC = () => {
           console.log(data);
         });
       } catch (error) {
-        console.log('Ошибка загрузки фильтров:', error);
+        console.error('Ошибка загрузки фильтров:', error);
       }
     };
 

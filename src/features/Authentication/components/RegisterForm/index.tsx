@@ -44,9 +44,8 @@ export const RegisterForm: FC<Props> = ({ setFormType }) => {
         login: formatPhoneBeforeRequest(data.phone),
         password: data.password,
       });
-      window.location.reload();
-    } catch (e) {
-      console.error('Ошибка авторизации:', e);
+    } catch (error) {
+      console.error('Ошибка авторизации:', error);
       setError('phone', {
         type: 'manual',
         message: 'Номер телефона или email уже используется',

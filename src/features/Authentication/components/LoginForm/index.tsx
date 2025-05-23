@@ -6,7 +6,7 @@ import { Typography } from 'shared/ui/Typography';
 import styles from 'features/Authentication/styles/index.module.scss';
 import { InputWithFormatter } from 'features/Authentication/components/ui/InputWithFormatter';
 import { formatPhone, formatPhoneBeforeRequest } from 'shared/utils/phoneFormatter.ts';
-import { authUser, getProfile } from 'features/Authentication/services/auth.service.ts';
+import { authUser } from 'features/Authentication/services/auth.service.ts';
 
 interface LoginFormData {
   phone: string;
@@ -31,8 +31,6 @@ export const LoginForm: FC<Props> = ({ setFormType }) => {
         login: formatPhoneBeforeRequest(data.phone),
         password: data.password,
       });
-      await getProfile();
-      window.location.reload();
     } catch (e) {
       console.error('Ошибка авторизации:', e);
       setError('password', {

@@ -29,7 +29,7 @@ axiosInstance.interceptors.response.use(
       localStorage.removeItem('authToken');
       localStorage.removeItem('user');
       window.location.href = '/';
-      alert('Сессия истекла. Пожалуйста, войдите снова.');
+      console.error('Сессия истекла. Пожалуйста, войдите снова.');
     }
     return Promise.reject(error);
   },
