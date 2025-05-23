@@ -1,4 +1,5 @@
 @use './variables';
+@import 'intl-tel-input/build/css/intlTelInput.css';
 
 body {
   font-family: 'Inter', sans-serif;
@@ -6,5 +7,14 @@ body {
   line-height: 1.5em;
   padding: 0;
   margin: 0;
+}
+body, html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overflow-y: auto;
+}
 
+body::-webkit-scrollbar,
+html::-webkit-scrollbar {
+  display: none;
 }

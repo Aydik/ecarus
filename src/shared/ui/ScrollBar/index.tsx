@@ -4,12 +4,21 @@ import styles from './index.module.scss';
 
 interface Props {
   children: ReactNode;
-  maxHeight: number;
+  maxHeight: number | string;
   className?: string;
   style?: CSSProperties;
+  scrollBar?: boolean;
+  topShadow?: boolean;
 }
 
-export const Scrollbar: FC<Props> = ({ children, maxHeight, className, style }) => {
+export const Scrollbar: FC<Props> = ({
+  children,
+  maxHeight,
+  className,
+  style,
+  scrollBar = true,
+  topShadow = true,
+}) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isScrolledTop, setIsScrolledTop] = useState(false);
 
@@ -30,9 +39,12 @@ export const Scrollbar: FC<Props> = ({ children, maxHeight, className, style }) 
 
   return (
     <div className={clsx(styles.scrollbarWrapper, className)} style={{ ...style }}>
-      {isScrolledTop && <div className={styles.gradientTop} />}
-
-      <div ref={scrollRef} className={styles.scrollbar} style={{ maxHeight }}>
+      {topShadow && isScrolledTop && <div className={styles.gradientTop} />}
+      <div
+        ref={scrollRef}
+        className={clsx(styles.scrollbar, !scrollBar && styles.scrollbar_noScrollbar)}
+        style={{ maxHeight }}
+      >
         {children}
       </div>
     </div>

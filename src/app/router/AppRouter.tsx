@@ -1,11 +1,12 @@
 import { useRoutes } from 'react-router-dom';
 import { FC } from 'react';
 import { RouteObject } from 'react-router-dom';
+import { MainLayout } from 'app/layouts/MainLayout';
 import { IndexPage } from 'pages/IndexPage';
 import { AboutPage } from 'pages/AboutPage';
 import { PointsPage } from 'pages/PointsPage';
 import { MarketPage } from 'pages/MarketPage';
-import { MainLayout } from 'app/layouts/MainLayout';
+import { ProfilePage } from 'pages/ProfilePage';
 
 const routeConfig: RouteObject[] = [
   {
@@ -26,6 +27,10 @@ const routeConfig: RouteObject[] = [
       {
         path: '/market',
         element: <MarketPage />,
+      },
+      {
+        path: '/profile',
+        element: <ProfilePage />,
       },
     ],
   },
