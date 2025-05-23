@@ -25,11 +25,9 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response && error.response.status === 401 && error.response.status === 500) {
+    if (error.response && (error.response.status === 401 || error.response.status === 500)) {
       localStorage.removeItem('authToken');
       localStorage.removeItem('user');
-      window.location.href = '/';
-      console.error('Сессия истекла. Пожалуйста, войдите снова.');
     }
     return Promise.reject(error);
   },
