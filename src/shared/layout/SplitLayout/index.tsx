@@ -1,0 +1,10 @@
+import { FC, ReactNode } from 'react';
+import styles from './index.module.scss';
+
+interface Props {
+  children: ReactNode;
+}
+
+export const SplitLayout: FC<Props> = ({ children }) => {
+  return <div className={styles.layout}>{children}</div>;
+};
