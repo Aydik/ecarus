@@ -1,5 +1,14 @@
-.userInfo{
+.profileButton {
+  all: unset;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 24px;
+  color: rgba(var(--color-dark), var(--opacity-1));
+
+  .name {
+    margin-left: 4px;
+    font-size: 14px;
+    line-height: 20px;
+    color: inherit;
+  }
 }
