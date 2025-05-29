@@ -21,3 +21,13 @@ export const authUser = async (data: AuthorizeUserData) => {
     throw err;
   }
 };
+
+export const logout = async () => {
+  try {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('user');
+    window.location.href = '/';
+  } catch (err) {
+    throw err;
+  }
+};

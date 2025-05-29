@@ -6,19 +6,20 @@ import { ProductsSort } from 'features/ProductsSort';
 import { Typography } from 'shared/ui/Typography';
 import { ProductsFilters } from 'features/ProductsFilters';
 import { Products } from 'features/Products';
+import { SplitLayout } from 'shared/layout/SplitLayout';
 
 export const Catalog: FC = () => {
   return (
     <Provider store={store}>
       <div className={styles.catalog}>
-        <div className={styles.catalogCaption}>
+        <div className={styles.caption}>
           <Typography variant={'h2'}>ЭкоМаркет</Typography>
           <ProductsSort />
         </div>
-        <div className={styles.filtersAndProductsContainer}>
+        <SplitLayout>
           <ProductsFilters />
           <Products />
-        </div>
+        </SplitLayout>
       </div>
     </Provider>
   );
