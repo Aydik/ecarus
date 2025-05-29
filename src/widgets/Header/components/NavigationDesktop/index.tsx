@@ -1,0 +1,22 @@
+import styles from './index.module.scss';
+import { pages } from 'widgets/Header/constants';
+import { NavLink } from 'widgets/Header/components/NavLink';
+import { FC } from 'react';
+import { useLocation } from 'react-router-dom';
+
+export const NavigationDesktop: FC = () => {
+  const location = useLocation();
+  const currentPath = location.pathname;
+  const isSelected = (path: string) => currentPath === path;
+  return (
+    <nav className={styles.nav}>
+      <ul className={styles.navList}>
+        {pages.map((page) => (
+          <li key={page.url} className={styles.navList__item}>
+            <NavLink url={page.url} text={page.text} selected={isSelected(page.url)} />
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+};

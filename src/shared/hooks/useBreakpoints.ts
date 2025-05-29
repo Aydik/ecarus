@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
 const BREAKPOINTS = {
-  mobile: 768,
-  tablet: 1280,
+  mobile: 576,
+  tablet: 1024,
 };
 
 export type Breakpoint = 'mobile' | 'tablet' | 'desktop';

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import styles from './index.module.scss';
 import { Icon } from 'shared/ui/Icon/Icon.tsx';
 import { Button } from 'shared/ui/Button';
-import { Scrollbar } from 'shared/ui/ScrollBar';
+import { useBreakpoint } from 'shared/hooks/useBreakpoints.ts';
 
 interface Props {
   isOpened: boolean;
@@ -13,6 +13,8 @@ interface Props {
 }
 
 export const Modal: FC<Props> = ({ isOpened, onClose, children, isCloseOnButton = false }) => {
+  const breakpoint = useBreakpoint();
+
   const mouseDownTarget = useRef<EventTarget | null>(null);
 
   useEffect(() => {
@@ -37,12 +39,38 @@ export const Modal: FC<Props> = ({ isOpened, onClose, children, isCloseOnButton 
 
   return ReactDOM.createPortal(
     <div className={styles.background} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
-      <div className={styles.modal}>
-        <Scrollbar maxHeight={'75vh'} scrollBar={false} topShadow={false}>
-          {children}
-        </Scrollbar>
+      <div
+        className={styles.modal}
+        style={
+          breakpoint !== 'desktop'
+            ? {
+                padding: '32px',
+                height: '100%',
+                width: '100%',
+              }
+            : {
+                padding: '48px',
+                borderRadius: '24px',
+              }
+        }
+      >
+        {children}
         {!isCloseOnButton && (
-          <button className={styles.closeIconButton} onClick={onClose}>
+          <button
+            className={styles.closeIconButton}
+            style={
+              breakpoint !== 'desktop'
+                ? {
+                    right: '32px',
+                    top: '32px',
+                  }
+                : {
+                    right: '48px',
+                    top: '48px',
+                  }
+            }
+            onClick={onClose}
+          >
             <Icon name={'close'} size={{ width: 32, height: 32 }} />
           </button>
         )}
