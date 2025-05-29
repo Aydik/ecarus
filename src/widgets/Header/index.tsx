@@ -32,7 +32,7 @@ export const Header: FC = () => {
         }}
       >
         {breakpoint === 'desktop' && <City />}
-        {hasToken ? <UserShortInfo /> : <LoginButton />}
+        {hasToken ? <UserShortInfo /> : breakpoint === 'desktop' && <LoginButton />}
         {breakpoint !== 'desktop' && <MenuButton />}
       </div>
     </header>

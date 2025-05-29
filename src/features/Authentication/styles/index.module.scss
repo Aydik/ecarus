@@ -23,6 +23,8 @@ form {
   margin-top: 16px;
   display: flex;
   justify-content: space-between;
+  align-items: start;
+  gap: 16px;
 
   .link {
     all: unset;

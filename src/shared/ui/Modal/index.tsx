@@ -44,7 +44,7 @@ export const Modal: FC<Props> = ({ isOpened, onClose, children, isCloseOnButton 
         style={
           breakpoint !== 'desktop'
             ? {
-                padding: '32px',
+                padding: breakpoint === 'mobile' ? '32px' : '48px',
                 height: '100%',
                 width: '100%',
               }
@@ -59,7 +59,7 @@ export const Modal: FC<Props> = ({ isOpened, onClose, children, isCloseOnButton 
           <button
             className={styles.closeIconButton}
             style={
-              breakpoint !== 'desktop'
+              breakpoint === 'mobile'
                 ? {
                     right: '32px',
                     top: '32px',
