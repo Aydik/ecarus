@@ -1,0 +1,17 @@
+.layout {
+  margin-top: 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 48px;
+
+  .info {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .logout {
+    all: unset;
+    cursor: pointer;
+  }
+}

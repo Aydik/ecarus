@@ -1,0 +1,24 @@
+.nav{
+  flex-grow: 1;
+}
+
+.navList {
+  height: 100%;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  .link{
+    text-decoration: none;
+
+    .text{
+      font-size: 18px;
+      line-height: 24px;
+      font-weight: 500;
+      color: rgba(var(--color-dark), var(--opacity-0));
+    }
+  }
+}
