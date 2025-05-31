@@ -39,7 +39,17 @@ export const Typography: FC<Props> = ({ variant = 'span', className = '', childr
         </h2>
       );
     case 'h3':
-      return <h3 className={finalClassName}>{children}</h3>;
+      return (
+        <h3
+          className={finalClassName}
+          style={{
+            fontSize: breakpoint === 'mobile' ? '24px' : '32px',
+            lineHeight: breakpoint === 'mobile' ? '28px' : '40px',
+          }}
+        >
+          {children}
+        </h3>
+      );
     case 'h4':
       return <h4 className={finalClassName}>{children}</h4>;
     case 'h5':

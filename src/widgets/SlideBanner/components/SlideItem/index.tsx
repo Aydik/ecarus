@@ -17,11 +17,15 @@ export const SlideItem: FC<Props> = ({ item }) => {
       style={{
         backgroundColor: item.backgroundColor,
         backgroundImage: item.backgroundImage
-          ? `url(/assets/images/bannerBackgrounds/${item.backgroundImage})`
+          ? breakpoint === 'mobile'
+            ? `linear-gradient(to bottom, ${item.backgroundColor} 50%, transparent 80%), url(/assets/images/bannerBackgrounds/${item.backgroundImage})`
+            : `url(/assets/images/bannerBackgrounds/${item.backgroundImage})`
           : 'none',
-        backgroundSize: breakpoint === 'mobile' ? 'auto 100%' : 'auto 100%',
-        backgroundPosition: breakpoint === 'mobile' ? 'center' : 'right',
-        padding: breakpoint === 'mobile' ? '24px 16px' : '56px 64px',
+        backgroundSize: breakpoint === 'mobile' ? '100% auto' : 'auto 100%',
+        backgroundPosition: breakpoint === 'mobile' ? 'bottom' : 'right',
+        paddingTop: breakpoint === 'mobile' ? '' : '56px',
+        paddingLeft: breakpoint === 'mobile' ? '' : '64px',
+        paddingRight: breakpoint === 'mobile' ? '' : '64px',
       }}
     >
       <div className={styles.content}>

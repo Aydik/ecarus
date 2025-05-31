@@ -1,12 +1,12 @@
 import { FC } from 'react';
 import { SlideBanner } from 'widgets/SlideBanner';
-import { NavBannerBlock } from 'widgets/NavBannerBlock';
+import { NavBanners } from 'widgets/NavBanners';
 
 export const IndexPage: FC = () => {
   return (
     <>
       <SlideBanner />
-      <NavBannerBlock />
+      <NavBanners />
     </>
   );
 };

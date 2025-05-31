@@ -4,6 +4,9 @@
   width: 100%;
   height: 100%;
   background-repeat: no-repeat;
+  padding-top: var(--main-padding-top);
+  padding-left: var(--horizontal-content-padding);
+  padding-right: var(--horizontal-content-padding);
 
   .content {
     max-width: 55ch;
