@@ -153,7 +153,7 @@ export const RegisterForm: FC<Props> = ({ setFormType }) => {
             }}
           />
         </div>
-        <Button style="primary" className={styles.button} type="submit">
+        <Button variant="primary" className={styles.button} type="submit">
           Зарегистрироваться
         </Button>
         <div className={styles.linkContainer}>

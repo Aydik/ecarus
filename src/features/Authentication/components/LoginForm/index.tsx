@@ -78,7 +78,7 @@ export const LoginForm: FC<Props> = ({ setFormType }) => {
             }}
           />
         </div>
-        <Button style="primary" className={styles.button} type="submit">
+        <Button variant="primary" className={styles.button} type="submit">
           Войти
         </Button>
         <div className={styles.linkContainer}>
