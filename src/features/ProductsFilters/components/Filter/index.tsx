@@ -4,7 +4,7 @@ import { AppDispatch, RootState } from 'widgets/Catalog/store';
 import { Typography } from 'shared/ui/Typography';
 import { CheckBox } from 'shared/ui/CheckBox';
 import { useMemo } from 'react';
-import { useBreakpoint } from 'shared/hooks/useBreakpoints.ts';
+import { useBreakpoint } from 'shared/context/BreakpointContext.tsx';
 import { Scrollbar } from 'shared/ui/ScrollBar';
 import { FilterFlags, FilterKind, FilterTypeMap } from 'features/ProductsFilters/types';
 import { setGenres, setBrands, setCategories } from 'features/ProductsFilters/slices';

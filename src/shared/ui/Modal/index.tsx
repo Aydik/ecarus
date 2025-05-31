@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import styles from './index.module.scss';
 import { Icon } from 'shared/ui/Icon/Icon.tsx';
 import { Button } from 'shared/ui/Button';
-import { useBreakpoint } from 'shared/hooks/useBreakpoints.ts';
+import { useBreakpoint } from 'shared/context/BreakpointContext.tsx';
 
 interface Props {
   isOpened: boolean;
@@ -75,7 +75,7 @@ export const Modal: FC<Props> = ({ isOpened, onClose, children, isCloseOnButton 
           </button>
         )}
         {isCloseOnButton && (
-          <Button style={'primary'} onClick={onClose}>
+          <Button variant={'primary'} onClick={onClose}>
             Закрыть
           </Button>
         )}

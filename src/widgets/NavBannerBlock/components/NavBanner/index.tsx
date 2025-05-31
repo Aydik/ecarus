@@ -28,7 +28,7 @@ export const NavBanner: FC<Props> = ({ item }) => {
             {item.description}
           </Typography>
         </div>
-        <Button className={styles.button} style={'secondary'}>
+        <Button className={styles.button} variant={'secondary'}>
           <Icon name={'arrow'} />
         </Button>
       </div>

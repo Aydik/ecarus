@@ -5,7 +5,7 @@ import styles from './index.module.scss';
 import { Avatar } from 'entities/User/components/Avatar';
 import { Typography } from 'shared/ui/Typography';
 import { useNavigate } from 'react-router-dom';
-import { useBreakpoint } from 'shared/hooks/useBreakpoints.ts';
+import { useBreakpoint } from 'shared/context/BreakpointContext.tsx';
 
 export const UserShortInfo: FC = () => {
   const breakpoint = useBreakpoint();
