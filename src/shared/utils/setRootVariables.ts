@@ -1,4 +1,4 @@
-import { Breakpoint } from 'shared/hooks/useBreakpoints.ts';
+import { Breakpoint } from 'shared/context/BreakpointContext';
 
 export function setRootVariables(breakpoint: Breakpoint) {
   const root = document.documentElement;

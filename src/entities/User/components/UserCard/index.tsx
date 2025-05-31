@@ -47,7 +47,7 @@ export const UserCard: FC = () => {
             </Typography>
           </div>
         </div>
-        <Button style={'secondary'} className={styles.button} onClick={logout}>
+        <Button variant={'secondary'} className={styles.button} onClick={logout}>
           Выйти из аккаунта
         </Button>
       </div>

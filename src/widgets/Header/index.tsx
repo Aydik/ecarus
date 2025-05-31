@@ -4,7 +4,7 @@ import { LinkLogo } from 'widgets/Header/components/LinkLogo';
 import { City } from 'entities/City';
 import { LoginButton } from 'widgets/Header/components/LoginButton';
 import { UserShortInfo } from 'entities/User/components/UserShortInfo';
-import { useBreakpoint } from 'shared/hooks/useBreakpoints.ts';
+import { useBreakpoint } from 'shared/context/BreakpointContext.tsx';
 import { NavigationDesktop } from 'widgets/Header/components/NavigationDesktop';
 import { MenuButton } from 'widgets/Header/components/MenuButton';
 

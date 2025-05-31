@@ -12,6 +12,7 @@
 
   .main {
     flex: 1;
+    position: relative;
     box-sizing: border-box;
     margin-top: var(--header-height);
     padding: var(--main-padding-top) var(--horizontal-content-padding) 0 var(--horizontal-content-padding);

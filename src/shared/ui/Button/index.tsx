@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import { CSSProperties, FC, ReactNode } from 'react';
 import styles from './index.module.scss';
 import clsx from 'clsx';
 
@@ -6,21 +6,23 @@ interface Props {
   onClick?: () => void;
   className?: string;
   children?: ReactNode;
-  style?: 'primary' | 'secondary' | 'selected';
+  variant?: 'primary' | 'secondary' | 'selected';
   bold?: boolean;
   type?: 'button' | 'submit' | 'reset';
+  style?: CSSProperties;
 }
 
 export const Button: FC<Props> = ({
   children,
   onClick,
   className,
-  style,
+  variant,
   bold = true,
   type = 'button',
+  style,
 }) => {
   let styleClass;
-  switch (style) {
+  switch (variant) {
     case 'primary':
       styleClass = styles.button_primary;
       break;
@@ -38,6 +40,7 @@ export const Button: FC<Props> = ({
       onClick={onClick}
       className={clsx(styles.button, styleClass, bold ? styles.button_bold : '', className)}
       type={type}
+      style={style}
     >
       {children}
     </button>

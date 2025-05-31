@@ -1,5 +1,5 @@
 import { CSSProperties, FC, ReactNode } from 'react';
-import { useBreakpoint } from 'shared/hooks/useBreakpoints.ts';
+import { useBreakpoint } from 'shared/context/BreakpointContext.tsx';
 
 interface Props {
   children: ReactNode;
