@@ -20,7 +20,7 @@ export const ProductsSort: FC = () => {
           key={index}
           className={styles.sortButton}
           bold={false}
-          style={selectedSort == sort ? 'selected' : 'secondary'}
+          variant={selectedSort == sort ? 'selected' : 'secondary'}
           onClick={() => handleSortButtonClick(sort)}
         >
           {sort}
