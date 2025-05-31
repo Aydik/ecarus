@@ -48,7 +48,7 @@ export const ProductsFilters: FC = () => {
         <Filter key={'brands'} title={'Брэнд'} filter={'brands'} />
       </div>
       <Button
-        style={'secondary'}
+        variant={'secondary'}
         className={styles.resetButton}
         onClick={() => dispatch(resetFilters())}
       >

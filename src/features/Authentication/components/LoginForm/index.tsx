@@ -91,7 +91,7 @@ export const LoginForm: FC<Props> = ({ setFormType }) => {
         </div>
         <Button
           key={'loginForPartners'}
-          style={'secondary'}
+          variant={'secondary'}
           className={styles.button}
           onClick={() => setFormType('login')}
         >

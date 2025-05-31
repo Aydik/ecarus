@@ -4,14 +4,10 @@
   color: rgb(var(--color-dark));
 
   &.h1 {
-    font-size: 48px;
-    line-height: 56px;
     font-weight: 700;
   }
 
   &.h2 {
-    font-size: 40px;
-    line-height: 48px;
     font-weight: 600;
   }
 
@@ -19,5 +15,17 @@
     font-size: 32px;
     line-height: 40px;
     font-weight: 600;
+  }
+
+  &.p{
+    color: rgba(var(--color-dark), var(--opacity-1));
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  &.span{
+    color: rgba(var(--color-dark), var(--opacity-1));
+    font-size: 14px;
+    line-height: 20px;
   }
 }

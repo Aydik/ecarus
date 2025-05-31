@@ -5,8 +5,10 @@ import { SlideItem } from './components/SlideItem';
 import { SLIDES } from './constants';
 import { useSlideBanner } from './hooks/useSlideBanner.ts';
 import clsx from 'clsx';
+import { useBreakpoint } from 'shared/context/BreakpointContext.tsx';
 
 export const SlideBanner: FC = () => {
+  const breakpoint = useBreakpoint();
   const { offset, isAnimating, visibleSlides, navigate } = useSlideBanner(SLIDES);
 
   const itemsRef = useRef<HTMLDivElement>(null);
@@ -18,24 +20,47 @@ export const SlideBanner: FC = () => {
     }
   }, [offset, isAnimating]);
 
+  useEffect(() => {
+    if (breakpoint === 'mobile') {
+      const intervalId = setInterval(() => {
+        navigate('next');
+      }, 7000);
+
+      return () => clearInterval(intervalId);
+    }
+  }, [breakpoint]);
+
   return (
-    <div className={styles.slideBanner}>
-      <div className={styles.slideBanner__content}>
+    <div
+      className={styles.slideBanner}
+      style={{
+        height: breakpoint === 'mobile' ? '425px' : '320px',
+        position: breakpoint === 'mobile' ? 'absolute' : 'relative',
+      }}
+    >
+      <div
+        className={styles.slideBanner__content}
+        style={{ borderRadius: breakpoint === 'mobile' ? '0' : '24px' }}
+      >
         <div ref={itemsRef} className={styles.slideBanner__items}>
           {visibleSlides.map((slide, index) => (
             <SlideItem key={index} item={slide} />
           ))}
         </div>
       </div>
-      <SlideButton
-        onClick={() => navigate('prev')}
-        className={clsx(styles.slideButton, styles.slideButton_prev)}
-      />
-      <SlideButton
-        onClick={() => navigate('next')}
-        className={clsx(styles.slideButton, styles.slideButton_next)}
-        reversed={true}
-      />
+      {breakpoint !== 'mobile' && (
+        <>
+          <SlideButton
+            onClick={() => navigate('prev')}
+            className={clsx(styles.slideButton, styles.slideButton_prev)}
+          />
+          <SlideButton
+            onClick={() => navigate('next')}
+            className={clsx(styles.slideButton, styles.slideButton_next)}
+            reversed={true}
+          />
+        </>
+      )}
     </div>
   );
 };

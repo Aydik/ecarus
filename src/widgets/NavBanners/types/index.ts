@@ -4,4 +4,5 @@ export interface NavBanner {
   backgroundPosition?: string;
   title: string;
   description: string;
+  link: string;
 }
