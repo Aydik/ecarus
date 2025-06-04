@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { setRootVariables } from 'shared/utils/setRootVariables.ts';
 
 export type Breakpoint = 'mobile' | 'tablet' | 'desktop';
 
@@ -15,7 +16,10 @@ export const BreakpointProvider = ({ children }: { children: ReactNode }) => {
   const [breakpoint, setBreakpoint] = useState(getBreakpoint());
 
   useEffect(() => {
-    const onResize = () => setBreakpoint(getBreakpoint());
+    const onResize = () => {
+      setBreakpoint(getBreakpoint());
+      setRootVariables(getBreakpoint());
+    };
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);

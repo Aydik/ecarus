@@ -1,42 +1,44 @@
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
-import { FormType } from 'features/Authentication/types';
 import { Button } from 'shared/ui/Button';
 import { Typography } from 'shared/ui/Typography';
 import styles from 'features/Authentication/styles/index.module.scss';
 import { InputWithFormatter } from 'features/Authentication/components/ui/InputWithFormatter';
-import { formatPhone, formatPhoneBeforeRequest } from 'shared/utils/phoneFormatter.ts';
 import { authUser } from 'features/Authentication/services/auth.service.ts';
-
-interface LoginFormData {
-  phone: string;
-  password: string;
-}
+import { AxiosError } from 'axios';
+import { LoginUserDto } from 'app/models/generated';
+import { FormType } from 'features/Authentication';
 
 interface Props {
   setFormType: (type: FormType) => void;
+  onClose: () => void;
 }
 
-export const LoginForm: FC<Props> = ({ setFormType }) => {
+export const LoginForm: FC<Props> = ({ setFormType, onClose }) => {
   const {
     handleSubmit,
     control,
     formState: { errors },
     setError,
-  } = useForm<LoginFormData>();
+  } = useForm<LoginUserDto>();
 
-  const onSubmit = async (data: LoginFormData) => {
+  const onSubmit = async (data: LoginUserDto) => {
     try {
       await authUser({
-        login: formatPhoneBeforeRequest(data.phone),
+        email: data.email,
         password: data.password,
       });
-    } catch (e) {
-      console.error('Ошибка авторизации:', e);
-      setError('password', {
-        type: 'manual',
-        message: 'Неверный телефон или пароль',
-      });
+      onClose();
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      if (axiosError.response?.status === 404) {
+        setError('password', {
+          type: 'manual',
+          message: 'Неверный email или пароль',
+        });
+      } else {
+        console.error('Ошибка авторизации:', error);
+      }
     }
   };
 
@@ -47,23 +49,21 @@ export const LoginForm: FC<Props> = ({ setFormType }) => {
       </Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.inputGrid}>
-          <InputWithFormatter<LoginFormData>
-            name="phone"
-            label="Телефон"
-            type="tel"
+          <InputWithFormatter<LoginUserDto>
+            name="email"
+            label="Email"
+            type="email"
             control={control}
-            format={formatPhone}
-            error={errors.phone}
+            error={errors.email}
             rules={{
-              required: 'Телефон обязателен',
-              validate: (value: string | undefined) => {
-                if (!value) return false;
-                const digitsOnly = value.replace(/\D/g, '');
-                return digitsOnly.length === 11 || 'Неверный формат телефона';
+              required: 'Email обязателен',
+              pattern: {
+                value: /^\S+@\S+\.\S+$/,
+                message: 'Неверный формат email',
               },
             }}
           />
-          <InputWithFormatter<LoginFormData>
+          <InputWithFormatter<LoginUserDto>
             name="password"
             label="Пароль"
             type="password"
@@ -89,12 +89,7 @@ export const LoginForm: FC<Props> = ({ setFormType }) => {
             Регистрация
           </button>
         </div>
-        <Button
-          key={'loginForPartners'}
-          variant={'secondary'}
-          className={styles.button}
-          onClick={() => setFormType('login')}
-        >
+        <Button key={'loginForPartners'} variant={'secondary'} className={styles.button}>
           Вход для партнеров
         </Button>
       </form>

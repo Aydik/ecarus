@@ -1,41 +1,37 @@
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
-import { FormType } from 'features/Authentication';
+import { FormType } from 'features/Authentication/types';
 import { Button } from 'shared/ui/Button';
 import { Typography } from 'shared/ui/Typography';
 import styles from 'features/Authentication/styles/index.module.scss';
 import { InputWithFormatter } from 'features/Authentication/components/ui/InputWithFormatter';
 import { registerUser } from 'features/Authentication/services/auth.service.ts';
 import { AxiosError } from 'axios';
-import { CreateUserDto, LanguageEnum } from 'app/models/generated';
 
-interface RegisterFormFields extends CreateUserDto {
-  confirmPassword: string;
+interface RegisterFormData {
+  code: string;
 }
 
 interface Props {
   setFormType: (type: FormType) => void;
-  onClose: () => void;
 }
 
-export const RegisterForm: FC<Props> = ({ setFormType, onClose }) => {
+export const ConfirmEmail: FC<Props> = ({ setFormType }) => {
   const {
     handleSubmit,
     control,
     watch,
     formState: { errors },
     setError,
-  } = useForm<RegisterFormFields>();
+  } = useForm<RegisterFormData>();
 
-  const onSubmit = async (data: RegisterFormFields) => {
+  const onSubmit = async (data: RegisterFormData) => {
     try {
       await registerUser({
         email: data.email,
         password: data.password,
-        language: LanguageEnum.RU,
       });
-      onClose();
-      // setFormType('confirm-email');
+      setFormType('confirm-email');
     } catch (error) {
       const axiosError = error as AxiosError;
       if (axiosError.response?.status === 400) {
@@ -58,7 +54,7 @@ export const RegisterForm: FC<Props> = ({ setFormType, onClose }) => {
       </Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.inputGrid}>
-          <InputWithFormatter<RegisterFormFields>
+          <InputWithFormatter<RegisterFormData>
             name="email"
             label="Email"
             type="email"
@@ -72,7 +68,7 @@ export const RegisterForm: FC<Props> = ({ setFormType, onClose }) => {
               },
             }}
           />
-          <InputWithFormatter<RegisterFormFields>
+          <InputWithFormatter<RegisterFormData>
             name="password"
             label="Пароль"
             type="password"
@@ -99,7 +95,7 @@ export const RegisterForm: FC<Props> = ({ setFormType, onClose }) => {
               },
             }}
           />
-          <InputWithFormatter<RegisterFormFields>
+          <InputWithFormatter<RegisterFormData>
             name="confirmPassword"
             label="Подтверждение пароля"
             type="password"
