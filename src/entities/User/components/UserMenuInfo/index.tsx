@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { Amount } from 'shared/ui/Amount';
-import { getProfile } from 'entities/User/services/user.servise.ts';
+import { getUser } from 'entities/User/services/user.servise.ts';
 import styles from './index.module.scss';
 import { Avatar } from 'entities/User/components/Avatar';
 import { Typography } from 'shared/ui/Typography';
@@ -11,7 +11,7 @@ export const UserMenuInfo: FC = () => {
   const [userBalance, setUserBalance] = useState<number | null>(null);
 
   useEffect(() => {
-    getProfile().then((res) => {
+    getUser().then((res) => {
       setUserName(res.firstname + ' ' + res.lastname);
       setPhoto(res.photo_url);
       setUserBalance(res.balance);

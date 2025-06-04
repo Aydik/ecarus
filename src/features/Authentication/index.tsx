@@ -3,7 +3,7 @@ import { Modal } from 'shared/ui/Modal';
 import { LoginForm } from 'features/Authentication/components/LoginForm';
 import { RegisterForm } from 'features/Authentication/components/RegisterForm';
 import { FormLayout } from 'features/Authentication/layouts/FormLayout';
-import { getProfile } from 'entities/User/services/user.servise.ts';
+import { getUser } from 'entities/User/services/user.servise.ts';
 
 export type FormType = 'login' | 'register' | 'confirm-email';
 
@@ -14,7 +14,7 @@ interface Props {
 
 export const Authentication: FC<Props> = ({ isOpened, onClose }) => {
   useEffect(() => {
-    getProfile().then(() => {
+    getUser().then(() => {
       onClose();
     });
   }, [isOpened]);
