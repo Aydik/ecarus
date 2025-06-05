@@ -9,77 +9,47 @@ import { Products } from 'features/Products';
 import { SplitLayout } from 'shared/layout/SplitLayout';
 import { ResetButton } from 'features/ProductsFilters/components/ResetButton';
 import { useBreakpoint } from 'shared/context/BreakpointContext.tsx';
-import { SwipeableModal } from 'shared/ui/SwipeableModal';
+import { Button } from 'shared/ui/Button';
+import { SwipeableMenu } from 'widgets/Catalog/components/SwipeableMenu';
 
 export const Catalog: FC = () => {
   const breakpoint = useBreakpoint();
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   return (
     <Provider store={store}>
-      {/*<div className={styles.catalog}>*/}
-      {/*  <div className={styles.caption}>*/}
-      {/*    <Typography variant={'h2'}>ЭкоМаркет</Typography>*/}
-      {/*    <ProductsSort />*/}
-      {/*  </div>*/}
-      {/*  <SplitLayout>*/}
-      {/*    <div className={styles.filtersContainer}>*/}
-      {/*      <ProductsFilters />*/}
-      {/*      <ResetButton />*/}
-      {/*    </div>*/}
-      {/*    <Products />*/}
-      {/*  </SplitLayout>*/}
-      {/*</div>*/}
-      <button onClick={() => setIsFiltersOpen(true)}>Фильтры</button>
-
-      <SwipeableModal isOpen={isFiltersOpen} onClose={() => setIsFiltersOpen(false)}>
-        <div className={styles.filters}>
-          <div className={styles.filterGroup}>
-            <h3>Пол</h3>
-            <label>
-              <input type="checkbox" checked /> Мужской
-            </label>
-            <label>
-              <input type="checkbox" /> Женский
-            </label>
+      {breakpoint === 'desktop' && (
+        <div>
+          <div className={styles.caption}>
+            <Typography variant={'h2'}>ЭкоМаркет</Typography>
+            <ProductsSort />
           </div>
-          <div className={styles.filterGroup}>
-            <h3>Пол</h3>
-            <label>
-              <input type="checkbox" checked /> Мужской
-            </label>
-            <label>
-              <input type="checkbox" /> Женский
-            </label>
-          </div>
-          <div className={styles.filterGroup}>
-            <h3>Пол</h3>
-            <label>
-              <input type="checkbox" checked /> Мужской
-            </label>
-            <label>
-              <input type="checkbox" /> Женский
-            </label>
-          </div>
-          <div className={styles.filterGroup}>
-            <h3>Пол</h3>
-            <label>
-              <input type="checkbox" checked /> Мужской
-            </label>
-            <label>
-              <input type="checkbox" /> Женский
-            </label>
-          </div>
-          <div className={styles.filterGroup}>
-            <h3>Пол</h3>
-            <label>
-              <input type="checkbox" checked /> Мужской
-            </label>
-            <label>
-              <input type="checkbox" /> Женский
-            </label>
-          </div>
+          <SplitLayout>
+            <div className={styles.filtersContainer}>
+              <div className={styles.filtersDesktop}>
+                <ProductsFilters />
+              </div>
+              <ResetButton />
+            </div>
+            <Products />
+          </SplitLayout>
         </div>
-      </SwipeableModal>
+      )}
+      {breakpoint !== 'desktop' && (
+        <>
+          <div>
+            <Typography variant={'h2'}>ЭкоМаркет</Typography>
+            <Button
+              variant={'secondary'}
+              onClick={() => setIsFiltersOpen(true)}
+              className={styles.filtersButton}
+            >
+              Фильтры
+            </Button>
+            <Products />
+          </div>
+          <SwipeableMenu isOpen={isFiltersOpen} onClose={() => setIsFiltersOpen(false)} />
+        </>
+      )}
     </Provider>
   );
 };

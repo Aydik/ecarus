@@ -1,5 +1,4 @@
 import { FC, useEffect, useState } from 'react';
-import styles from './index.module.scss';
 import { Filter } from 'features/ProductsFilters/components/Filter';
 import {
   getItemCategories,
@@ -35,10 +34,10 @@ export const ProductsFilters: FC = () => {
   }, []);
 
   return (
-    <div className={styles.filters}>
+    <>
       <Filter key={'genders'} title={'Пол'} filter={'genders'} />
       <Filter key={'categories'} title={'Тип товара'} filter={'categories'} />
       <Filter key={'brands'} title={'Брэнд'} filter={'brands'} />
-    </div>
+    </>
   );
 };
