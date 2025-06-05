@@ -14,6 +14,7 @@ export const SwipeableModal: FC<Props> = ({ isOpen, onClose, children }) => {
   const [startY, setStartY] = useState(0);
   const [currentY, setCurrentY] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   const handleTouchStart = (e: TouchEvent) => {
     if (contentRef.current && contentRef.current.contains(e.target as Node)) {
@@ -38,14 +39,23 @@ export const SwipeableModal: FC<Props> = ({ isOpen, onClose, children }) => {
   const handleTouchEnd = () => {
     if (currentY > 100) {
       onClose();
+    } else {
+      setIsAnimating(true);
+      setCurrentY(0);
+      setTimeout(() => setIsAnimating(false), 300);
     }
-    setCurrentY(0);
     setIsDragging(false);
   };
 
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      setCurrentY(window.innerHeight);
+      setIsAnimating(true);
+      setTimeout(() => {
+        setCurrentY(0);
+        setTimeout(() => setIsAnimating(false), 300);
+      }, 10);
     } else {
       document.body.style.overflow = '';
     }
@@ -60,7 +70,10 @@ export const SwipeableModal: FC<Props> = ({ isOpen, onClose, children }) => {
   return (
     <div className={styles.overlay}>
       <div
-        className={clsx(styles.modal, { [styles.dragging]: isDragging })}
+        className={clsx(styles.modal, {
+          [styles.dragging]: isDragging,
+          [styles.animating]: isAnimating,
+        })}
         ref={modalRef}
         style={{ transform: `translateY(${currentY}px)` }}
         onTouchStart={handleTouchStart}

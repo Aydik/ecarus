@@ -22,6 +22,10 @@
   &.dragging {
     transition: none;
   }
+
+  &.animating {
+    transition: transform 0.3s ease-out;
+  }
 }
 
 .dragHandle {
