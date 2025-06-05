@@ -10,11 +10,16 @@ interface Props {
 
 export const SwipeableModal: FC<Props> = ({ isOpen, onClose, children }) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   const [startY, setStartY] = useState(0);
   const [currentY, setCurrentY] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
 
   const handleTouchStart = (e: TouchEvent) => {
+    if (contentRef.current && contentRef.current.contains(e.target as Node)) {
+      return;
+    }
+
     setStartY(e.touches[0].clientY);
     setIsDragging(true);
   };
@@ -25,6 +30,7 @@ export const SwipeableModal: FC<Props> = ({ isOpen, onClose, children }) => {
     const delta = y - startY;
 
     if (delta > 0) {
+      e.preventDefault();
       setCurrentY(delta);
     }
   };
@@ -64,7 +70,9 @@ export const SwipeableModal: FC<Props> = ({ isOpen, onClose, children }) => {
         <div className={styles.dragHandle}>
           <div className={styles.dragIndicator} />
         </div>
-        <div className={styles.content}>{children}</div>
+        <div className={styles.content} ref={contentRef}>
+          {children}
+        </div>
       </div>
     </div>
   );
