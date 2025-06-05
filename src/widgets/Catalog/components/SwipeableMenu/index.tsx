@@ -20,8 +20,12 @@ export const SwipeableMenu: FC<Props> = ({ isOpen, onClose }) => {
         <ProductsFilters />
       </div>
       <div className={styles.buttons}>
-        <Button variant={'primary'}>Применить</Button>
-        <Button variant={'secondary'}>Сбросить фильтры</Button>
+        <Button variant={'primary'} onClick={onClose}>
+          Применить
+        </Button>
+        <Button variant={'secondary'} onClick={onClose}>
+          Сбросить фильтры
+        </Button>
       </div>
     </SwipeableModal>
   );
