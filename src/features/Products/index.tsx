@@ -1,18 +1,18 @@
 import { FC } from 'react';
 import { useFilteredProducts } from 'features/Products/hooks/useFilteredProducts.ts';
 import { ProductCard, ProductCardSkeleton } from 'entities/Product';
-import { ProductGrid } from 'features/Products/components/ProductGrid';
+import styles from './index.module.scss';
 
 export const Products: FC = () => {
   const { products, loading, error } = useFilteredProducts();
 
   if (loading) {
     return (
-      <ProductGrid>
+      <div className={styles.products}>
         {Array.from({ length: 9 }).map((_, index) => (
           <ProductCardSkeleton key={index} />
         ))}
-      </ProductGrid>
+      </div>
     );
   }
 
@@ -25,10 +25,10 @@ export const Products: FC = () => {
   }
 
   return (
-    <ProductGrid>
+    <div className={styles.products}>
       {products.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}
-    </ProductGrid>
+    </div>
   );
 };

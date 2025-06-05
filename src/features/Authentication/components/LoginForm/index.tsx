@@ -31,7 +31,7 @@ export const LoginForm: FC<Props> = ({ setFormType, onClose }) => {
       onClose();
     } catch (error) {
       const axiosError = error as AxiosError;
-      if (axiosError.response?.status === 404) {
+      if (axiosError.response?.status === 401) {
         setError('password', {
           type: 'manual',
           message: 'Неверный email или пароль',

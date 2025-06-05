@@ -16,7 +16,8 @@ export const authUser = async (data: LoginUserDto) => {
   try {
     const res = await axiosInstance.post('auth/login', data);
     await setCookie(res.data.accessToken, res.data.refreshToken);
-    return res.data;
+    console.log(res.data.accessToken);
+    return;
   } catch (err) {
     throw err;
   }

@@ -1,9 +1,3 @@
-.filtersContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
 .filters {
   width: 100%;
   box-sizing: border-box;
@@ -14,8 +8,4 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
-}
-
-.resetButton {
-  padding: 12px 0;
 }
