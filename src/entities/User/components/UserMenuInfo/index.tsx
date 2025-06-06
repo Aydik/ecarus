@@ -20,7 +20,7 @@ export const UserMenuInfo: FC = () => {
 
   if (userEmail) {
     return (
-      <div className={styles.layout}>
+      <div className={styles.wrapper}>
         <Avatar size={64} src={userPhoto} />
         <div className={styles.info}>
           <Typography className={styles.name} variant={'p'}>

@@ -63,7 +63,6 @@ export const SwipeableModal: FC<Props> = ({ isOpen, onClose, children }) => {
     const delta = y - startY;
 
     if (delta > 0) {
-      e.preventDefault();
       setCurrentY(delta);
     }
   };

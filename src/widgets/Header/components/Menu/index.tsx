@@ -8,6 +8,7 @@ import { UserMenuInfo } from 'entities/User/components/UserMenuInfo';
 import { logout } from 'features/Authentication/services/auth.service.ts';
 import { Typography } from 'shared/ui/Typography';
 import { getUser } from 'entities/User';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   isOpened: boolean;
@@ -15,6 +16,7 @@ interface Props {
 }
 
 export const Menu: FC<Props> = ({ isOpened, onClose }) => {
+  const navigate = useNavigate();
   const [authorized, setAuthorized] = useState(false);
 
   useEffect(() => {
@@ -24,7 +26,17 @@ export const Menu: FC<Props> = ({ isOpened, onClose }) => {
   return (
     <Modal isOpened={isOpened} onClose={onClose}>
       <div className={styles.layout}>
-        {authorized && <UserMenuInfo />}
+        {authorized && (
+          <button
+            onClick={() => {
+              navigate('/profile');
+              onClose();
+            }}
+            className={styles.profileButton}
+          >
+            <UserMenuInfo />
+          </button>
+        )}
         <NavigationMobile onNavigate={onClose} />
         <div className={styles.info}>
           <City />
