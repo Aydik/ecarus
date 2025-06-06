@@ -1,17 +1,15 @@
 import Cookies from 'js-cookie';
+import { axiosInstance } from 'shared/api/axiosInstance.ts';
 
 export const getUser = async () => {
   try {
-    // const res = await axiosInstance.get('users/current');
-    // Убрать
-    const userCookie = Cookies.get('user');
-    if (userCookie) {
-      console.log(JSON.parse(userCookie));
-      return JSON.parse(userCookie);
+    const accessToken = Cookies.get('accessToken');
+    const userId = Cookies.get('userId');
+    if (userId && accessToken) {
+      const res = await axiosInstance.get(`users/${userId}`);
+      return res.data;
     }
     throw new Error('Could not find user');
-    //
-    // return res.data;
   } catch (err) {
     throw err;
   }

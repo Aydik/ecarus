@@ -28,7 +28,7 @@ export const PromoCodes: FC = () => {
         <>
           {index !== 0 && <div className={styles.divider} />}
           <li key={index}>
-            <PromoCode promoCode={promoCode} />
+            <PromoCode key={index} promoCode={promoCode} />
           </li>
         </>
       ))}

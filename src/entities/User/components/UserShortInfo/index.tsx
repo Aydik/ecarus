@@ -19,7 +19,6 @@ export const UserShortInfo: FC = () => {
       setUserEmail(res.email);
       setPhoto(res.photo_url);
       setUserBalance(res.balance);
-      console.log(res.email, res.photo_url, res.balance);
     });
   }, []);
 

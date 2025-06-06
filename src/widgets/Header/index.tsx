@@ -7,16 +7,15 @@ import { UserShortInfo } from 'entities/User/components/UserShortInfo';
 import { useBreakpoint } from 'shared/context/BreakpointContext.tsx';
 import { NavigationDesktop } from 'widgets/Header/components/NavigationDesktop';
 import { MenuButton } from 'widgets/Header/components/MenuButton';
-import Cookies from 'js-cookie';
+import { getUser } from 'entities/User';
 
 export const Header: FC = () => {
   const breakpoint = useBreakpoint();
 
-  const [hasToken, setHasToken] = useState(false);
+  const [authorized, setAuthorized] = useState(false);
 
   useEffect(() => {
-    const token = Cookies.get('accessToken');
-    setHasToken(!!token);
+    getUser().then(() => setAuthorized(true));
   }, []);
 
   return (
@@ -33,7 +32,7 @@ export const Header: FC = () => {
         }}
       >
         {breakpoint === 'desktop' && <City />}
-        {hasToken ? <UserShortInfo /> : breakpoint === 'desktop' && <LoginButton />}
+        {authorized ? <UserShortInfo /> : breakpoint === 'desktop' && <LoginButton />}
         {breakpoint !== 'desktop' && <MenuButton />}
       </div>
     </header>

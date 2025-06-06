@@ -7,7 +7,7 @@ import { LoginButton } from 'widgets/Header/components/LoginButton';
 import { UserMenuInfo } from 'entities/User/components/UserMenuInfo';
 import { logout } from 'features/Authentication/services/auth.service.ts';
 import { Typography } from 'shared/ui/Typography';
-import Cookies from 'js-cookie';
+import { getUser } from 'entities/User';
 
 interface Props {
   isOpened: boolean;
@@ -15,21 +15,20 @@ interface Props {
 }
 
 export const Menu: FC<Props> = ({ isOpened, onClose }) => {
-  const [hasToken, setHasToken] = useState(false);
+  const [authorized, setAuthorized] = useState(false);
 
   useEffect(() => {
-    const token = Cookies.get('accessToken');
-    setHasToken(!!token);
+    getUser().then(() => setAuthorized(true));
   }, []);
 
   return (
     <Modal isOpened={isOpened} onClose={onClose}>
       <div className={styles.layout}>
-        {hasToken && <UserMenuInfo />}
+        {authorized && <UserMenuInfo />}
         <NavigationMobile onNavigate={onClose} />
         <div className={styles.info}>
           <City />
-          {hasToken ? (
+          {authorized ? (
             <button className={styles.logout} onClick={logout}>
               <Typography>Выйти</Typography>
             </button>

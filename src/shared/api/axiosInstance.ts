@@ -10,9 +10,9 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = Cookies.get('accessToken');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    const accessToken = Cookies.get('accessToken');
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
     }
     return config;
   },
@@ -26,9 +26,10 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response && (error.response.status === 401 || error.response.status === 500)) {
+    if (error.response && error.response.status === 401) {
       Cookies.remove('accessToken');
       Cookies.remove('refreshToken');
+      Cookies.remove('userId');
     }
     return Promise.reject(error);
   },
