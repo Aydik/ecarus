@@ -25,7 +25,7 @@ export const UserCard: FC = () => {
 
   if (email) {
     return (
-      <div className={styles.container}>
+      <div className={styles.wrapper}>
         <Avatar size={128} src={photo} />
         <Typography variant={'p'} className={styles.email}>
           {email}

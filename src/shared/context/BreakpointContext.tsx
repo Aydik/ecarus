@@ -5,7 +5,7 @@ export type Breakpoint = 'mobile' | 'tablet' | 'desktop';
 
 export const getBreakpoint: () => Breakpoint = () => {
   const width = window.innerWidth;
-  if (width < 576) return 'mobile';
+  if (width < 756) return 'mobile';
   if (width < 1024) return 'tablet';
   return 'desktop';
 };
