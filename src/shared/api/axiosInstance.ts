@@ -1,7 +1,8 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 export const axiosInstance = axios.create({
-  baseURL: 'https://ecoapp.cloud.technokratos.com/eco-rus/api/v1/',
+  baseURL: 'http://ecoapp-itis.ru/api/',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -9,7 +10,7 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('authToken'); // или sessionStorage
+    const token = Cookies.get('accessToken');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -26,8 +27,8 @@ axiosInstance.interceptors.response.use(
   },
   (error) => {
     if (error.response && (error.response.status === 401 || error.response.status === 500)) {
-      localStorage.removeItem('authToken');
-      localStorage.removeItem('user');
+      Cookies.remove('accessToken');
+      Cookies.remove('refreshToken');
     }
     return Promise.reject(error);
   },

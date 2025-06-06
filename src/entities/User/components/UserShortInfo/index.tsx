@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { Amount } from 'shared/ui/Amount';
-import { getProfile } from 'entities/User/services/user.servise.ts';
+import { getUser } from 'entities/User/services/user.servise.ts';
 import styles from './index.module.scss';
 import { Avatar } from 'entities/User/components/Avatar';
 import { Typography } from 'shared/ui/Typography';
@@ -10,19 +10,20 @@ import { useBreakpoint } from 'shared/context/BreakpointContext.tsx';
 export const UserShortInfo: FC = () => {
   const breakpoint = useBreakpoint();
   const navigate = useNavigate();
-  const [userName, setUserName] = useState<string | null>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
   const [userPhoto, setPhoto] = useState<string | null>(null);
   const [userBalance, setUserBalance] = useState<number | null>(null);
 
   useEffect(() => {
-    getProfile().then((res) => {
-      setUserName(res.firstname);
+    getUser().then((res) => {
+      setUserEmail(res.email);
       setPhoto(res.photo_url);
       setUserBalance(res.balance);
+      console.log(res.email, res.photo_url, res.balance);
     });
   }, []);
 
-  if (userName) {
+  if (userEmail) {
     return (
       <div
         style={{
@@ -35,7 +36,7 @@ export const UserShortInfo: FC = () => {
         {breakpoint === 'desktop' ? (
           <button className={styles.profileButton} onClick={() => navigate('/profile')}>
             <Avatar size={24} src={userPhoto} />
-            <Typography className={styles.name}>{userName}</Typography>
+            <Typography className={styles.name}>{userEmail}</Typography>
           </button>
         ) : (
           <Avatar size={24} src={userPhoto} />

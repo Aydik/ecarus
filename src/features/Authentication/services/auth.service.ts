@@ -1,31 +1,61 @@
 import { axiosInstance } from 'shared/api/axiosInstance.ts';
-import { AuthorizeUserData, RegisterUserData } from 'features/Authentication/types';
+import Cookies from 'js-cookie';
+import { CreateUserDto, LoginUserDto } from 'app/models/generated';
 
-export const registerUser = async (data: RegisterUserData) => {
+export const registerUser = async (data: CreateUserDto) => {
   try {
-    const res = await axiosInstance.post('account', data);
-    localStorage.setItem('user', JSON.stringify(res.data));
-    return res.data;
+    const res = await axiosInstance.post('auth/register', data);
+    await setCookie(res.data.accessToken, res.data.refreshToken);
+    // Убрать
+    Cookies.set('user', JSON.stringify(res.data), {
+      expires: 30,
+      secure: true,
+      sameSite: 'Strict',
+    });
+    //
+    location.reload();
+    return;
   } catch (err) {
     throw err;
   }
 };
 
-export const authUser = async (data: AuthorizeUserData) => {
+export const authUser = async (data: LoginUserDto) => {
   try {
-    const res = await axiosInstance.post('login', data);
-    localStorage.setItem('authToken', res.data.token);
-    window.location.reload();
-    return res.data;
+    const res = await axiosInstance.post('auth/login', data);
+    await setCookie(res.data.accessToken, res.data.refreshToken);
+    // Убрать
+    Cookies.set('user', JSON.stringify(res.data), {
+      expires: 30,
+      secure: true,
+      sameSite: 'Strict',
+    });
+    //
+    location.reload();
+    return;
   } catch (err) {
     throw err;
   }
+};
+
+export const setCookie = async (accessToken: string, refreshToken: string) => {
+  Cookies.set('accessToken', accessToken, {
+    expires: 30,
+    secure: true,
+    sameSite: 'Strict',
+  });
+  Cookies.set('refreshToken', refreshToken, {
+    expires: 30,
+    secure: true,
+    sameSite: 'Strict',
+  });
 };
 
 export const logout = async () => {
   try {
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('user');
+    Cookies.remove('accessToken');
+    Cookies.remove('refreshToken');
+    Cookies.remove('user');
     window.location.href = '/';
   } catch (err) {
     throw err;

@@ -1,55 +1,51 @@
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
-import { FormType } from 'features/Authentication/types';
+import { FormType } from 'features/Authentication';
 import { Button } from 'shared/ui/Button';
 import { Typography } from 'shared/ui/Typography';
 import styles from 'features/Authentication/styles/index.module.scss';
 import { InputWithFormatter } from 'features/Authentication/components/ui/InputWithFormatter';
-import { formatPhone, formatPhoneBeforeRequest } from 'shared/utils/phoneFormatter.ts';
-import { authUser, registerUser } from 'features/Authentication/services/auth.service.ts';
+import { registerUser } from 'features/Authentication/services/auth.service.ts';
+import { AxiosError } from 'axios';
+import { CreateUserDto, LanguageEnum } from 'app/models/generated';
 
-interface RegisterFormData {
-  phone: string;
-  email: string;
-  firstname: string;
-  lastname: string;
-  password: string;
+interface RegisterFormFields extends CreateUserDto {
   confirmPassword: string;
 }
 
 interface Props {
   setFormType: (type: FormType) => void;
+  onClose: () => void;
 }
 
-export const RegisterForm: FC<Props> = ({ setFormType }) => {
+export const RegisterForm: FC<Props> = ({ setFormType, onClose }) => {
   const {
     handleSubmit,
     control,
     watch,
     formState: { errors },
     setError,
-  } = useForm<RegisterFormData>();
+  } = useForm<RegisterFormFields>();
 
-  const onSubmit = async (data: RegisterFormData) => {
+  const onSubmit = async (data: RegisterFormFields) => {
     try {
       await registerUser({
-        login: formatPhoneBeforeRequest(data.phone),
-        firstname: data.firstname,
-        lastname: data.lastname,
-        phone_number: formatPhoneBeforeRequest(data.phone),
         email: data.email,
         password: data.password,
+        language: LanguageEnum.RU,
       });
-      await authUser({
-        login: formatPhoneBeforeRequest(data.phone),
-        password: data.password,
-      });
+      onClose();
+      // setFormType('confirm-email');
     } catch (error) {
-      console.error('Ошибка авторизации:', error);
-      setError('phone', {
-        type: 'manual',
-        message: 'Номер телефона или email уже используется',
-      });
+      const axiosError = error as AxiosError;
+      if (axiosError.response?.status === 400) {
+        setError('email', {
+          type: 'manual',
+          message: 'Email уже используется',
+        });
+      } else {
+        console.error('Ошибка регистрации:', error);
+      }
     }
   };
 
@@ -62,43 +58,7 @@ export const RegisterForm: FC<Props> = ({ setFormType }) => {
       </Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.inputGrid}>
-          <InputWithFormatter<RegisterFormData>
-            name="firstname"
-            label="Имя"
-            type="text"
-            control={control}
-            error={errors.firstname}
-            rules={{
-              required: 'Имя обязательно',
-            }}
-          />
-          <InputWithFormatter<RegisterFormData>
-            name="lastname"
-            label="Фамилия"
-            type="text"
-            control={control}
-            error={errors.lastname}
-            rules={{
-              required: 'Фамилия обязательна',
-            }}
-          />
-          <InputWithFormatter<RegisterFormData>
-            name="phone"
-            label="Телефон"
-            type="tel"
-            control={control}
-            format={formatPhone}
-            error={errors.phone}
-            rules={{
-              required: 'Телефон обязателен',
-              validate: (value: string | undefined) => {
-                if (!value) return false;
-                const digitsOnly = value.replace(/\D/g, '');
-                return digitsOnly.length === 11 || 'Неверный формат телефона';
-              },
-            }}
-          />
-          <InputWithFormatter<RegisterFormData>
+          <InputWithFormatter<RegisterFormFields>
             name="email"
             label="Email"
             type="email"
@@ -112,7 +72,7 @@ export const RegisterForm: FC<Props> = ({ setFormType }) => {
               },
             }}
           />
-          <InputWithFormatter<RegisterFormData>
+          <InputWithFormatter<RegisterFormFields>
             name="password"
             label="Пароль"
             type="password"
@@ -139,7 +99,7 @@ export const RegisterForm: FC<Props> = ({ setFormType }) => {
               },
             }}
           />
-          <InputWithFormatter<RegisterFormData>
+          <InputWithFormatter<RegisterFormFields>
             name="confirmPassword"
             label="Подтверждение пароля"
             type="password"
@@ -161,6 +121,9 @@ export const RegisterForm: FC<Props> = ({ setFormType }) => {
             Я уже зарегистрировался(-ась)
           </button>
         </div>
+        <Button key={'loginForPartners'} variant={'secondary'} className={styles.button}>
+          Вход для партнеров
+        </Button>
       </form>
     </>
   );

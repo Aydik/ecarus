@@ -1,0 +1,32 @@
+.tab {
+  all: unset;
+  cursor: pointer;
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  color: rgb(var(--color-dark));
+  opacity: var(--opacity-3);
+
+
+  .name {
+    font-size: 20px;
+    line-height: 26px;
+    font-weight: 500;
+  }
+
+  &_selected {
+    opacity: 1;
+
+    .rectangle {
+      background: rgb(var(--color-primary));
+      height: 3px;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
+    }
+  }
+}

@@ -7,6 +7,7 @@ import { UserShortInfo } from 'entities/User/components/UserShortInfo';
 import { useBreakpoint } from 'shared/context/BreakpointContext.tsx';
 import { NavigationDesktop } from 'widgets/Header/components/NavigationDesktop';
 import { MenuButton } from 'widgets/Header/components/MenuButton';
+import Cookies from 'js-cookie';
 
 export const Header: FC = () => {
   const breakpoint = useBreakpoint();
@@ -14,7 +15,7 @@ export const Header: FC = () => {
   const [hasToken, setHasToken] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem('authToken');
+    const token = Cookies.get('accessToken');
     setHasToken(!!token);
   }, []);
 
