@@ -6,3 +6,10 @@
   flex-direction: column;
   gap: 24px;
 }
+
+.divider {
+  height: 2px;
+  width: 100%;
+  border-radius: 1px;
+  background-color: rgba(0, 0, 0, var(--opacity-6));
+}

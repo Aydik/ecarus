@@ -25,9 +25,12 @@ export const PromoCodes: FC = () => {
   return (
     <ul className={styles.promoCodes}>
       {promoCodes.map((promoCode, index) => (
-        <li key={index}>
-          <PromoCode promoCode={promoCode} />
-        </li>
+        <>
+          {index !== 0 && <div className={styles.divider} />}
+          <li key={index}>
+            <PromoCode promoCode={promoCode} />
+          </li>
+        </>
       ))}
     </ul>
   );
