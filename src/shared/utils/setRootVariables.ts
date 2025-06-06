@@ -17,7 +17,7 @@ export function setRootVariables(breakpoint: Breakpoint) {
     case 'desktop':
     default:
       root.style.setProperty('--header-height', '80px');
-      root.style.setProperty('--horizontal-content-padding', '11.5%');
+      root.style.setProperty('--horizontal-content-padding', '12.5%');
       root.style.setProperty('--main-padding-top', '40px');
       break;
   }

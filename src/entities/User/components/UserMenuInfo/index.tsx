@@ -6,25 +6,25 @@ import { Avatar } from 'entities/User/components/Avatar';
 import { Typography } from 'shared/ui/Typography';
 
 export const UserMenuInfo: FC = () => {
-  const [userName, setUserName] = useState<string | null>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
   const [userPhoto, setPhoto] = useState<string | null>(null);
   const [userBalance, setUserBalance] = useState<number | null>(null);
 
   useEffect(() => {
     getUser().then((res) => {
-      setUserName(res.firstname + ' ' + res.lastname);
+      setUserEmail(res.email);
       setPhoto(res.photo_url);
       setUserBalance(res.balance);
     });
   }, []);
 
-  if (userName) {
+  if (userEmail) {
     return (
       <div className={styles.layout}>
         <Avatar size={64} src={userPhoto} />
         <div className={styles.info}>
           <Typography className={styles.name} variant={'p'}>
-            {userName}
+            {userEmail}
           </Typography>
           <Amount amount={userBalance} />
         </div>

@@ -10,19 +10,20 @@ import { useBreakpoint } from 'shared/context/BreakpointContext.tsx';
 export const UserShortInfo: FC = () => {
   const breakpoint = useBreakpoint();
   const navigate = useNavigate();
-  const [userName, setUserName] = useState<string | null>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
   const [userPhoto, setPhoto] = useState<string | null>(null);
   const [userBalance, setUserBalance] = useState<number | null>(null);
 
   useEffect(() => {
     getUser().then((res) => {
-      setUserName(res.firstname);
+      setUserEmail(res.email);
       setPhoto(res.photo_url);
       setUserBalance(res.balance);
+      console.log(res.email, res.photo_url, res.balance);
     });
   }, []);
 
-  if (userName) {
+  if (userEmail) {
     return (
       <div
         style={{
@@ -35,7 +36,7 @@ export const UserShortInfo: FC = () => {
         {breakpoint === 'desktop' ? (
           <button className={styles.profileButton} onClick={() => navigate('/profile')}>
             <Avatar size={24} src={userPhoto} />
-            <Typography className={styles.name}>{userName}</Typography>
+            <Typography className={styles.name}>{userEmail}</Typography>
           </button>
         ) : (
           <Avatar size={24} src={userPhoto} />

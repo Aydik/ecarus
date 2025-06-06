@@ -7,6 +7,7 @@ import { LoginButton } from 'widgets/Header/components/LoginButton';
 import { UserMenuInfo } from 'entities/User/components/UserMenuInfo';
 import { logout } from 'features/Authentication/services/auth.service.ts';
 import { Typography } from 'shared/ui/Typography';
+import Cookies from 'js-cookie';
 
 interface Props {
   isOpened: boolean;
@@ -17,7 +18,7 @@ export const Menu: FC<Props> = ({ isOpened, onClose }) => {
   const [hasToken, setHasToken] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem('authToken');
+    const token = Cookies.get('accessToken');
     setHasToken(!!token);
   }, []);
 

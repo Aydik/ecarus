@@ -13,7 +13,7 @@ export const NavigationDesktop: FC = () => {
       <ul className={styles.navList}>
         {pages.map((page) => (
           <li key={page.url}>
-            <NavLink url={page.url} text={page.text} selected={isSelected(page.url)} />
+            <NavLink url={page.url} text={page.text} isSelected={isSelected(page.url)} />
           </li>
         ))}
       </ul>

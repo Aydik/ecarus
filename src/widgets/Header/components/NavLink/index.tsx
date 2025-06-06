@@ -6,14 +6,14 @@ import { Typography } from 'shared/ui/Typography';
 import clsx from 'clsx';
 
 interface Props extends NavLinkType {
-  selected?: boolean;
+  isSelected?: boolean;
 }
 
-export const NavLink: FC<Props> = ({ url, text, selected = false }: Props) => {
+export const NavLink: FC<Props> = ({ url, text, isSelected = false }: Props) => {
   return (
-    <Link to={url} className={clsx(styles.navLink, selected ? styles.navLink_selected : '')}>
+    <Link to={url} className={clsx(styles.navLink, isSelected ? styles.navLink_selected : '')}>
       <Typography className={styles.text}>{text}</Typography>
-      {selected && <div className={styles.rectangle} />}
+      {isSelected && <div className={styles.rectangle} />}
     </Link>
   );
 };

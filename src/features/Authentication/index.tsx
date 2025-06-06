@@ -3,7 +3,7 @@ import { Modal } from 'shared/ui/Modal';
 import { LoginForm } from 'features/Authentication/components/LoginForm';
 import { RegisterForm } from 'features/Authentication/components/RegisterForm';
 import { FormLayout } from 'features/Authentication/layouts/FormLayout';
-import { getUser } from 'entities/User/services/user.servise.ts';
+import Cookies from 'js-cookie';
 
 export type FormType = 'login' | 'register' | 'confirm-email';
 
@@ -14,10 +14,9 @@ interface Props {
 
 export const Authentication: FC<Props> = ({ isOpened, onClose }) => {
   useEffect(() => {
-    getUser().then(() => {
-      onClose();
-    });
-  }, [isOpened]);
+    const token = Cookies.get('accessToken');
+    if (token) onClose();
+  }, [isOpened, onClose]);
 
   const [formType, setFormType] = useState<FormType>('login');
   return (

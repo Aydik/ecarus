@@ -3,6 +3,7 @@ import styles from './index.module.scss';
 import { SplitLayout } from 'shared/layout/SplitLayout';
 import { Typography } from 'shared/ui/Typography';
 import { UserCard } from 'entities/User/components/UserCard';
+import { Tabs } from 'widgets/Tabs';
 
 export const ProfilePage: FC = () => {
   return (
@@ -10,6 +11,7 @@ export const ProfilePage: FC = () => {
       <Typography variant={'h2'}>Личный кабинет</Typography>
       <SplitLayout>
         <UserCard />
+        <Tabs />
       </SplitLayout>
     </div>
   );

@@ -1,0 +1,77 @@
+.promoCode {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+
+  &__image {
+    display: flex;
+    position: relative;
+
+    .amount {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      white-space: nowrap;
+      font-size: 32px;
+      line-height: 40px;
+      color: white;
+      text-align: center;
+      pointer-events: none;
+    }
+  }
+
+  &__content {
+    min-width: 0;
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+
+    .info {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+
+      & > div {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        span, .link {
+          font-size: 14px;
+          line-height: 18px;
+        }
+
+        .label {
+          font-weight: 500;
+          color: rgba(var(--color-dark), 0.4);
+        }
+
+        .date {
+          color: rgba(var(--color-dark), var(--opacity-0));
+        }
+
+        .link {
+          min-width: 0;
+          color: rgb(var(--color-primary));
+          text-decoration: none;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+
+    .button {
+      white-space: nowrap;
+      height: 40px;
+      font-size: 14px;
+      line-height: 20px;
+      padding: 10px 20px;
+    }
+  }
+}

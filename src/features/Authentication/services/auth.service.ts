@@ -6,6 +6,14 @@ export const registerUser = async (data: CreateUserDto) => {
   try {
     const res = await axiosInstance.post('auth/register', data);
     await setCookie(res.data.accessToken, res.data.refreshToken);
+    // Убрать
+    Cookies.set('user', JSON.stringify(res.data), {
+      expires: 30,
+      secure: true,
+      sameSite: 'Strict',
+    });
+    //
+    location.reload();
     return;
   } catch (err) {
     throw err;
@@ -16,7 +24,14 @@ export const authUser = async (data: LoginUserDto) => {
   try {
     const res = await axiosInstance.post('auth/login', data);
     await setCookie(res.data.accessToken, res.data.refreshToken);
-    console.log(res.data.accessToken);
+    // Убрать
+    Cookies.set('user', JSON.stringify(res.data), {
+      expires: 30,
+      secure: true,
+      sameSite: 'Strict',
+    });
+    //
+    location.reload();
     return;
   } catch (err) {
     throw err;
@@ -40,6 +55,7 @@ export const logout = async () => {
   try {
     Cookies.remove('accessToken');
     Cookies.remove('refreshToken');
+    Cookies.remove('user');
     window.location.href = '/';
   } catch (err) {
     throw err;

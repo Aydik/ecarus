@@ -9,16 +9,12 @@ import { useNavigate } from 'react-router-dom';
 
 export const UserCard: FC = () => {
   const navigate = useNavigate();
-  const [firstname, setFirstname] = useState<string | null>(null);
-  const [lastname, setLastname] = useState<string | null>(null);
   const [email, setEmail] = useState<string | null>(null);
   const [photo, setPhoto] = useState<string | null>(null);
 
   useEffect(() => {
     getUser()
       .then((res) => {
-        setFirstname(res.firstname);
-        setLastname(res.lastname);
         setEmail(res.email);
         setPhoto(res.photo_url);
       })
@@ -27,20 +23,13 @@ export const UserCard: FC = () => {
       });
   }, [navigate]);
 
-  if (firstname) {
+  if (email) {
     return (
       <div className={styles.container}>
         <Avatar size={128} src={photo} />
-        <div className={styles.info}>
-          <Typography variant={'p'} className={styles.name}>
-            {firstname} {lastname}
-          </Typography>
-          <div className={styles.contacts}>
-            <Typography variant={'p'} className={styles.contact}>
-              {email}
-            </Typography>
-          </div>
-        </div>
+        <Typography variant={'p'} className={styles.email}>
+          {email}
+        </Typography>
         <Button variant={'secondary'} className={styles.button} onClick={logout}>
           Выйти из аккаунта
         </Button>
