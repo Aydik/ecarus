@@ -13,7 +13,9 @@ export const Tab: FC<Props> = ({ name, isSelected, onClick }) => {
   return (
     <button className={clsx(styles.tab, isSelected ? styles.tab_selected : '')} onClick={onClick}>
       <Typography className={styles.name}>{name}</Typography>
-      {isSelected && <div className={styles.rectangle} />}
+      <div className={styles.rectangleWrapper}>
+        <div className={styles.rectangle} />
+      </div>
     </button>
   );
 };

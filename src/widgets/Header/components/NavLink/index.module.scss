@@ -13,18 +13,28 @@
     letter-spacing: -0.15px;
   }
 
+  .rectangleWrapper{
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+
+  .rectangle {
+    background: rgb(var(--color-primary));
+    height: 3px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    transition: 0.2s;
+    transform: translateX(-100%);
+  }
+
   &_selected {
     opacity: 1;
 
-    .rectangle {
-      background: rgb(var(--color-primary));
-      height: 3px;
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      border-top-left-radius: 3px;
-      border-top-right-radius: 3px;
+    .rectangle{
+      transform: translateX(0);
     }
   }
 }

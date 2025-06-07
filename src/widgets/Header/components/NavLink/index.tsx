@@ -13,7 +13,9 @@ export const NavLink: FC<Props> = ({ url, text, isSelected = false }: Props) => 
   return (
     <Link to={url} className={clsx(styles.navLink, isSelected ? styles.navLink_selected : '')}>
       <Typography className={styles.text}>{text}</Typography>
-      {isSelected && <div className={styles.rectangle} />}
+      <div className={styles.rectangleWrapper}>
+        <div className={styles.rectangle} />
+      </div>
     </Link>
   );
 };
