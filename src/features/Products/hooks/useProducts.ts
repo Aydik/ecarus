@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { getProducts } from 'features/Products/api/productsApi.ts';
 import { ProductsEntity } from 'app/models/generated';
 
-export function useProducts(deps: unknown[] = []) {
+export function useProducts(page = 0) {
   const [products, setProducts] = useState<ProductsEntity[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [loading, setLoading] = useState(true);
@@ -10,7 +10,7 @@ export function useProducts(deps: unknown[] = []) {
 
   useEffect(() => {
     setLoading(true);
-    getProducts()
+    getProducts(page)
       .then((data) => {
         setTotal(data.total);
         setProducts(data.list);
@@ -20,7 +20,7 @@ export function useProducts(deps: unknown[] = []) {
         setError(err);
         setLoading(false);
       });
-  }, deps);
+  }, [page]);
 
   return { products, total, loading, error };
 }
