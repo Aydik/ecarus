@@ -1,7 +1,5 @@
 import { FC, useState } from 'react';
 import styles from './index.module.scss';
-import { Provider } from 'react-redux';
-import { store } from './store';
 import { ProductsSort } from 'features/ProductsSort';
 import { Typography } from 'shared/ui/Typography';
 import { ProductsFilters } from 'features/ProductsFilters';
@@ -13,11 +11,11 @@ import { Button } from 'shared/ui/Button';
 import { SwipeableMenu } from 'widgets/Catalog/components/SwipeableMenu';
 
 export const Catalog: FC = () => {
-  const breakpoint = useBreakpoint();
+  const isDesktop = useBreakpoint() === 'desktop';
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   return (
-    <Provider store={store}>
-      {breakpoint === 'desktop' && (
+    <>
+      {isDesktop ? (
         <div>
           <div className={styles.caption}>
             <Typography variant={'h2'}>ЭкоМаркет</Typography>
@@ -33,8 +31,7 @@ export const Catalog: FC = () => {
             <Products />
           </SplitLayout>
         </div>
-      )}
-      {breakpoint !== 'desktop' && (
+      ) : (
         <>
           <div>
             <Typography variant={'h2'}>ЭкоМаркет</Typography>
@@ -50,6 +47,6 @@ export const Catalog: FC = () => {
           <SwipeableMenu isOpen={isFiltersOpen} onClose={() => setIsFiltersOpen(false)} />
         </>
       )}
-    </Provider>
+    </>
   );
 };

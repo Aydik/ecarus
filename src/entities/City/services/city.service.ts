@@ -1,4 +1,6 @@
 import { axiosInstance } from 'shared/api/axiosInstance.ts';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { CitiesEntity } from 'app/models/generated';
 
 export const getCities = async () => {
   try {
@@ -8,3 +10,14 @@ export const getCities = async () => {
     throw err;
   }
 };
+
+export const fetchCities = createAsyncThunk<CitiesEntity[]>(
+  'city/fetchCities',
+  async (_, { rejectWithValue }) => {
+    try {
+      return await getCities();
+    } catch (error: any) {
+      return rejectWithValue(error.message ?? 'Ошибка при загрузке городов');
+    }
+  },
+);

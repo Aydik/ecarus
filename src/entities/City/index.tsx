@@ -2,32 +2,23 @@ import { FC, useEffect, useRef, useState } from 'react';
 import styles from './index.module.scss';
 import { Icon } from 'shared/ui/Icon/Icon.tsx';
 import { Typography } from 'shared/ui/Typography';
-import { CitiesEntity } from 'app/models/generated';
-import { getCities } from 'entities/City/services/city.service.ts';
 import { useBreakpoint } from 'shared/context/BreakpointContext.tsx';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from 'app/store';
-import { setCity } from 'entities/City/slice';
+import { setCurrentCity } from 'entities/City/slice';
 
 export const City: FC = () => {
   const isDesktop = useBreakpoint() === 'desktop';
   const [open, setOpen] = useState(false);
-  const [cities, setCities] = useState<CitiesEntity[]>([]);
 
-  const city = useSelector((state: RootState) => state.city.city?.name);
+  const cities = useSelector((state: RootState) => state.city.cities);
+  const city = useSelector((state: RootState) => state.city.current);
   const dispatch: AppDispatch = useDispatch();
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    getCities()
-      .then((data: CitiesEntity[]) => {
-        setCities(data);
-        if (!city) dispatch(setCity(data[0]));
-      })
-      .catch(() => console.error('Ошибка загрузки городов'));
-
     const handleMouseDown = (e: globalThis.MouseEvent) => {
       const target = e.target as Node;
       if (
@@ -50,7 +41,7 @@ export const City: FC = () => {
     <div className={styles.wrapper}>
       <button className={styles.city_current} onClick={toggleDropdown} ref={buttonRef}>
         <Icon name="pin" />
-        <Typography className={styles.name}>{city}</Typography>
+        <Typography className={styles.name}>{city && city.name}</Typography>
       </button>
 
       {open && (
@@ -68,7 +59,7 @@ export const City: FC = () => {
               key={c.id}
               className={styles.city}
               onClick={() => {
-                dispatch(setCity(c));
+                dispatch(setCurrentCity(c));
                 setOpen(false);
               }}
             >

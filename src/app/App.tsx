@@ -5,21 +5,32 @@ import { BreakpointProvider, getBreakpoint } from 'shared/context/BreakpointCont
 
 import './styles/index.module.scss';
 import { setRootVariables } from 'shared/utils/setRootVariables.ts';
-import { Provider } from 'react-redux';
-import { store } from 'app/store';
+import { Provider, useDispatch } from 'react-redux';
+import { AppDispatch, store } from 'app/store';
+import { fetchCities } from 'entities/City/services/city.service.ts';
 
 function App(): React.ReactElement {
-  useEffect(() => {
-    setRootVariables(getBreakpoint());
-  }, []);
   return (
     <BreakpointProvider>
       <Provider store={store}>
-        <Router>
-          <AppRouter />
-        </Router>
+        <AppWithData />
       </Provider>
     </BreakpointProvider>
+  );
+}
+
+function AppWithData() {
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    setRootVariables(getBreakpoint());
+    dispatch(fetchCities());
+  }, [dispatch]);
+
+  return (
+    <Router>
+      <AppRouter />
+    </Router>
   );
 }
 

@@ -16,3 +16,18 @@ export const getProducts = async (page = 0) => {
     throw err;
   }
 };
+
+export const buyProduct = async (productId: number, cityId: number, count: number = 0) => {
+  try {
+    await axiosInstance.post('products/buy', {
+      params: {
+        productId: productId,
+        count: count,
+        cityId: cityId,
+      },
+    });
+    return;
+  } catch (err) {
+    throw err;
+  }
+};

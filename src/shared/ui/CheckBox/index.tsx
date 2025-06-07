@@ -6,11 +6,11 @@ import clsx from 'clsx';
 interface Props {
   id: string;
   checked?: boolean;
-  onChange: (checked: boolean) => void;
+  onChange?: (checked: boolean) => void;
   children: ReactNode;
 }
 
-export const CheckBox: FC<Props> = ({ children, id, checked = false, onChange }) => {
+export const CheckBox: FC<Props> = ({ children, id, checked = false }) => {
   const [isChecked, setIsChecked] = useState<boolean>(checked);
   return (
     <div className={styles.wrapper}>
@@ -20,7 +20,7 @@ export const CheckBox: FC<Props> = ({ children, id, checked = false, onChange })
         checked={isChecked}
         onChange={(e) => {
           setIsChecked(e.target.checked);
-          onChange(isChecked);
+          // onChange(isChecked);
         }}
         className={styles.input}
       />
