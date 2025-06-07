@@ -1,17 +1,19 @@
 import { useState, useEffect } from 'react';
-import { Product } from 'entities/Product';
-import { fetchProducts } from 'features/Products/api/productsApi.ts';
+import { getProducts } from 'features/Products/api/productsApi.ts';
+import { ProductsEntity } from 'app/models/generated';
 
 export function useProducts(deps: unknown[] = []) {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductsEntity[]>([]);
+  const [total, setTotal] = useState<number>(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     setLoading(true);
-    fetchProducts()
+    getProducts()
       .then((data) => {
-        setProducts(data);
+        setTotal(data.total);
+        setProducts(data.list);
         setLoading(false);
       })
       .catch((err) => {
@@ -20,5 +22,5 @@ export function useProducts(deps: unknown[] = []) {
       });
   }, deps);
 
-  return { products, loading, error };
+  return { products, total, loading, error };
 }

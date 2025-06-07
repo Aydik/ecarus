@@ -1,10 +1,10 @@
 import { FC } from 'react';
-import { useFilteredProducts } from 'features/Products/hooks/useFilteredProducts.ts';
 import { ProductCard, ProductCardSkeleton } from 'entities/Product';
 import styles from './index.module.scss';
+import { useProducts } from 'features/Products/hooks/useProducts.ts';
 
 export const Products: FC = () => {
-  const { products, loading, error } = useFilteredProducts();
+  const { products, total, loading, error } = useProducts();
 
   if (loading) {
     return (
@@ -20,7 +20,7 @@ export const Products: FC = () => {
     return <div>Ошибка загрузки: {error.message}</div>;
   }
 
-  if (products.length === 0) {
+  if (total === 0) {
     return <div>Продукты не найдены</div>;
   }
 

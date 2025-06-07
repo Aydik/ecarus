@@ -1,15 +1,14 @@
 import { FC } from 'react';
-import { Product, ProductCardType } from 'entities/Product/types';
 import { ProductCardSkeleton } from './components/ProductCardSkeleton';
 import styles from './index.module.scss';
 import { Amount } from 'src/shared/ui/Amount';
 import { Typography } from 'shared/ui/Typography';
+import { ProductsEntity } from 'app/models/generated';
 
-export type { Product, ProductCardType };
 export { ProductCardSkeleton };
 
 interface Props {
-  product: ProductCardType;
+  product: ProductsEntity;
 }
 
 export const ProductCard: FC<Props> = ({ product }) => {
@@ -18,9 +17,7 @@ export const ProductCard: FC<Props> = ({ product }) => {
       <div
         className={styles.productImage}
         style={{
-          backgroundImage: product.image
-            ? `url(/assets/images/productImages/${product.image})`
-            : 'none',
+          backgroundImage: product.image ? `url(${product.image})` : 'none',
         }}
       >
         <div className={styles.brand}>{product.brand}</div>

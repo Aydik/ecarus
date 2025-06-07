@@ -51,6 +51,9 @@
     }
 
     .description {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       margin-top: 5px;
       color: rgba(var(--color-dark), var(--opacity-4));
     }
