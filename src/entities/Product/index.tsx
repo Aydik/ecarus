@@ -35,6 +35,7 @@ export const ProductCard: FC<Props> = ({ product }) => {
           }
         });
     }
+    console.log(isQrOpened);
   };
 
   return (
