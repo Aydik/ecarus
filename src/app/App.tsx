@@ -5,6 +5,8 @@ import { BreakpointProvider, getBreakpoint } from 'shared/context/BreakpointCont
 
 import './styles/index.module.scss';
 import { setRootVariables } from 'shared/utils/setRootVariables.ts';
+import { Provider } from 'react-redux';
+import { store } from 'app/store';
 
 function App(): React.ReactElement {
   useEffect(() => {
@@ -12,9 +14,11 @@ function App(): React.ReactElement {
   }, []);
   return (
     <BreakpointProvider>
-      <Router>
-        <AppRouter />
-      </Router>
+      <Provider store={store}>
+        <Router>
+          <AppRouter />
+        </Router>
+      </Provider>
     </BreakpointProvider>
   );
 }

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getProducts } from 'features/Products/api/productsApi.ts';
+import { getProducts } from 'features/Products/services/products.service.ts';
 import { ProductsEntity } from 'app/models/generated';
 
 export function useProducts(page = 0) {

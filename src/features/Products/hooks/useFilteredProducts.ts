@@ -1,3 +1,4 @@
+// Убрать
 // import { useState, useEffect } from 'react';
 // import { useSelector } from 'react-redux';
 // import { Product } from 'entities/Product';
