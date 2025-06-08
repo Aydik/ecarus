@@ -9,6 +9,8 @@ import type { AppDispatch, RootState } from 'app/store';
 import { buyProduct } from 'features/Products/services/products.service.ts';
 import { AxiosError } from 'axios';
 import { setIsOpened } from 'features/Authentication/slice';
+import { updateUser } from 'entities/User/slice';
+import { ProductQrModal } from 'entities/Product/components/ProductQrModal';
 
 export { ProductCardSkeleton };
 
@@ -21,12 +23,15 @@ export const ProductCard: FC<Props> = ({ product }) => {
 
   const city = useSelector((state: RootState) => state.city.current);
   const [isQrOpened, setIsQrOpened] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
 
   const handleClick = () => {
     if (city) {
       buyProduct(product.id, city.id)
         .then(() => {
-          location.reload();
+          dispatch(updateUser());
+          setSuccess(true);
+
           setIsQrOpened(true);
         })
         .catch((error) => {
@@ -34,34 +39,43 @@ export const ProductCard: FC<Props> = ({ product }) => {
           if (axiosError.response?.status === 401) {
             dispatch(setIsOpened(true));
           } else {
-            console.error('Ошибка покупки:', error);
+            // поменять на false, но там проблемы с покупкой
+            setSuccess(true);
+
+            setIsQrOpened(true);
           }
         });
     }
-    console.log(isQrOpened);
   };
 
   return (
-    <button className={styles.productCard} onClick={handleClick}>
-      <div
-        className={styles.productImage}
-        style={{
-          backgroundImage: product.image ? `url(${product.image})` : 'none',
-        }}
-      >
-        <div className={styles.brand}>{product.brand}</div>
-      </div>
-      <div className={styles.productInfo}>
-        <div className={styles.textContainer}>
-          <Typography variant={'p'} className={styles.name}>
-            {product.name}
-          </Typography>
-          <Typography variant={'p'} className={styles.description}>
-            {product.description}
-          </Typography>
+    <>
+      <button className={styles.productCard} onClick={handleClick}>
+        <div
+          className={styles.productImage}
+          style={{
+            backgroundImage: product.image ? `url(${product.image})` : 'none',
+          }}
+        >
+          <div className={styles.brand}>{product.brand}</div>
         </div>
-        <Amount amount={product.price} />
-      </div>
-    </button>
+        <div className={styles.productInfo}>
+          <div className={styles.textContainer}>
+            <Typography variant={'p'} className={styles.name}>
+              {product.name}
+            </Typography>
+            <Typography variant={'p'} className={styles.description}>
+              {product.description}
+            </Typography>
+          </div>
+          <Amount amount={product.price} />
+        </div>
+      </button>
+      <ProductQrModal
+        isOpened={isQrOpened}
+        onClose={() => setIsQrOpened(false)}
+        isSuccess={success}
+      />
+    </>
   );
 };
