@@ -19,6 +19,7 @@
   z-index: 11;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
   grid-row-gap: 24px;
   animation: slideUp 0.3s ease-out;
 }

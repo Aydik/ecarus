@@ -10,5 +10,9 @@
     font-size: 14px;
     line-height: 20px;
     color: inherit;
+    max-width: 15ch;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
