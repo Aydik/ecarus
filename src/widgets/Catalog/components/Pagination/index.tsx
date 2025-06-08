@@ -42,6 +42,14 @@ export const Pagination: FC<Props> = ({ current, totalPages }) => {
 
   const onPageChange = (newPage: number) => {
     setParam('page', newPage.toString(), navigate);
+    scrollToTop();
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
 
   if (totalPages > 1)

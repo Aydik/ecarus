@@ -17,7 +17,7 @@ export function useProducts(params: URLSearchParams) {
     });
     queryObject.page = parseInt(params.get('page') || '0', 10);
 
-    getProducts(queryObject.page)
+    getProducts(queryObject)
       .then((data) => {
         setTotal(data.total);
         setProducts(data.list);
