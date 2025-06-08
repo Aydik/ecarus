@@ -1,99 +1,88 @@
 import styles from './index.module.scss';
-// import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-// import { AppDispatch, RootState } from 'widgets/Catalog/store';
 import { Typography } from 'shared/ui/Typography';
 import { CheckBox } from 'shared/ui/CheckBox';
-// import { useMemo } from 'react';
 import { useBreakpoint } from 'shared/context/BreakpointContext.tsx';
 import { Scrollbar } from 'shared/ui/ScrollBar';
-import { FilterKind } from 'features/ProductsFilters/types';
-// import { setGenres, setBrands, setCategories } from 'features/ProductsFilters/slices';
-// import { c } from 'vite/dist/node/moduleRunnerTransport.d-DJ_mE5sf';
+import { memo, useEffect } from 'react';
+import { FilterFlags } from 'features/ProductsFilters/types';
 
-// const reducerMap: {
-//   [K in FilterKind]: (
-//     payload: FilterFlags<FilterTypeMap[K]>,
-//   ) => ReturnType<typeof setGenres | typeof setCategories | typeof setBrands>;
-// } = {
-//   genders: setGenres,
-//   categories: setCategories,
-//   brands: setBrands,
-// };
-//
-interface Props<K extends FilterKind> {
+export interface Props {
   title: string;
-  filter: K;
+  name: string;
+  filterFlags: FilterFlags;
+  setFilterFlags: (filterFlags: FilterFlags) => void;
+  saveOnUpdate?: boolean;
 }
 
-export const Filter = <K extends FilterKind>({ title, filter }: Props<K>) => {
-  // const dispatch: AppDispatch = useDispatch();
-  //
-  // const filterFlags = useSelector(
-  //   (state: RootState) => state.filters[filter],
-  //   shallowEqual,
-  // ) as FilterFlags<FilterTypeMap[K]>;
-  //
-  // const reducer = reducerMap[filter];
-  //
-  // const hasSelectAll = Object.keys(filterFlags).length > 2;
-  //
-  // const isAllSelected = useMemo(
-  //   (): boolean => Object.values(filterFlags).every((flag) => flag),
-  //   [filterFlags],
-  // );
+const Filter = memo(function ({
+  title,
+  name,
+  filterFlags,
+  setFilterFlags,
+  saveOnUpdate = false,
+}: Props) {
+  const hasSelectAll = Object.keys(filterFlags).length > 2;
 
-  // const handleChange = (key: FilterTypeMap[K]) => {
-  //   const updated: FilterFlags<FilterTypeMap[K]> = {
-  //     ...filterFlags,
-  //     [key]: !filterFlags[key],
-  //   };
-  //   dispatch(reducer(updated));
-  // };
+  const isAllSelected = (): boolean => Object.values(filterFlags).every((flag) => flag);
 
-  // const handleSelectAll = () => {
-  //   const updated: FilterFlags<FilterTypeMap[K]> = {} as FilterFlags<FilterTypeMap[K]>;
-  //   for (const key of Object.keys(filterFlags) as Array<keyof FilterFlags<FilterTypeMap[K]>>) {
-  //     updated[key] = !isAllSelected;
-  //   }
-  //   dispatch(reducer(updated));
-  // };
-  console.log(filter);
-  const hasSelectAll = false;
-  const isAllSelected = false;
-  const filterFlags = [['фильтр', false]];
-  return (
-    <div className={styles.filter}>
-      <Typography className={styles.filterCaption} variant={'h4'}>
-        {title}
-      </Typography>
-      {hasSelectAll && (
-        <CheckBox
-          key={`${title}_selectAll_${isAllSelected}`}
-          id={title + '_selectAll'}
-          checked={isAllSelected}
-          // onChange={handleSelectAll}
-        >
-          Выбрать все
-        </CheckBox>
-      )}
-      <Scrollbar
-        style={{ marginTop: hasSelectAll ? 12 : 16 }}
-        maxHeight={useBreakpoint() === 'mobile' ? 167 : 137}
-      >
-        <ul className={styles.checkboxContainer}>
-          {(Object.entries(filterFlags) as [string, boolean][]).map(([key, value]) => (
-            <li key={key + value} className={styles.item}>
-              <CheckBox
-                id={key}
-                checked={value}
-                // onChange={() => handleChange(key as FilterTypeMap[K])}
-              >
-                {key}
-              </CheckBox>
-            </li>
-          ))}
-        </ul>
-      </Scrollbar>
-    </div>
-  );
-};
+  const handleChange = (key: string) => {
+    const updated: FilterFlags = {
+      ...filterFlags,
+      [key]: !filterFlags[key],
+    };
+    setFilterFlags(updated);
+  };
+
+  const handleSelectAll = () => {
+    const updated: FilterFlags = {};
+    for (const key of Object.keys(filterFlags)) {
+      updated[key] = !isAllSelected;
+    }
+    setFilterFlags(updated);
+  };
+
+  const isMobile = useBreakpoint() === 'mobile';
+
+  useEffect(() => {
+    console.log(name, filterFlags, saveOnUpdate);
+  }, []);
+
+  if (Object.keys(filterFlags).length > 0)
+    return (
+      <div className={styles.filter}>
+        <Typography className={styles.filterCaption} variant={'h4'}>
+          {title}
+        </Typography>
+        {hasSelectAll && (
+          <CheckBox
+            key={`${title}_selectAll_${isAllSelected}`}
+            id={title + '_selectAll'}
+            checked={isAllSelected()}
+            onChange={handleSelectAll}
+          >
+            Выбрать все
+          </CheckBox>
+        )}
+        <Scrollbar style={{ marginTop: hasSelectAll ? 12 : 16 }} maxHeight={isMobile ? 167 : 137}>
+          <ul className={styles.checkboxContainer}>
+            {Object.entries(filterFlags).map(([key, value]) => (
+              <li key={`li_${key}_${value}`} className={styles.item}>
+                <CheckBox
+                  key={`${key}_${value}`}
+                  id={key}
+                  checked={value}
+                  onChange={() => handleChange(key)}
+                >
+                  {key}
+                </CheckBox>
+              </li>
+            ))}
+          </ul>
+        </Scrollbar>
+      </div>
+    );
+});
+
+Filter.displayName = 'Filter';
+
+export { Filter };

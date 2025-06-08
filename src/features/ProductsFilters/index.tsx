@@ -5,11 +5,16 @@ import {
   getGenders,
   getProductTypes,
 } from 'features/ProductsFilters/services/filters.service.ts';
+import { FilterFlags } from 'features/ProductsFilters/types';
 
 export const ProductsFilters: FC = () => {
   const [genders, setGenders] = useState<string[]>([]);
   const [productTypes, setProductTypes] = useState<string[]>([]);
   const [brands, setBrands] = useState<string[]>([]);
+
+  const [gendersFlags, setGendersFlags] = useState<FilterFlags>({});
+  const [productTypesFlags, setProductTypesFlags] = useState<FilterFlags>({});
+  const [brandsFlags, setBrandsFlags] = useState<FilterFlags>({});
 
   useEffect(() => {
     const fetchFilters = async () => {
@@ -29,6 +34,30 @@ export const ProductsFilters: FC = () => {
   }, []);
 
   useEffect(() => {
+    const flags: FilterFlags = {};
+    for (const gender of genders) {
+      flags[gender] = false;
+    }
+    setGendersFlags(flags);
+  }, [genders]);
+
+  useEffect(() => {
+    const flags: FilterFlags = {};
+    for (const productType of productTypes) {
+      flags[productType] = false;
+    }
+    setProductTypesFlags(flags);
+  }, [productTypes]);
+
+  useEffect(() => {
+    const flags: FilterFlags = {};
+    for (const brand of brands) {
+      flags[brand] = false;
+    }
+    setBrandsFlags(flags);
+  }, [brands]);
+
+  useEffect(() => {
     setBrands([]);
     productTypes.forEach((type) =>
       getBrands(type).then((data) => {
@@ -39,12 +68,26 @@ export const ProductsFilters: FC = () => {
 
   return (
     <>
-      <Filter key={'genders'} title={'Пол'} filter={'genders'} />
-      <Filter key={'categories'} title={'Тип товара'} filter={'categories'} />
-      <Filter key={'brands'} title={'Брэнд'} filter={'brands'} />
-      <div>{genders}</div>
-      <div>{productTypes}</div>
-      <div>{brands}</div>
+      <Filter
+        key={JSON.stringify(gendersFlags)}
+        title={'Пол'}
+        name={'genders'}
+        filterFlags={gendersFlags}
+        setFilterFlags={setGendersFlags}
+      />
+      <Filter
+        key={JSON.stringify(productTypes)}
+        title={'Тип товара'}
+        name={'productTypes'}
+        filterFlags={productTypesFlags}
+        setFilterFlags={setProductTypesFlags}
+      />
+      <Filter
+        title={'Бренд'}
+        name={'brands'}
+        filterFlags={brandsFlags}
+        setFilterFlags={setBrandsFlags}
+      />
     </>
   );
 };
