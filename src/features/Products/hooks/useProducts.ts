@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { getProducts } from 'features/Products/services/products.service.ts';
 import { ProductsEntity } from 'app/models/generated';
 
-export function useProducts(page = 0) {
+export function useProducts(params: URLSearchParams) {
   const [products, setProducts] = useState<ProductsEntity[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [loading, setLoading] = useState(true);
@@ -10,7 +10,14 @@ export function useProducts(page = 0) {
 
   useEffect(() => {
     setLoading(true);
-    getProducts(page)
+
+    const queryObject: Record<string, string | number> = {};
+    params.forEach((value, key) => {
+      queryObject[key] = value;
+    });
+    queryObject.page = parseInt(params.get('page') || '0', 10);
+
+    getProducts(queryObject.page)
       .then((data) => {
         setTotal(data.total);
         setProducts(data.list);
@@ -20,7 +27,7 @@ export function useProducts(page = 0) {
         setError(err);
         setLoading(false);
       });
-  }, [page]);
+  }, [params]);
 
   return { products, total, loading, error };
 }

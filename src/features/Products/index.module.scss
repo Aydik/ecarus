@@ -5,22 +5,3 @@
   column-gap: 24px;
   row-gap: 48px;
 }
-
-.pagination{
-  margin-top: 24px;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  font-size: 20px;
-  font-weight: 300;
-  color: rgba(var(--color-primary));
-
-  .page{
-    all: unset;
-    cursor: pointer;
-
-    &_active{
-      text-decoration: underline;
-    }
-  }
-}

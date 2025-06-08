@@ -1,45 +1,48 @@
-import { FC, useState } from 'react';
+import { FC, useMemo, useEffect, useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ProductCard, ProductCardSkeleton } from 'entities/Product';
 import styles from './index.module.scss';
 import { useProducts } from 'features/Products/hooks/useProducts.ts';
-import clsx from 'clsx';
+import { setParam } from 'shared/utils/params.ts';
+import { Pagination } from 'widgets/Catalog/components/Pagination';
 
 const limit = 12;
 
 export const Products: FC = () => {
-  const [page, setPage] = useState<number>(0);
-  const { products, total, loading, error } = useProducts(page);
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const generatePages = () => {
-    const pages: (number | 'start-ellipsis' | 'end-ellipsis')[] = [];
-    const current = page;
-    const neighbors = 1;
+  const params = useMemo(() => new URLSearchParams(location.search), [location.search]);
 
-    if (totalPages <= 1) return pages;
-    pages.push(0);
-    if (current > neighbors + 1) {
-      pages.push('start-ellipsis');
-    }
+  const page = parseInt(params.get('page') || '0', 10);
+  const paramsWithoutPage = useMemo(() => {
+    const p = new URLSearchParams(location.search);
+    p.delete('page');
+    return p.toString();
+  }, [location.search]);
 
-    for (
-      let i = Math.max(1, current - neighbors);
-      i <= Math.min(totalPages - 2, current + neighbors);
-      i++
-    ) {
-      pages.push(i);
-    }
+  const prevParamsWithoutPage = useRef(paramsWithoutPage);
 
-    if (current < totalPages - neighbors - 2) {
-      pages.push('end-ellipsis');
+  useEffect(() => {
+    setParam('page', page.toString(), navigate);
+  }, [navigate, page]);
+
+  useEffect(() => {
+    if (prevParamsWithoutPage.current !== paramsWithoutPage) {
+      prevParamsWithoutPage.current = paramsWithoutPage;
+
+      const newParams = new URLSearchParams(location.search);
+      newParams.set('page', '0');
+
+      if (page !== 0) {
+        navigate({ search: newParams.toString() });
+      }
     }
-    if (totalPages > 1) {
-      pages.push(totalPages - 1);
-    }
-    return pages;
-  };
+  }, [paramsWithoutPage, navigate, location.search, page]);
+
+  const { products, total, loading, error } = useProducts(params);
 
   const totalPages = Math.ceil(total / limit);
-  const pages = generatePages();
 
   if (loading) {
     return (
@@ -52,12 +55,14 @@ export const Products: FC = () => {
   }
 
   if (error) {
-    setPage(0);
     return <div>Ошибка загрузки: {error.message}</div>;
   }
 
+  if (page > totalPages) {
+    setParam('page', '0', navigate);
+  }
+
   if (total === 0) {
-    setPage(0);
     return <div>Продукты не найдены</div>;
   }
 
@@ -68,28 +73,7 @@ export const Products: FC = () => {
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
-
-      {totalPages > 1 && (
-        <div className={styles.pagination}>
-          {pages.map((iPage) =>
-            iPage === 'start-ellipsis' || iPage === 'end-ellipsis' ? (
-              <span key={iPage} className={styles.ellipsis}>
-                ...
-              </span>
-            ) : (
-              <button
-                key={iPage}
-                onClick={() => setPage(iPage as number)}
-                className={clsx(styles.page, {
-                  [styles.page_active]: page === iPage,
-                })}
-              >
-                {(iPage as number) + 1}
-              </button>
-            ),
-          )}
-        </div>
-      )}
+      <Pagination current={page} totalPages={totalPages} />
     </div>
   );
 };
