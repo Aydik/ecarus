@@ -9,7 +9,7 @@ import { ResetButton } from 'features/ProductsFilters/components/ResetButton';
 import { useBreakpoint } from 'shared/context/BreakpointContext.tsx';
 import { Button } from 'shared/ui/Button';
 import { SwipeableMenu } from 'widgets/Catalog/components/SwipeableMenu';
-import { FilterFlags, Filters as FiltersType } from 'features/ProductsFilters/types';
+import { FilterFlags, ProductsFilters } from 'features/ProductsFilters/types';
 import {
   getBrands,
   getGenders,
@@ -79,7 +79,7 @@ export const Catalog: FC = () => {
   }, [productTypes]);
 
   const filtersProps = useMemo(
-    (): FiltersType => ({
+    (): ProductsFilters => ({
       gendersFlags,
       setGendersFlags,
       productTypesFlags,

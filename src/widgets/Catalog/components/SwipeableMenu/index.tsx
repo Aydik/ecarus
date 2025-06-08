@@ -4,12 +4,13 @@ import { Filters } from 'features/ProductsFilters';
 import { ProductsSort } from 'features/ProductsSort';
 import styles from './index.module.scss';
 import { Button } from 'shared/ui/Button';
-import { Filters as FiltersType } from 'features/ProductsFilters/types';
+import { ProductsFilters } from 'features/ProductsFilters/types';
+import { ResetButton } from 'features/ProductsFilters/components/ResetButton';
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  filters: FiltersType;
+  filters: ProductsFilters;
 }
 
 export const SwipeableMenu: FC<Props> = ({ isOpen, onClose, filters }) => {
@@ -25,9 +26,7 @@ export const SwipeableMenu: FC<Props> = ({ isOpen, onClose, filters }) => {
         <Button variant={'primary'} onClick={onClose}>
           Применить
         </Button>
-        <Button variant={'secondary'} onClick={onClose}>
-          Сбросить фильтры
-        </Button>
+        <ResetButton />
       </div>
     </SwipeableModal>
   );

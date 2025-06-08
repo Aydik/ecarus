@@ -1,17 +1,16 @@
 import styles from './index.module.scss';
-import { resetFilters } from 'features/ProductsFilters/slices';
 import { Button } from 'shared/ui/Button';
 import { FC } from 'react';
-import { AppDispatch } from 'widgets/Catalog/store';
-import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { resetFilters } from 'features/ProductsFilters/utils';
 
 export const ResetButton: FC = () => {
-  const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
   return (
     <Button
       variant={'secondary'}
       className={styles.resetButton}
-      onClick={() => dispatch(resetFilters())}
+      onClick={() => resetFilters(navigate)}
     >
       Сбросить фильтры
     </Button>

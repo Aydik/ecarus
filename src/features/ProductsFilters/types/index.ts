@@ -1,10 +1,12 @@
+import { Dispatch, SetStateAction } from 'react';
+
 export type FilterFlags = Record<string, boolean>;
 
-export interface Filters {
+export interface ProductsFilters {
   gendersFlags: FilterFlags;
-  setGendersFlags: (gendersFlags: FilterFlags) => void;
+  setGendersFlags: Dispatch<SetStateAction<FilterFlags>>;
   productTypesFlags: FilterFlags;
-  setProductTypesFlags: (productTypesFlags: FilterFlags) => void;
+  setProductTypesFlags: Dispatch<SetStateAction<FilterFlags>>;
   brandsFlags: FilterFlags;
-  setBrandsFlags: (brandsFlags: FilterFlags) => void;
+  setBrandsFlags: Dispatch<SetStateAction<FilterFlags>>;
 }

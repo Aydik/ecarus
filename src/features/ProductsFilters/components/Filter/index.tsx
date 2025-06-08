@@ -3,50 +3,39 @@ import { Typography } from 'shared/ui/Typography';
 import { CheckBox } from 'shared/ui/CheckBox';
 import { useBreakpoint } from 'shared/context/BreakpointContext.tsx';
 import { Scrollbar } from 'shared/ui/ScrollBar';
-import { memo, useEffect } from 'react';
+import { Dispatch, memo, SetStateAction, useEffect, useState } from 'react';
 import { FilterFlags } from 'features/ProductsFilters/types';
 import { FilterSkeleton } from 'features/ProductsFilters/components/FilterSkeleton';
 
 export interface Props {
   title: string;
-  name: string;
   filterFlags: FilterFlags;
-  setFilterFlags: (filterFlags: FilterFlags) => void;
-  saveOnUpdate?: boolean;
+  setFilterFlags: Dispatch<SetStateAction<FilterFlags>>;
 }
 
-const Filter = memo(function ({
-  title,
-  name,
-  filterFlags,
-  setFilterFlags,
-  saveOnUpdate = false,
-}: Props) {
+const Filter = memo(function ({ title, filterFlags, setFilterFlags }: Props) {
   const hasSelectAll = Object.keys(filterFlags).length > 2;
 
-  const isAllSelected = (): boolean => Object.values(filterFlags).every((flag) => flag);
+  const [isAllSelected, setIsAllSelected] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsAllSelected(Object.values(filterFlags).every((flag) => flag));
+  }, [filterFlags]);
 
   const handleChange = (key: string) => {
-    const updated: FilterFlags = {
-      ...filterFlags,
-      [key]: !filterFlags[key],
-    };
+    const updated = { ...filterFlags, [key]: !filterFlags[key] };
     setFilterFlags(updated);
   };
 
   const handleSelectAll = () => {
     const updated: FilterFlags = {};
     for (const key of Object.keys(filterFlags)) {
-      updated[key] = !isAllSelected();
+      updated[key] = !isAllSelected;
     }
     setFilterFlags(updated);
   };
 
   const isMobile = useBreakpoint() === 'mobile';
-
-  useEffect(() => {
-    console.log(name, filterFlags, saveOnUpdate);
-  }, []);
 
   if (Object.keys(filterFlags).length === 0) {
     return <FilterSkeleton />;
@@ -60,7 +49,7 @@ const Filter = memo(function ({
           <CheckBox
             key={`${title}_selectAll_${isAllSelected}`}
             id={title + '_selectAll'}
-            checked={isAllSelected()}
+            checked={isAllSelected}
             onChange={handleSelectAll}
           >
             Выбрать все
@@ -70,12 +59,7 @@ const Filter = memo(function ({
           <ul className={styles.checkboxContainer}>
             {Object.entries(filterFlags).map(([key, value]) => (
               <li key={`li_${key}_${value}`} className={styles.item}>
-                <CheckBox
-                  key={`${key}_${value}`}
-                  id={key}
-                  checked={value}
-                  onChange={() => handleChange(key)}
-                >
+                <CheckBox key={`${key}_${value}`} id={key} checked={value} onChange={handleChange}>
                   {key}
                 </CheckBox>
               </li>
@@ -85,7 +69,6 @@ const Filter = memo(function ({
       </div>
     );
 });
-
 Filter.displayName = 'Filter';
 
 export { Filter };
