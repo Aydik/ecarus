@@ -1,6 +1,7 @@
-export const SORT_TYPES = ['По популярности', 'По цене', 'По новизне'] as const;
-export type Sort = (typeof SORT_TYPES)[number] | null;
+export const SORT_TYPES = {
+  popularity: 'По популярности',
+  price: 'По цене',
+  newness: 'По новизне',
+} as const;
 
-export interface SortState {
-  sortBy: Sort;
-}
+export type Sort = keyof typeof SORT_TYPES | null;

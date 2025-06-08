@@ -9,12 +9,13 @@ import { ResetButton } from 'features/ProductsFilters/components/ResetButton';
 import { useBreakpoint } from 'shared/context/BreakpointContext.tsx';
 import { Button } from 'shared/ui/Button';
 import { SwipeableMenu } from 'widgets/Catalog/components/SwipeableMenu';
-import { FilterFlags, ProductsFilters } from 'features/ProductsFilters/types';
+import { ProductsFilters } from 'features/ProductsFilters/types';
 import {
   getBrands,
   getGenders,
   getProductTypes,
 } from 'features/ProductsFilters/services/filters.service.ts';
+import { FilterFlags } from 'shared/types';
 
 export const Catalog: FC = () => {
   const isDesktop = useBreakpoint() === 'desktop';
