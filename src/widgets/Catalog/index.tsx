@@ -1,23 +1,106 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import styles from './index.module.scss';
-import { Provider } from 'react-redux';
-import { store } from './store';
 import { ProductsSort } from 'features/ProductsSort';
 import { Typography } from 'shared/ui/Typography';
-import { ProductsFilters } from 'features/ProductsFilters';
+import { Filters } from 'features/ProductsFilters';
 import { Products } from 'features/Products';
 import { SplitLayout } from 'shared/layout/SplitLayout';
 import { ResetButton } from 'features/ProductsFilters/components/ResetButton';
 import { useBreakpoint } from 'shared/context/BreakpointContext.tsx';
 import { Button } from 'shared/ui/Button';
 import { SwipeableMenu } from 'widgets/Catalog/components/SwipeableMenu';
+import { ProductsFilters } from 'features/ProductsFilters/types';
+import {
+  getBrands,
+  getGenders,
+  getProductTypes,
+} from 'features/ProductsFilters/services/filters.service.ts';
+import { FilterFlags } from 'shared/types';
 
 export const Catalog: FC = () => {
-  const breakpoint = useBreakpoint();
+  const isDesktop = useBreakpoint() === 'desktop';
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+
+  const [genders, setGenders] = useState<string[]>([]);
+  const [productTypes, setProductTypes] = useState<string[]>([]);
+  const [brands, setBrands] = useState<string[]>([]);
+
+  const [gendersFlags, setGendersFlags] = useState<FilterFlags>({});
+  const [productTypesFlags, setProductTypesFlags] = useState<FilterFlags>({});
+  const [brandsFlags, setBrandsFlags] = useState<FilterFlags>({});
+
+  useEffect(() => {
+    const fetchFilters = async () => {
+      try {
+        getGenders().then((data) => {
+          setGenders(data.genders);
+        });
+        getProductTypes().then((data) => {
+          setProductTypes(data.types);
+        });
+      } catch (error) {
+        console.error('Ошибка загрузки фильтров:', error);
+      }
+    };
+
+    fetchFilters();
+  }, []);
+
+  useEffect(() => {
+    const flags: FilterFlags = {};
+    for (const gender of genders) {
+      flags[gender] = false;
+    }
+    setGendersFlags(flags);
+  }, [genders]);
+
+  useEffect(() => {
+    const flags: FilterFlags = {};
+    for (const productType of productTypes) {
+      flags[productType] = false;
+    }
+    setProductTypesFlags(flags);
+  }, [productTypes]);
+
+  useEffect(() => {
+    const flags: FilterFlags = {};
+    for (const brand of brands) {
+      flags[brand] = false;
+    }
+    setBrandsFlags(flags);
+  }, [brands]);
+
+  useEffect(() => {
+    setBrands([]);
+    productTypes.forEach((type) =>
+      getBrands(type).then((data) => {
+        setBrands((prev) => [...new Set([...prev, ...data.brands])]);
+      }),
+    );
+  }, [productTypes]);
+
+  const filtersProps = useMemo(
+    (): ProductsFilters => ({
+      gendersFlags,
+      setGendersFlags,
+      productTypesFlags,
+      setProductTypesFlags,
+      brandsFlags,
+      setBrandsFlags,
+    }),
+    [
+      gendersFlags,
+      setGendersFlags,
+      productTypesFlags,
+      setProductTypesFlags,
+      brandsFlags,
+      setBrandsFlags,
+    ],
+  );
+
   return (
-    <Provider store={store}>
-      {breakpoint === 'desktop' && (
+    <>
+      {isDesktop ? (
         <div>
           <div className={styles.caption}>
             <Typography variant={'h2'}>ЭкоМаркет</Typography>
@@ -26,15 +109,14 @@ export const Catalog: FC = () => {
           <SplitLayout>
             <div className={styles.filtersContainer}>
               <div className={styles.filtersDesktop}>
-                <ProductsFilters />
+                <Filters filters={filtersProps} />
               </div>
               <ResetButton />
             </div>
             <Products />
           </SplitLayout>
         </div>
-      )}
-      {breakpoint !== 'desktop' && (
+      ) : (
         <>
           <div>
             <Typography variant={'h2'}>ЭкоМаркет</Typography>
@@ -47,9 +129,13 @@ export const Catalog: FC = () => {
             </Button>
             <Products />
           </div>
-          <SwipeableMenu isOpen={isFiltersOpen} onClose={() => setIsFiltersOpen(false)} />
+          <SwipeableMenu
+            isOpen={isFiltersOpen}
+            onClose={() => setIsFiltersOpen(false)}
+            filters={filtersProps}
+          />
         </>
       )}
-    </Provider>
+    </>
   );
 };

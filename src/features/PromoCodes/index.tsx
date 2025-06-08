@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, Fragment } from 'react';
 import styles from './index.module.scss';
 import { PromoCodeType, PromoCode } from 'entities/PromoCode';
 
@@ -25,12 +25,12 @@ export const PromoCodes: FC = () => {
   return (
     <ul className={styles.promoCodes}>
       {promoCodes.map((promoCode, index) => (
-        <>
+        <Fragment key={index}>
           {index !== 0 && <div className={styles.divider} />}
-          <li key={index}>
+          <li>
             <PromoCode key={index} promoCode={promoCode} />
           </li>
-        </>
+        </Fragment>
       ))}
     </ul>
   );

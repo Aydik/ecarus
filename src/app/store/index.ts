@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { sortSlice } from 'features/ProductsSort/slices';
-import { filterSlice } from 'src/features/ProductsFilters/slices';
+import cityReducer from 'entities/City/slice';
+import authSlice from 'features/Authentication/slice';
 
 export const store = configureStore({
   reducer: {
-    sort: sortSlice.reducer,
-    filters: filterSlice.reducer,
+    city: cityReducer,
+    auth: authSlice,
   },
 });
 

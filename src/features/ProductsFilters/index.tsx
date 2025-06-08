@@ -1,43 +1,73 @@
-import { FC, useEffect, useState } from 'react';
+import { Dispatch, memo, SetStateAction, useCallback, useEffect } from 'react';
 import { Filter } from 'features/ProductsFilters/components/Filter';
-import {
-  getItemCategories,
-  getSexes,
-  getShopNames,
-} from 'features/ProductsFilters/services/filters.service.ts';
+import { ProductsFilters } from 'features/ProductsFilters/types';
+import { updateFilter } from 'features/ProductsFilters/utils';
+import { useNavigate } from 'react-router-dom';
+import { useUrlParamsChange } from 'shared/utils/params.ts';
+import { FilterFlags } from 'shared/types';
 
-export const ProductsFilters: FC = () => {
-  const [sexes, setSexes] = useState<string[]>([]);
-  const [itemCategories, setItemCategories] = useState<string[]>([]);
-  const [shopNames, setShopNames] = useState<string[]>([]);
+interface Props {
+  filters: ProductsFilters;
+}
+
+const Filters = memo(function ({ filters }: Props) {
+  const {
+    gendersFlags,
+    setGendersFlags,
+    productTypesFlags,
+    setProductTypesFlags,
+    brandsFlags,
+    setBrandsFlags,
+  } = filters;
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchFilters = async () => {
-      try {
-        getSexes().then((data) => {
-          setSexes(data);
-        });
-        getItemCategories().then((data) => {
-          setItemCategories(data);
-        });
-        getShopNames().then((data) => {
-          setShopNames(data);
-          console.log(data);
-        });
-      } catch (error) {
-        console.error('Ошибка загрузки фильтров:', error);
-      }
-      console.log(sexes, itemCategories, shopNames);
-    };
+    updateFilter(gendersFlags, 'genders', navigate);
+  }, [gendersFlags]);
 
-    fetchFilters();
-  }, []);
+  useEffect(() => {
+    updateFilter(productTypesFlags, 'types', navigate);
+  }, [productTypesFlags]);
+
+  useEffect(() => {
+    updateFilter(brandsFlags, 'brands', navigate);
+  }, [brandsFlags]);
+
+  const handleUrlChange = useCallback(
+    (path: string) => {
+      const searchParams = new URLSearchParams(path);
+
+      const applyFlags = (selected: string[], setFlags: Dispatch<SetStateAction<FilterFlags>>) => {
+        setFlags(
+          (prev) =>
+            Object.fromEntries(
+              Object.keys(prev).map((k) => [k, selected.includes(k)]),
+            ) as FilterFlags,
+        );
+      };
+
+      applyFlags(searchParams.get('genders')?.split(',') ?? [], setGendersFlags);
+      applyFlags(searchParams.get('types')?.split(',') ?? [], setProductTypesFlags);
+      applyFlags(searchParams.get('brands')?.split(',') ?? [], setBrandsFlags);
+    },
+    [setGendersFlags, setProductTypesFlags, setBrandsFlags],
+  );
+
+  useUrlParamsChange(handleUrlChange);
 
   return (
     <>
-      <Filter key={'genders'} title={'Пол'} filter={'genders'} />
-      <Filter key={'categories'} title={'Тип товара'} filter={'categories'} />
-      <Filter key={'brands'} title={'Брэнд'} filter={'brands'} />
+      <Filter title={'Пол'} filterFlags={gendersFlags} setFilterFlags={setGendersFlags} />
+      <Filter
+        title={'Тип товара'}
+        filterFlags={productTypesFlags}
+        setFilterFlags={setProductTypesFlags}
+      />
+      <Filter title={'Бренд'} filterFlags={brandsFlags} setFilterFlags={setBrandsFlags} />
     </>
   );
-};
+});
+
+Filters.displayName = 'Filter';
+
+export { Filters };

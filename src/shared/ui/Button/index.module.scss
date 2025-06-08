@@ -32,4 +32,8 @@
     filter: brightness(var(--button-brightness-active));
     box-shadow: 0 0 24px rgba(var(--color-dark), var(--opacity-6));
   }
+
+  &:hover{
+    filter: brightness(var(--button-brightness-active));
+  }
 }

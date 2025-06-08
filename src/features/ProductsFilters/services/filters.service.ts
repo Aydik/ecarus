@@ -1,26 +1,26 @@
 import { axiosInstance } from 'shared/api/axiosInstance.ts';
 
-export const getSexes = async () => {
+export const getGenders = async () => {
   try {
-    const res = await axiosInstance.get('handbooks/sexes');
+    const res = await axiosInstance.get('products/genders');
     return res.data;
   } catch (err) {
     throw err;
   }
 };
 
-export const getItemCategories = async () => {
+export const getProductTypes = async () => {
   try {
-    const res = await axiosInstance.get('handbooks/item-categories');
+    const res = await axiosInstance.get('products/types');
     return res.data;
   } catch (err) {
     throw err;
   }
 };
 
-export const getShopNames = async () => {
+export const getBrands = async (type: string) => {
   try {
-    const res = await axiosInstance.get('shops/name');
+    const res = await axiosInstance.post('products/brands', { params: { type: type } });
     return res.data;
   } catch (err) {
     throw err;

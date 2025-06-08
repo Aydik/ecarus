@@ -1,24 +1,33 @@
 import { useState, useEffect } from 'react';
-import { Product } from 'entities/Product';
-import { fetchProducts } from 'features/Products/api/productsApi.ts';
+import { getProducts } from 'features/Products/services/products.service.ts';
+import { ProductsEntity } from 'app/models/generated';
 
-export function useProducts(deps: unknown[] = []) {
-  const [products, setProducts] = useState<Product[]>([]);
+export function useProducts(params: URLSearchParams) {
+  const [products, setProducts] = useState<ProductsEntity[]>([]);
+  const [total, setTotal] = useState<number>(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     setLoading(true);
-    fetchProducts()
+
+    const queryObject: Record<string, string | number> = {};
+    params.forEach((value, key) => {
+      queryObject[key] = value;
+    });
+    queryObject.page = parseInt(params.get('page') || '0', 10);
+
+    getProducts(queryObject)
       .then((data) => {
-        setProducts(data);
+        setTotal(data.total);
+        setProducts(data.list);
         setLoading(false);
       })
       .catch((err) => {
         setError(err);
         setLoading(false);
       });
-  }, deps);
+  }, [params]);
 
-  return { products, loading, error };
+  return { products, total, loading, error };
 }
