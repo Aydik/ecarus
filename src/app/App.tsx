@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { ReactElement, useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AppRouter } from './router/AppRouter';
 import { BreakpointProvider, getBreakpoint } from 'shared/context/BreakpointContext.tsx';
@@ -9,7 +9,7 @@ import { Provider, useDispatch } from 'react-redux';
 import { AppDispatch, store } from 'app/store';
 import { fetchCities } from 'entities/City/services/city.service.ts';
 
-function App(): React.ReactElement {
+function App(): ReactElement {
   return (
     <BreakpointProvider>
       <Provider store={store}>

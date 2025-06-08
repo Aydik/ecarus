@@ -1,23 +1,25 @@
 import { SwipeableModal } from 'shared/ui/SwipeableModal';
 import { FC } from 'react';
-import { ProductsFilters } from 'features/ProductsFilters';
+import { Filters } from 'features/ProductsFilters';
 import { ProductsSort } from 'features/ProductsSort';
 import styles from './index.module.scss';
 import { Button } from 'shared/ui/Button';
+import { Filters as FiltersType } from 'features/ProductsFilters/types';
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
+  filters: FiltersType;
 }
 
-export const SwipeableMenu: FC<Props> = ({ isOpen, onClose }) => {
+export const SwipeableMenu: FC<Props> = ({ isOpen, onClose, filters }) => {
   return (
     <SwipeableModal isOpen={isOpen} onClose={onClose}>
       <div className={styles.productsSort}>
         <ProductsSort />
       </div>
       <div className={styles.filters}>
-        <ProductsFilters />
+        <Filters filters={filters} />
       </div>
       <div className={styles.buttons}>
         <Button variant={'primary'} onClick={onClose}>

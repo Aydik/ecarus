@@ -5,6 +5,7 @@ import { useBreakpoint } from 'shared/context/BreakpointContext.tsx';
 import { Scrollbar } from 'shared/ui/ScrollBar';
 import { memo, useEffect } from 'react';
 import { FilterFlags } from 'features/ProductsFilters/types';
+import { FilterSkeleton } from 'features/ProductsFilters/components/FilterSkeleton';
 
 export interface Props {
   title: string;
@@ -36,7 +37,7 @@ const Filter = memo(function ({
   const handleSelectAll = () => {
     const updated: FilterFlags = {};
     for (const key of Object.keys(filterFlags)) {
-      updated[key] = !isAllSelected;
+      updated[key] = !isAllSelected();
     }
     setFilterFlags(updated);
   };
@@ -47,7 +48,9 @@ const Filter = memo(function ({
     console.log(name, filterFlags, saveOnUpdate);
   }, []);
 
-  if (Object.keys(filterFlags).length > 0)
+  if (Object.keys(filterFlags).length === 0) {
+    return <FilterSkeleton />;
+  } else
     return (
       <div className={styles.filter}>
         <Typography className={styles.filterCaption} variant={'h4'}>
