@@ -1,8 +1,8 @@
-import { FilterFlags } from 'features/ProductsFilters/types';
-import { useEffect } from 'react';
-import { NavigateFunction, useLocation } from 'react-router-dom';
+import { FilterFlags } from 'shared/types';
+import { NavigateFunction } from 'react-router-dom';
+import { deleteParam, setParam } from 'shared/utils/params.ts';
 
-export const updateFilters = (
+export const updateFilter = (
   filterFlags: FilterFlags,
   name: string,
   navigate: NavigateFunction,
@@ -11,34 +11,16 @@ export const updateFilters = (
     .filter(([, value]) => value)
     .map(([key]) => key);
 
-  const params = new URLSearchParams(window.location.search);
-
   if (selected.length) {
-    params.set(name, selected.join(','));
+    setParam(name, selected.join(','), navigate);
   } else {
-    params.delete(name);
+    deleteParam(name, navigate);
   }
-
-  const newUrl = `${window.location.pathname}?${params.toString()}`;
-  navigate(newUrl, { replace: true });
 };
 
 export const resetFilters = (navigate: NavigateFunction) => {
-  const params = new URLSearchParams(window.location.search);
-
-  const names = ['genders', 'types', 'brands'];
-  names.forEach((name) => {
-    params.delete(name);
+  const filters = ['genders', 'types', 'brands'];
+  filters.forEach((name) => {
+    deleteParam(name, navigate);
   });
-
-  const newUrl = `${window.location.pathname}?${params.toString()}`;
-  navigate(newUrl, { replace: true });
-};
-
-export const useUrlParamsChange = (callback: (path: string) => void) => {
-  const location = useLocation();
-
-  useEffect(() => {
-    callback(location.search);
-  }, [location.search]);
 };

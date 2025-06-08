@@ -4,7 +4,7 @@ import { CheckBox } from 'shared/ui/CheckBox';
 import { useBreakpoint } from 'shared/context/BreakpointContext.tsx';
 import { Scrollbar } from 'shared/ui/ScrollBar';
 import { Dispatch, memo, SetStateAction, useEffect, useState } from 'react';
-import { FilterFlags } from 'features/ProductsFilters/types';
+import { FilterFlags } from 'shared/types';
 import { FilterSkeleton } from 'features/ProductsFilters/components/FilterSkeleton';
 
 export interface Props {

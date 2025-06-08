@@ -1,8 +1,10 @@
-import { Dispatch, memo, SetStateAction, useEffect } from 'react';
+import { Dispatch, memo, SetStateAction, useCallback, useEffect } from 'react';
 import { Filter } from 'features/ProductsFilters/components/Filter';
-import { FilterFlags, ProductsFilters } from 'features/ProductsFilters/types';
-import { updateFilters, useUrlParamsChange } from 'features/ProductsFilters/utils';
+import { ProductsFilters } from 'features/ProductsFilters/types';
+import { updateFilter } from 'features/ProductsFilters/utils';
 import { useNavigate } from 'react-router-dom';
+import { useUrlParamsChange } from 'shared/utils/params.ts';
+import { FilterFlags } from 'shared/types';
 
 interface Props {
   filters: ProductsFilters;
@@ -20,41 +22,38 @@ const Filters = memo(function ({ filters }: Props) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    updateFilters(gendersFlags, 'genders', navigate);
+    updateFilter(gendersFlags, 'genders', navigate);
   }, [gendersFlags]);
 
   useEffect(() => {
-    updateFilters(productTypesFlags, 'types', navigate);
+    updateFilter(productTypesFlags, 'types', navigate);
   }, [productTypesFlags]);
 
   useEffect(() => {
-    updateFilters(brandsFlags, 'brands', navigate);
+    updateFilter(brandsFlags, 'brands', navigate);
   }, [brandsFlags]);
 
-  useUrlParamsChange((path: string) => {
-    const searchParams = new URLSearchParams(path);
-    console.log('Параметры URL изменились:', Object.fromEntries(searchParams.entries()));
+  const handleUrlChange = useCallback(
+    (path: string) => {
+      const searchParams = new URLSearchParams(path);
 
-    const applyFlags = (
-      selectedValues: string[],
-      setFlags: Dispatch<SetStateAction<FilterFlags>>,
-    ) => {
-      setFlags(
-        (prev) =>
-          Object.fromEntries(
-            Object.keys(prev).map((key) => [key, selectedValues.includes(key)]),
-          ) as FilterFlags,
-      );
-    };
+      const applyFlags = (selected: string[], setFlags: Dispatch<SetStateAction<FilterFlags>>) => {
+        setFlags(
+          (prev) =>
+            Object.fromEntries(
+              Object.keys(prev).map((k) => [k, selected.includes(k)]),
+            ) as FilterFlags,
+        );
+      };
 
-    const genders = searchParams.get('genders')?.split(',') || [];
-    const types = searchParams.get('types')?.split(',') || [];
-    const brands = searchParams.get('brands')?.split(',') || [];
+      applyFlags(searchParams.get('genders')?.split(',') ?? [], setGendersFlags);
+      applyFlags(searchParams.get('types')?.split(',') ?? [], setProductTypesFlags);
+      applyFlags(searchParams.get('brands')?.split(',') ?? [], setBrandsFlags);
+    },
+    [setGendersFlags, setProductTypesFlags, setBrandsFlags],
+  );
 
-    applyFlags(genders, setGendersFlags);
-    applyFlags(types, setBrandsFlags);
-    applyFlags(brands, setBrandsFlags);
-  });
+  useUrlParamsChange(handleUrlChange);
 
   return (
     <>

@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-
-export type FilterFlags = Record<string, boolean>;
+import { FilterFlags } from 'shared/types';
 
 export interface ProductsFilters {
   gendersFlags: FilterFlags;
