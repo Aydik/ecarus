@@ -8,6 +8,9 @@ import { InputWithFormatter } from 'features/Authentication/components/ui/InputW
 import { registerUser } from 'features/Authentication/services/auth.service.ts';
 import { AxiosError } from 'axios';
 import { CreateUserDto, LanguageEnum } from 'app/models/generated';
+import { setUser } from 'entities/User/slice';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from 'app/store';
 
 interface RegisterFormFields extends CreateUserDto {
   confirmPassword: string;
@@ -27,15 +30,17 @@ export const RegisterForm: FC<Props> = ({ setFormType, onClose }) => {
     setError,
   } = useForm<RegisterFormFields>();
 
+  const dispatch = useDispatch<AppDispatch>();
+
   const onSubmit = async (data: RegisterFormFields) => {
     try {
-      await registerUser({
+      const res = await registerUser({
         email: data.email,
         password: data.password,
         language: LanguageEnum.RU,
       });
+      dispatch(setUser(res));
       onClose();
-      // setFormType('confirm-email');
     } catch (error) {
       const axiosError = error as AxiosError;
       if (axiosError.response?.status === 400) {

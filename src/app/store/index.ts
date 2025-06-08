@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import cityReducer from 'entities/City/slice';
+import citySlice from 'entities/City/slice';
 import authSlice from 'features/Authentication/slice';
+import userSlice from 'entities/User/slice';
 
 export const store = configureStore({
   reducer: {
-    city: cityReducer,
+    city: citySlice,
     auth: authSlice,
+    user: userSlice,
   },
 });
 

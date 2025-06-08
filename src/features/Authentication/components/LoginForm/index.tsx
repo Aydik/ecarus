@@ -8,6 +8,9 @@ import { authUser } from 'features/Authentication/services/auth.service.ts';
 import { AxiosError } from 'axios';
 import { LoginUserDto } from 'app/models/generated';
 import { FormType } from 'features/Authentication';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from 'app/store';
+import { setUser } from 'entities/User/slice';
 
 interface Props {
   setFormType: (type: FormType) => void;
@@ -22,12 +25,15 @@ export const LoginForm: FC<Props> = ({ setFormType, onClose }) => {
     setError,
   } = useForm<LoginUserDto>();
 
+  const dispatch = useDispatch<AppDispatch>();
+
   const onSubmit = async (data: LoginUserDto) => {
     try {
-      await authUser({
+      const res = await authUser({
         email: data.email,
         password: data.password,
       });
+      dispatch(setUser(res));
       onClose();
     } catch (error) {
       const axiosError = error as AxiosError;

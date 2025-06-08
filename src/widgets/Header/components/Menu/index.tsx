@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import { Modal } from 'shared/ui/Modal';
 import styles from './index.module.scss';
 import { NavigationMobile } from 'widgets/Header/components/NavigationMobile';
@@ -7,8 +7,10 @@ import { LoginButton } from 'widgets/Header/components/LoginButton';
 import { UserMenuInfo } from 'entities/User/components/UserMenuInfo';
 import { logout } from 'features/Authentication/services/auth.service.ts';
 import { Typography } from 'shared/ui/Typography';
-import { getUser } from 'entities/User';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, RootState } from 'app/store';
+import { logout as logoutAction } from 'entities/User/slice';
 
 interface Props {
   isOpened: boolean;
@@ -16,17 +18,19 @@ interface Props {
 }
 
 export const Menu: FC<Props> = ({ isOpened, onClose }) => {
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const [authorized, setAuthorized] = useState(false);
+  const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated);
 
-  useEffect(() => {
-    getUser().then(() => setAuthorized(true));
-  }, []);
+  const handleLogout = () => {
+    dispatch(logoutAction());
+    logout();
+  };
 
   return (
     <Modal isOpened={isOpened} onClose={onClose}>
       <div className={styles.layout}>
-        {authorized && (
+        {isAuthenticated && (
           <button
             onClick={() => {
               navigate('/profile');
@@ -40,8 +44,8 @@ export const Menu: FC<Props> = ({ isOpened, onClose }) => {
         <NavigationMobile onNavigate={onClose} />
         <div className={styles.info}>
           <City />
-          {authorized ? (
-            <button className={styles.logout} onClick={logout}>
+          {isAuthenticated ? (
+            <button className={styles.logout} onClick={handleLogout}>
               <Typography>Выйти</Typography>
             </button>
           ) : (

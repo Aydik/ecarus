@@ -6,8 +6,7 @@ export const registerUser = async (data: CreateUserDto) => {
   try {
     const res = await axiosInstance.post('auth/register', data);
     await setCookie(res.data.accessToken, res.data.refreshToken, res.data.id);
-    location.reload();
-    return;
+    return res.data;
   } catch (err) {
     throw err;
   }
@@ -17,8 +16,7 @@ export const authUser = async (data: LoginUserDto) => {
   try {
     const res = await axiosInstance.post('auth/login', data);
     await setCookie(res.data.accessToken, res.data.refreshToken, res.data.id);
-    location.reload();
-    return;
+    return res.data;
   } catch (err) {
     throw err;
   }
@@ -47,7 +45,6 @@ export const logout = async () => {
     Cookies.remove('accessToken');
     Cookies.remove('refreshToken');
     Cookies.remove('userId');
-    window.location.href = '/';
   } catch (err) {
     throw err;
   }

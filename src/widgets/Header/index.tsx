@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import styles from './index.module.scss';
 import { LinkLogo } from 'widgets/Header/components/LinkLogo';
 import { City } from 'entities/City';
@@ -7,16 +7,12 @@ import { UserShortInfo } from 'entities/User/components/UserShortInfo';
 import { useBreakpoint } from 'shared/context/BreakpointContext.tsx';
 import { NavigationDesktop } from 'widgets/Header/components/NavigationDesktop';
 import { MenuButton } from 'widgets/Header/components/MenuButton';
-import { getUser } from 'entities/User';
+import { useSelector } from 'react-redux';
+import type { RootState } from 'app/store';
 
 export const Header: FC = () => {
   const breakpoint = useBreakpoint();
-
-  const [authorized, setAuthorized] = useState(false);
-
-  useEffect(() => {
-    getUser().then(() => setAuthorized(true));
-  }, []);
+  const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated);
 
   return (
     <header className={styles.header}>
@@ -32,7 +28,7 @@ export const Header: FC = () => {
         }}
       >
         {breakpoint === 'desktop' && <City />}
-        {authorized ? <UserShortInfo /> : breakpoint === 'desktop' && <LoginButton />}
+        {isAuthenticated ? <UserShortInfo /> : breakpoint === 'desktop' && <LoginButton />}
         {breakpoint !== 'desktop' && <MenuButton />}
       </div>
     </header>

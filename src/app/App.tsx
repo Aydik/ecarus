@@ -9,6 +9,7 @@ import { Provider, useDispatch } from 'react-redux';
 import { AppDispatch, store } from 'app/store';
 import { fetchCities } from 'entities/City/services/city.service.ts';
 import { Authentication } from 'features/Authentication';
+import { updateUser } from 'entities/User/slice';
 
 function App(): ReactElement {
   return (
@@ -27,6 +28,7 @@ function AppWithData() {
   useEffect(() => {
     setRootVariables(getBreakpoint());
     dispatch(fetchCities());
+    dispatch(updateUser());
   }, [dispatch]);
 
   return (
