@@ -1,18 +1,21 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import styles from './index.module.scss';
 import { Icon } from 'shared/ui/Icon/Icon.tsx';
 import { Typography } from 'shared/ui/Typography';
-import { Authentication } from 'features/Authentication';
+import type { AppDispatch } from 'app/store';
+import { setIsOpened } from 'features/Authentication/slice';
+import { useDispatch } from 'react-redux';
 
 export const LoginButton: FC = () => {
-  const [isAuthModalOpened, setIsAuthModalOpened] = useState<boolean>(false);
+  const dispatch: AppDispatch = useDispatch();
+
+  const handleClick = () => dispatch(setIsOpened(true));
   return (
     <>
-      <button className={styles.loginButton} onClick={() => setIsAuthModalOpened(true)}>
+      <button className={styles.loginButton} onClick={handleClick}>
         <Icon name={'login'} />
         <Typography className={styles.title}>Войти</Typography>
       </button>
-      <Authentication isOpened={isAuthModalOpened} onClose={() => setIsAuthModalOpened(false)} />
     </>
   );
 };

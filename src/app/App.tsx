@@ -8,12 +8,14 @@ import { setRootVariables } from 'shared/utils/setRootVariables.ts';
 import { Provider, useDispatch } from 'react-redux';
 import { AppDispatch, store } from 'app/store';
 import { fetchCities } from 'entities/City/services/city.service.ts';
+import { Authentication } from 'features/Authentication';
 
 function App(): ReactElement {
   return (
     <BreakpointProvider>
       <Provider store={store}>
         <AppWithData />
+        <Authentication />
       </Provider>
     </BreakpointProvider>
   );

@@ -26,8 +26,6 @@ export const getProducts = async (params: Record<string, string | number>) => {
     if (types.length) query.type = types[0];
     if (brands.length) query.brand = brands[0];
 
-    console.log('Запрос к products с параметрами', query);
-
     const res = await axiosInstance.get('products', {
       params: query,
     });

@@ -4,10 +4,11 @@ import styles from './index.module.scss';
 import { Amount } from 'src/shared/ui/Amount';
 import { Typography } from 'shared/ui/Typography';
 import { ProductsEntity } from 'app/models/generated';
-import { useSelector } from 'react-redux';
-import type { RootState } from 'app/store';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, RootState } from 'app/store';
 import { buyProduct } from 'features/Products/services/products.service.ts';
 import { AxiosError } from 'axios';
+import { setIsOpened } from 'features/Authentication/slice';
 
 export { ProductCardSkeleton };
 
@@ -16,6 +17,8 @@ interface Props {
 }
 
 export const ProductCard: FC<Props> = ({ product }) => {
+  const dispatch: AppDispatch = useDispatch();
+
   const city = useSelector((state: RootState) => state.city.current);
   const [isQrOpened, setIsQrOpened] = useState<boolean>(false);
 
@@ -29,7 +32,7 @@ export const ProductCard: FC<Props> = ({ product }) => {
         .catch((error) => {
           const axiosError = error as AxiosError;
           if (axiosError.response?.status === 401) {
-            alert('Необходима авторизация');
+            dispatch(setIsOpened(true));
           } else {
             console.error('Ошибка покупки:', error);
           }

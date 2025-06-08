@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import cityReducer from 'entities/City/slice';
+import authSlice from 'features/Authentication/slice';
 
 export const store = configureStore({
   reducer: {
     city: cityReducer,
+    auth: authSlice,
   },
 });
 
