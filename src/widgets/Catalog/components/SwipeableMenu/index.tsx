@@ -1,4 +1,4 @@
-import { SwipeableModal } from 'shared/ui/SwipeableModal';
+import { SwipeableModal } from 'shared/components/SwipeableModal';
 import { FC } from 'react';
 import { Filters } from 'features/ProductsFilters';
 import { ProductsSort } from 'features/ProductsSort';

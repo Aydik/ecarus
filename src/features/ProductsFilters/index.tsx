@@ -1,5 +1,5 @@
 import { Dispatch, memo, SetStateAction, useCallback, useEffect } from 'react';
-import { Filter } from 'features/ProductsFilters/components/Filter';
+import { Filter } from 'shared/components/Filter';
 import { ProductsFilters } from 'features/ProductsFilters/types';
 import { updateFilter } from 'features/ProductsFilters/utils';
 import { useNavigate } from 'react-router-dom';
@@ -23,15 +23,15 @@ const Filters = memo(function ({ filters }: Props) {
 
   useEffect(() => {
     updateFilter(gendersFlags, 'genders', navigate);
-  }, [gendersFlags]);
+  }, [gendersFlags, navigate]);
 
   useEffect(() => {
     updateFilter(productTypesFlags, 'types', navigate);
-  }, [productTypesFlags]);
+  }, [navigate, productTypesFlags]);
 
   useEffect(() => {
     updateFilter(brandsFlags, 'brands', navigate);
-  }, [brandsFlags]);
+  }, [brandsFlags, navigate]);
 
   const handleUrlChange = useCallback(
     (path: string) => {

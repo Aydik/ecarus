@@ -1,0 +1,11 @@
+.filters {
+  position: relative;
+  margin: 32px var(--horizontal-content-padding) 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+
+  > :first-child {
+    flex-grow: 1;
+  }
+}

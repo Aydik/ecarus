@@ -5,10 +5,10 @@ import { useBreakpoint } from 'shared/context/BreakpointContext.tsx';
 import { Scrollbar } from 'shared/ui/ScrollBar';
 import { Dispatch, memo, SetStateAction, useEffect, useState } from 'react';
 import { FilterFlags } from 'shared/types';
-import { FilterSkeleton } from 'features/ProductsFilters/components/FilterSkeleton';
+import { FilterSkeleton } from './ui/FilterSkeleton';
 
 export interface Props {
-  title: string;
+  title?: string;
   filterFlags: FilterFlags;
   setFilterFlags: Dispatch<SetStateAction<FilterFlags>>;
 }
@@ -42,9 +42,11 @@ const Filter = memo(function ({ title, filterFlags, setFilterFlags }: Props) {
   } else
     return (
       <div className={styles.filter}>
-        <Typography className={styles.filterCaption} variant={'h4'}>
-          {title}
-        </Typography>
+        {title && (
+          <Typography className={styles.filterCaption} variant={'h4'}>
+            {title}
+          </Typography>
+        )}
         {hasSelectAll && (
           <CheckBox
             key={`${title}_selectAll_${isAllSelected}`}
