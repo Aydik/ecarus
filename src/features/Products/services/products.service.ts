@@ -37,7 +37,7 @@ export const getProducts = async (params: Record<string, string | number>) => {
 };
 
 export const buyProduct = async (props: BuyProductDto) => {
-  const { productId, count = 0, cityId } = props;
+  const { productId, count, cityId } = props;
   try {
     await axiosInstance.post('products/buy', {
       params: {

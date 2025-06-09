@@ -27,7 +27,7 @@ export const ProductCard: FC<Props> = ({ product }) => {
 
   const handleClick = () => {
     if (city) {
-      buyProduct(product.id, city.id)
+      buyProduct({ productId: product.id, cityId: city.id, count: 1 })
         .then(() => {
           dispatch(updateUser());
           setSuccess(true);
