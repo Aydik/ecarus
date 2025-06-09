@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect, useRef, useState } from 'react';
 import './index.module.scss';
 import { Filter } from 'shared/components/Filter';
 import { FilterFlags } from 'shared/types';
@@ -16,13 +16,31 @@ export interface Props {
 export const DropdownFilter: FC<Props> = ({ title, filterFlags, setFilterFlags }) => {
   const [isOpened, setIsOpened] = useState<boolean>(false);
 
-  const toggleDropdown = () => {
-    setIsOpened(!isOpened);
-  };
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const handleMouseDown = (e: globalThis.MouseEvent) => {
+      const target = e.target as Node;
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(target) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(target)
+      ) {
+        setIsOpened(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleMouseDown);
+    return () => document.removeEventListener('mousedown', handleMouseDown);
+  }, []);
+
+  const toggleDropdown = () => setIsOpened((prev) => !prev);
 
   return (
     <div className={styles.filter}>
-      <button className={styles.button} onClick={toggleDropdown}>
+      <button className={styles.button} onClick={toggleDropdown} ref={buttonRef}>
         <Typography className={styles.title}>{title}</Typography>
         <Icon
           name={'arrow_slide'}
@@ -31,7 +49,7 @@ export const DropdownFilter: FC<Props> = ({ title, filterFlags, setFilterFlags }
       </button>
 
       {isOpened && (
-        <div className={styles.dropdown}>
+        <div className={styles.dropdown} ref={dropdownRef}>
           <Filter filterFlags={filterFlags} setFilterFlags={setFilterFlags} />
         </div>
       )}
