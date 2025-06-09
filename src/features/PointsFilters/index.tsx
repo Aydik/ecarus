@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import { DropdownFilter } from 'features/PointsFilters/components/DropdownFilter';
 import { useNavigate } from 'react-router-dom';
@@ -10,39 +10,34 @@ const materials = ['Пластик', 'Обувь', 'Старая одежда', 
 const brands = ['Adidas', 'Puma', 'Reebok', 'Nike', 'Converse', 'Lacoste'];
 
 export const PointsFilters: FC = () => {
-  const [searchBarValue, setSearchBarValue] = useState<string>('');
-
-  const handleChangeSearchBarValue = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchBarValue(e.target.value);
-  };
-
   const navigate = useNavigate();
 
   const [materialFlags, setMaterialFlags] = useState<FilterFlags>({});
   const [brandsFlags, setBrandsFlags] = useState<FilterFlags>({});
 
   useEffect(() => {
-    const flags: FilterFlags = {};
-    for (const material of materials) {
-      flags[material] = false;
-    }
-    setMaterialFlags(flags);
+    const buildFlags = (
+      paramKey: string,
+      allValues: string[],
+      params: URLSearchParams,
+    ): FilterFlags =>
+      allValues.reduce<FilterFlags>((acc, value) => {
+        acc[value] = params.get(paramKey)?.split(',').includes(value) ?? false;
+        return acc;
+      }, {});
+
+    const url = location.search;
+    const searchParams = new URLSearchParams(url);
+    setMaterialFlags(buildFlags('materials', materials, searchParams));
+    setBrandsFlags(buildFlags('brands', brands, searchParams));
   }, []);
 
   useEffect(() => {
-    const flags: FilterFlags = {};
-    for (const brand of brands) {
-      flags[brand] = false;
-    }
-    setBrandsFlags(flags);
-  }, []);
-
-  useEffect(() => {
-    updateFilter(materialFlags, 'materials', navigate);
+    if (Object.keys(materialFlags).length > 0) updateFilter(materialFlags, 'materials', navigate);
   }, [materialFlags, navigate]);
 
   useEffect(() => {
-    updateFilter(brandsFlags, 'brands', navigate);
+    if (Object.keys(brandsFlags).length > 0) updateFilter(brandsFlags, 'brands', navigate);
   }, [brandsFlags, navigate]);
 
   return (

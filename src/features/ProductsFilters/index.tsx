@@ -63,7 +63,7 @@ export const Filters: FC = () => {
   useEffect(() => {
     const flags: FilterFlags = {};
     for (const gender of genders) {
-      flags[gender] = urlParams.brands.includes(gender);
+      flags[gender] = urlParams.genders.includes(gender);
     }
     setGendersFlags(flags);
   }, [genders, urlParams]);
@@ -71,7 +71,7 @@ export const Filters: FC = () => {
   useEffect(() => {
     const flags: FilterFlags = {};
     for (const productType of productTypes) {
-      flags[productType] = urlParams.brands.includes(productType);
+      flags[productType] = urlParams.types.includes(productType);
     }
     setProductTypesFlags(flags);
   }, [productTypes, urlParams]);
