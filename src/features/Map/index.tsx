@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import styles from './index.module.scss';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -8,7 +8,6 @@ import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 import { MapCenterUpdater } from 'features/Map/components/MapCenterUpdater.ts';
-import { LatLng } from 'shared/types';
 import { StoreEntity } from 'app/models/generated';
 import { calculateMapCenterAndZoom } from 'features/Map/utils/calculateMapCenterAndZoom.ts';
 
