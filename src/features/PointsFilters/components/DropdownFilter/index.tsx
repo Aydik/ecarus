@@ -14,7 +14,7 @@ export interface Props {
 }
 
 export const DropdownFilter: FC<Props> = ({ title, filterFlags, setFilterFlags }) => {
-  const [isOpened, setIsOpened] = useState(false);
+  const [isOpened, setIsOpened] = useState<boolean>(false);
 
   const toggleDropdown = () => {
     setIsOpened(!isOpened);

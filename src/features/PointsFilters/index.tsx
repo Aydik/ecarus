@@ -1,9 +1,10 @@
-import { FC, useEffect } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import { DropdownFilter } from 'features/PointsFilters/components/DropdownFilter';
 import { PointsFilters as PointsFiltersType } from 'features/PointsFilters/types';
 import { useNavigate } from 'react-router-dom';
 import { updateFilter } from 'features/ProductsFilters/utils';
+import { SearchBar } from 'features/PointsFilters/components/SearchBar';
 
 interface Props {
   filters: PointsFiltersType;
@@ -11,6 +12,12 @@ interface Props {
 
 export const PointsFilters: FC<Props> = ({ filters }) => {
   const { materialFlags, setMaterialFlags, brandsFlags, setBrandsFlags } = filters;
+
+  const [searchBarValue, setSearchBarValue] = useState<string>('');
+
+  const handleChangeSearchBarValue = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchBarValue(e.target.value);
+  };
 
   const navigate = useNavigate();
 
@@ -24,7 +31,7 @@ export const PointsFilters: FC<Props> = ({ filters }) => {
 
   return (
     <div className={styles.filters}>
-      <button />
+      <SearchBar value={searchBarValue} handleChange={handleChangeSearchBarValue} />
       <DropdownFilter
         title={'Материалы'}
         filterFlags={materialFlags}
