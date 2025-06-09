@@ -1,4 +1,5 @@
 import { axiosInstance } from 'shared/api/axiosInstance.ts';
+import { BuyProductDto } from 'app/models/generated';
 
 export const limit = 12;
 
@@ -35,7 +36,8 @@ export const getProducts = async (params: Record<string, string | number>) => {
   }
 };
 
-export const buyProduct = async (productId: number, cityId: number, count: number = 0) => {
+export const buyProduct = async (props: BuyProductDto) => {
+  const { productId, count = 0, cityId } = props;
   try {
     await axiosInstance.post('products/buy', {
       params: {

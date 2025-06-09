@@ -1,0 +1,57 @@
+.provision {
+  padding: 32px;
+  display: grid;
+  gap: 24px;
+  border-radius: 20px;
+  border: var(--default-border);
+
+  &__content {
+    display: grid;
+    grid-row-gap: 16px;
+
+    .info {
+      display: grid;
+      grid-row-gap: 4px;
+
+      .label {
+        font-size: 14px;
+        line-height: 18px;
+        font-weight: 500;
+        color: rgba(var(--color-dark), 0.4);
+      }
+
+      .text {
+        font-size: 16px;
+        line-height: 20px;
+        color: rgba(var(--color-dark), var(--opacity-0));
+      }
+
+      .ellipsis {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .materials {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+
+        .separator {
+          box-sizing: border-box;
+          width: 20px;
+          height: 20px;
+          padding: 7px;
+
+          & >div{
+            width: 6px;
+            height: 6px;
+            background: rgba(var(--color-dark), 0.24);
+            border-radius: 50%;
+          }
+
+        }
+      }
+    }
+  }
+}

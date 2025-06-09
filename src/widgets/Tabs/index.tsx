@@ -3,6 +3,7 @@ import styles from './index.module.scss';
 import { TabItem } from 'widgets/Tabs/types';
 import { Tab } from 'widgets/Tabs/components/Tab';
 import { PromoCodes } from 'features/PromoCodes';
+import { History } from 'features/History';
 
 const items: TabItem[] = [
   {
@@ -11,7 +12,7 @@ const items: TabItem[] = [
   },
   {
     name: 'История',
-    content: <div>История</div>,
+    content: <History />,
   },
 ];
 
