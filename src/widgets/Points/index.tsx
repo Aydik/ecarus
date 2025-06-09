@@ -13,7 +13,7 @@ export const Points: FC = () => {
   const city = useSelector((state: RootState) => state.city.current);
 
   const [points, setPoints] = useState<StoreEntity[]>([]);
-  const [currentPoint, setCurrentPoint] = useState<StoreEntity | null>(null);
+  const [currentPointId, setCurrentPointId] = useState<number>(0);
 
   useEffect(() => {
     if (city) {
@@ -26,7 +26,12 @@ export const Points: FC = () => {
 
   return (
     <div className={styles.pointsContainer}>
-      <Map key={points.join(',')} points={points} />
+      <Map
+        key={points.join(',')}
+        points={points}
+        currentPointId={currentPointId}
+        setCurrentPointId={setCurrentPointId}
+      />
       <div className={styles.caption}>
         <PointsWithSearch key={JSON.stringify(points)} points={points} />
         <PointsFilters />
