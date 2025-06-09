@@ -1,0 +1,37 @@
+.slideButton {
+  all: unset;
+  cursor: pointer;
+  box-sizing: border-box;
+  height: 44px;
+  width: 44px;
+  padding: 10px;
+  border-radius: 22px;
+  background: white;
+  transition: var(--button-transition);
+  color: rgba(var(--color-dark), var(--opacity-2));
+  box-shadow: 0 4px 24px rgba(var(--color-dark), var(--opacity-6));
+
+  &:active {
+    filter: brightness(var(--button-brightness-active));
+  }
+
+  &_prev {
+    transform: translateX(-50%);
+
+    &:active {
+      transform: translateX(-50%) scale(0.95);
+    }
+  }
+
+  &_next {
+    transform: translateX(50%);
+
+    &:active {
+      transform: translateX(50%) scale(0.95);
+    }
+
+    .arrowReversed {
+      transform: rotate(180deg);
+    }
+  }
+}

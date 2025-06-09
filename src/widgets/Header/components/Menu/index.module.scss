@@ -1,0 +1,22 @@
+.layout {
+  margin-top: 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 48px;
+
+  .profileButton{
+    all: unset;
+    cursor: pointer;
+  }
+
+  .info {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .logout {
+    all: unset;
+    cursor: pointer;
+  }
+}

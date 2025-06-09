@@ -1,0 +1,31 @@
+.scrollbarWrapper {
+  position: relative;
+}
+
+.scrollbar {
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(var(--color-secondary), 0.24) transparent;
+
+  &_noScrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.gradientTop {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 12px;
+  pointer-events: none;
+  z-index: 1;
+  top: 0;
+  background: linear-gradient(to bottom, black, transparent);
+  opacity: 0.05;
+}

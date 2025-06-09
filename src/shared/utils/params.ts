@@ -1,0 +1,22 @@
+import { NavigateFunction } from 'react-router-dom';
+
+export const setParam = (name: string, value: string, navigate: NavigateFunction) => {
+  const params = new URLSearchParams(window.location.search);
+
+  if (value) {
+    params.set(name, value);
+  } else {
+    params.delete(name);
+  }
+
+  const newUrl = `${window.location.pathname}?${params.toString()}`;
+  navigate(newUrl, { replace: true });
+};
+
+export const deleteParam = (name: string, navigate: NavigateFunction) => {
+  const params = new URLSearchParams(window.location.search);
+  params.delete(name);
+
+  const newUrl = `${window.location.pathname}?${params.toString()}`;
+  navigate(newUrl, { replace: true });
+};

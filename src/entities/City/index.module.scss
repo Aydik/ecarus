@@ -1,0 +1,42 @@
+.wrapper {
+  position: relative;
+}
+
+.city_current {
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: rgba(var(--color-dark), var(--opacity-1));
+
+  .name {
+    margin-left: 4px;
+    font-size: 14px;
+    line-height: 20px;
+    color: inherit;
+  }
+}
+
+.dropdown {
+  left: 0;
+  position: absolute;
+  min-width: 200px;
+  background-color: white;
+  border: var(--default-border);
+  border-radius: 12px;
+  padding: 8px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+
+  .city {
+    all: unset;
+    cursor: pointer;
+    color: rgba(var(--color-dark), var(--opacity-1));
+    padding: 6px 8px;
+
+    &:hover {
+      color: rgb(var(--color-primary));
+    }
+  }
+}

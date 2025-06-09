@@ -1,0 +1,35 @@
+.title {
+  color: rgba(var(--color-dark), var(--opacity-0));
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 32px;
+}
+
+form {
+  margin-top: 48px;
+}
+
+.inputGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-row-gap: 24px;
+}
+
+.button {
+  margin-top: 32px;
+}
+
+.linkContainer {
+  margin-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 16px;
+
+  .link {
+    all: unset;
+    cursor: pointer;
+    color: rgb(var(--color-primary));
+    line-height: 20px;
+  }
+}

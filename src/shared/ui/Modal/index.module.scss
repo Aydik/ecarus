@@ -1,0 +1,45 @@
+.background {
+  all: unset;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(53, 53, 53, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.modal {
+  box-sizing: border-box;
+  position: relative;
+  background-color: white;
+  z-index: 11;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  grid-row-gap: 24px;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.closeIconButton {
+  all: unset;
+  cursor: pointer;
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  color: rgba(var(--color-dark), var(--opacity-2));
+}

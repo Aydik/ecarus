@@ -1,0 +1,20 @@
+.container {
+  z-index: 1;
+}
+
+.filtersButton {
+  all: unset;
+  cursor: pointer;
+  box-sizing: border-box;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: white;
+  color: rgba(var(--color-dark), 0.48);
+  box-shadow: var(--points-filter-shadow);
+
+  :active{
+    transform: scale(0.95);
+  }
+}

@@ -1,0 +1,29 @@
+.slideItem {
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  padding-top: var(--main-padding-top);
+  padding-left: var(--horizontal-content-padding);
+  padding-right: var(--horizontal-content-padding);
+
+  .content {
+    max-width: 55ch;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+
+    .description {
+      margin-top: 16px;
+      color: rgba(var(--color-dark), var(--opacity-1));
+    }
+
+    .button {
+      margin-top: 40px;
+      height: 48px;
+      padding: 12px 24px;
+    }
+  }
+}

@@ -1,0 +1,18 @@
+.sortTypes {
+  display: flex;
+  gap: 12px;
+  width: max-content;
+
+  .sortButton {
+    height: 40px;
+    border-radius: 61px;
+    padding: 10px 20px;
+    font-size: 14px;
+    line-height: 20px;
+    transition: var(--button-transition);
+    &:hover{
+      background: rgba(var(--color-dark), var(--opacity-0));
+      color: white;
+    }
+  }
+}

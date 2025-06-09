@@ -1,0 +1,23 @@
+.wrapper {
+  max-width: 100%;
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .info {
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+
+    .name {
+      font-weight: 500;
+    }
+  }
+}
