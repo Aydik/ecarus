@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { SearchBar } from './components/SearchBar';
 import { StoreEntity } from 'app/models/generated';
 import styles from './index.module.scss';
@@ -13,6 +13,10 @@ export const PointsWithSearch: FC<Props> = ({ points }) => {
   const handleChangeSearchBarValue = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchBarValue(e.target.value);
   };
+
+  useEffect(() => {
+    console.log(points);
+  }, []);
 
   return (
     <div className={styles.container}>
