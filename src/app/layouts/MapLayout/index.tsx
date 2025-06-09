@@ -5,11 +5,11 @@ import styles from './index.module.scss';
 
 export const MapLayout: FC = () => {
   return (
-    <>
+    <div className={styles.mapLayout}>
       <Header />
       <main className={styles.main}>
         <Outlet />
       </main>
-    </>
+    </div>
   );
 };

@@ -25,7 +25,7 @@ export function calculateMapCenterAndZoom(points: StoreEntity[]): {
   const lngDiff = maxLng - minLng;
   const maxDiff = Math.max(latDiff, lngDiff);
 
-  let zoom = 12;
+  let zoom;
   if (maxDiff < 0.01) zoom = 15;
   else if (maxDiff < 0.03) zoom = 14;
   else if (maxDiff < 0.05) zoom = 13;
@@ -33,5 +33,5 @@ export function calculateMapCenterAndZoom(points: StoreEntity[]): {
   else if (maxDiff < 0.2) zoom = 11;
   else zoom = 10;
 
-  return { center, zoom };
+  return { center, zoom: zoom - 1 };
 }

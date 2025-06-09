@@ -21,11 +21,3 @@ export const deleteParam = (name: string, navigate: NavigateFunction) => {
   const newUrl = `${window.location.pathname}?${params.toString()}`;
   navigate(newUrl, { replace: true });
 };
-
-export const useUrlParamsChange = (callback: (path: string) => void) => {
-  const location = useLocation();
-
-  useEffect(() => {
-    callback(location.search);
-  }, [callback, location.search]);
-};
