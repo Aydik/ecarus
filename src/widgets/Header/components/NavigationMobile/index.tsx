@@ -12,7 +12,7 @@ export const NavigationMobile: FC<NavigationMobileProps> = ({ onNavigate }) => {
   return (
     <nav className={styles.nav}>
       <ul className={styles.navList}>
-        {pages.map((page) => (
+        {PAGES.map((page) => (
           <li key={page.url}>
             <Link to={page.url} className={styles.link} onClick={onNavigate}>
               <Typography className={styles.text}>{page.text}</Typography>
