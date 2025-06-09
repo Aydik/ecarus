@@ -1,59 +1,103 @@
-import { Dispatch, memo, SetStateAction, useCallback, useEffect } from 'react';
-import { Filter } from 'features/ProductsFilters/components/Filter';
-import { ProductsFilters } from 'features/ProductsFilters/types';
-import { updateFilter } from 'features/ProductsFilters/utils';
+import { FC, useEffect, useState } from 'react';
+import { Filter } from 'shared/components/Filter';
+import { updateFilter } from 'shared/utils/filters.ts';
 import { useNavigate } from 'react-router-dom';
-import { useUrlParamsChange } from 'shared/utils/params.ts';
 import { FilterFlags } from 'shared/types';
+import {
+  getBrands,
+  getGenders,
+  getProductTypes,
+} from 'features/ProductsFilters/services/filters.service.ts';
 
-interface Props {
-  filters: ProductsFilters;
-}
-
-const Filters = memo(function ({ filters }: Props) {
-  const {
-    gendersFlags,
-    setGendersFlags,
-    productTypesFlags,
-    setProductTypesFlags,
-    brandsFlags,
-    setBrandsFlags,
-  } = filters;
+export const Filters: FC = () => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    updateFilter(gendersFlags, 'genders', navigate);
-  }, [gendersFlags]);
+  const [genders, setGenders] = useState<string[]>([]);
+  const [productTypes, setProductTypes] = useState<string[]>([]);
+  const [brands, setBrands] = useState<string[]>([]);
+
+  const [gendersFlags, setGendersFlags] = useState<FilterFlags>({});
+  const [productTypesFlags, setProductTypesFlags] = useState<FilterFlags>({});
+  const [brandsFlags, setBrandsFlags] = useState<FilterFlags>({});
+
+  const [urlParams, setUrlParams] = useState<{
+    genders: string[];
+    types: string[];
+    brands: string[];
+  }>({ genders: [], types: [], brands: [] });
 
   useEffect(() => {
-    updateFilter(productTypesFlags, 'types', navigate);
-  }, [productTypesFlags]);
+    const fetchFilters = async () => {
+      try {
+        getGenders().then((data) => {
+          setGenders(data.genders);
+        });
+        getProductTypes().then((data) => {
+          setProductTypes(data.types);
+        });
+      } catch (error) {
+        console.error('Ошибка загрузки фильтров:', error);
+      }
+    };
+
+    fetchFilters();
+  }, []);
 
   useEffect(() => {
-    updateFilter(brandsFlags, 'brands', navigate);
-  }, [brandsFlags]);
+    setBrands([]);
+    productTypes.forEach((type) =>
+      getBrands(type).then((data) => {
+        setBrands((prev) => [...new Set([...prev, ...data.brands])]);
+      }),
+    );
+  }, [productTypes]);
 
-  const handleUrlChange = useCallback(
-    (path: string) => {
-      const searchParams = new URLSearchParams(path);
+  useEffect(() => {
+    const flags: FilterFlags = {};
+    for (const gender of genders) {
+      flags[gender] = urlParams.genders.includes(gender);
+    }
+    setGendersFlags(flags);
+  }, [genders, urlParams]);
 
-      const applyFlags = (selected: string[], setFlags: Dispatch<SetStateAction<FilterFlags>>) => {
-        setFlags(
-          (prev) =>
-            Object.fromEntries(
-              Object.keys(prev).map((k) => [k, selected.includes(k)]),
-            ) as FilterFlags,
-        );
-      };
+  useEffect(() => {
+    const flags: FilterFlags = {};
+    for (const productType of productTypes) {
+      flags[productType] = urlParams.types.includes(productType);
+    }
+    setProductTypesFlags(flags);
+  }, [productTypes, urlParams]);
 
-      applyFlags(searchParams.get('genders')?.split(',') ?? [], setGendersFlags);
-      applyFlags(searchParams.get('types')?.split(',') ?? [], setProductTypesFlags);
-      applyFlags(searchParams.get('brands')?.split(',') ?? [], setBrandsFlags);
-    },
-    [setGendersFlags, setProductTypesFlags, setBrandsFlags],
-  );
+  useEffect(() => {
+    const flags: FilterFlags = {};
+    for (const brand of brands) {
+      flags[brand] = urlParams.brands.includes(brand);
+    }
+    setBrandsFlags(flags);
+  }, [brands, urlParams]);
 
-  useUrlParamsChange(handleUrlChange);
+  useEffect(() => {
+    if (Object.keys(gendersFlags).length > 0) updateFilter(gendersFlags, 'genders', navigate);
+  }, [gendersFlags, navigate]);
+
+  useEffect(() => {
+    if (Object.keys(productTypesFlags).length > 0)
+      updateFilter(productTypesFlags, 'types', navigate);
+  }, [productTypesFlags, navigate]);
+
+  useEffect(() => {
+    if (Object.keys(brandsFlags).length > 0) updateFilter(brandsFlags, 'brands', navigate);
+  }, [brandsFlags, navigate]);
+
+  useEffect(() => {
+    const url = location.search;
+    const searchParams = new URLSearchParams(url);
+    setUrlParams({
+      genders: searchParams.get('genders')?.split(',') ?? [],
+      types: searchParams.get('types')?.split(',') ?? [],
+      brands: searchParams.get('brands')?.split(',') ?? [],
+    });
+  }, [location.search]);
 
   return (
     <>
@@ -66,8 +110,4 @@ const Filters = memo(function ({ filters }: Props) {
       <Filter title={'Бренд'} filterFlags={brandsFlags} setFilterFlags={setBrandsFlags} />
     </>
   );
-});
-
-Filters.displayName = 'Filter';
-
-export { Filters };
+};

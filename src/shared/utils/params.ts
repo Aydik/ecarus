@@ -1,5 +1,4 @@
-import { NavigateFunction, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { NavigateFunction } from 'react-router-dom';
 
 export const setParam = (name: string, value: string, navigate: NavigateFunction) => {
   const params = new URLSearchParams(window.location.search);
@@ -20,12 +19,4 @@ export const deleteParam = (name: string, navigate: NavigateFunction) => {
 
   const newUrl = `${window.location.pathname}?${params.toString()}`;
   navigate(newUrl, { replace: true });
-};
-
-export const useUrlParamsChange = (callback: (path: string) => void) => {
-  const location = useLocation();
-
-  useEffect(() => {
-    callback(location.search);
-  }, [callback, location.search]);
 };

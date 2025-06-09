@@ -7,6 +7,7 @@ import { AboutPage } from 'pages/AboutPage';
 import { PointsPage } from 'pages/PointsPage';
 import { MarketPage } from 'pages/MarketPage';
 import { ProfilePage } from 'pages/ProfilePage';
+import { MapLayout } from 'app/layouts/MapLayout';
 
 const routeConfig: RouteObject[] = [
   {
@@ -21,16 +22,21 @@ const routeConfig: RouteObject[] = [
         element: <AboutPage />,
       },
       {
-        path: '/points',
-        element: <PointsPage />,
-      },
-      {
         path: '/market',
         element: <MarketPage />,
       },
       {
         path: '/profile',
         element: <ProfilePage />,
+      },
+    ],
+  },
+  {
+    element: <MapLayout />,
+    children: [
+      {
+        path: '/points',
+        element: <PointsPage />,
       },
     ],
   },

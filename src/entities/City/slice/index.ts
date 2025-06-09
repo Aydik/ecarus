@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CitiesEntity } from 'app/models/generated';
-import { fetchCities } from 'entities/City/services/city.service.ts';
+import { getCities } from 'entities/City/services/city.service.ts';
 
 interface CityState {
   cities: CitiesEntity[];
@@ -15,6 +15,17 @@ const initialState: CityState = {
   status: 'idle',
   error: null,
 };
+
+export const fetchCities = createAsyncThunk<CitiesEntity[]>(
+  'city/fetchCities',
+  async (_, { rejectWithValue }) => {
+    try {
+      return await getCities();
+    } catch (error: any) {
+      return rejectWithValue(error.message ?? 'Ошибка при загрузке городов');
+    }
+  },
+);
 
 const citySlice = createSlice({
   name: 'city',

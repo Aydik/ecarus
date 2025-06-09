@@ -1,7 +1,5 @@
 import { SwipeableModal } from 'shared/components/SwipeableModal';
-import { FC } from 'react';
-import { Filters } from 'features/ProductsFilters';
-import { ProductsSort } from 'features/ProductsSort';
+import { FC, ReactNode } from 'react';
 import styles from './index.module.scss';
 import { Button } from 'shared/ui/Button';
 import { ResetButton } from 'shared/components/ResetButton';
@@ -9,17 +7,13 @@ import { ResetButton } from 'shared/components/ResetButton';
 interface Props {
   isOpen: boolean;
   onClose: () => void;
+  children: ReactNode;
 }
 
-export const SwipeableMenu: FC<Props> = ({ isOpen, onClose }) => {
+export const SwipeableFilters: FC<Props> = ({ isOpen, onClose, children }) => {
   return (
     <SwipeableModal isOpen={isOpen} onClose={onClose}>
-      <div className={styles.productsSort}>
-        <ProductsSort />
-      </div>
-      <div className={styles.filters}>
-        <Filters />
-      </div>
+      {children}
       <div className={styles.buttons}>
         <Button variant={'primary'} onClick={onClose}>
           Применить

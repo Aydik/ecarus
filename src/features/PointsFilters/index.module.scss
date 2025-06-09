@@ -1,0 +1,12 @@
+.filters {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 20px;
+}
+
+.filtersContainer{
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}

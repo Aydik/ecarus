@@ -2,7 +2,7 @@ import styles from './index.module.scss';
 import { Button } from 'shared/ui/Button';
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { resetFilters } from 'features/ProductsFilters/utils';
+import { resetFilters } from 'shared/utils/filters.ts';
 
 export const ResetButton: FC = () => {
   const navigate = useNavigate();
