@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { Filter } from 'shared/components/Filter';
-import { updateFilter } from 'features/ProductsFilters/utils';
+import { updateFilter } from 'shared/utils/filters.ts';
 import { useNavigate } from 'react-router-dom';
 import { FilterFlags } from 'shared/types';
 import {
@@ -39,14 +39,6 @@ export const Filters: FC = () => {
         console.error('Ошибка загрузки фильтров:', error);
       }
     };
-
-    const url = location.search;
-    const searchParams = new URLSearchParams(url);
-    setUrlParams({
-      genders: searchParams.get('genders')?.split(',') ?? [],
-      types: searchParams.get('types')?.split(',') ?? [],
-      brands: searchParams.get('brands')?.split(',') ?? [],
-    });
 
     fetchFilters();
   }, []);
@@ -96,6 +88,16 @@ export const Filters: FC = () => {
   useEffect(() => {
     if (Object.keys(brandsFlags).length > 0) updateFilter(brandsFlags, 'brands', navigate);
   }, [brandsFlags, navigate]);
+
+  useEffect(() => {
+    const url = location.search;
+    const searchParams = new URLSearchParams(url);
+    setUrlParams({
+      genders: searchParams.get('genders')?.split(',') ?? [],
+      types: searchParams.get('types')?.split(',') ?? [],
+      brands: searchParams.get('brands')?.split(',') ?? [],
+    });
+  }, [location.search]);
 
   return (
     <>

@@ -5,7 +5,7 @@ import { Typography } from 'shared/ui/Typography';
 import { Filters } from 'features/ProductsFilters';
 import { Products } from 'features/Products';
 import { SplitLayout } from 'shared/layout/SplitLayout';
-import { ResetButton } from 'features/ProductsFilters/components/ResetButton';
+import { ResetButton } from 'shared/components/ResetButton';
 import { useBreakpoint } from 'shared/context/BreakpointContext.tsx';
 import { Button } from 'shared/ui/Button';
 import { SwipeableMenu } from 'widgets/Catalog/components/SwipeableMenu';

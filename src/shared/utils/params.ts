@@ -1,5 +1,4 @@
-import { NavigateFunction, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { NavigateFunction } from 'react-router-dom';
 
 export const setParam = (name: string, value: string, navigate: NavigateFunction) => {
   const params = new URLSearchParams(window.location.search);

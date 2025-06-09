@@ -19,7 +19,7 @@ export const updateFilter = (
 };
 
 export const resetFilters = (navigate: NavigateFunction) => {
-  const filters = ['genders', 'types', 'brands'];
+  const filters = ['genders', 'types', 'brands', 'materials'];
   filters.forEach((name) => {
     deleteParam(name, navigate);
   });

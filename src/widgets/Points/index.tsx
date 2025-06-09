@@ -7,6 +7,7 @@ import { getPoints } from 'widgets/Points/services/points.service.ts';
 import { PointsFilters } from 'features/PointsFilters';
 import { StoreEntity } from 'app/models/generated';
 import { mockPoints } from 'widgets/Points/mocks';
+import { PointsWithSearch } from 'features/PointsWithSearch';
 
 export const Points: FC = () => {
   const city = useSelector((state: RootState) => state.city.current);
@@ -27,7 +28,7 @@ export const Points: FC = () => {
     <div className={styles.pointsContainer}>
       <Map key={points.join(',')} points={points} />
       <div className={styles.caption}>
-        <div />
+        <PointsWithSearch key={JSON.stringify(points)} points={points} />
         <PointsFilters />
       </div>
     </div>
