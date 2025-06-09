@@ -33,5 +33,5 @@ export function calculateMapCenterAndZoom(points: StoreEntity[]): {
   else if (maxDiff < 0.2) zoom = 11;
   else zoom = 10;
 
-  return { center, zoom: zoom - 1 };
+  return { center, zoom: zoom - 0.7 };
 }

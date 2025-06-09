@@ -10,7 +10,6 @@ import { MapCenterUpdater } from 'features/Map/components/MapCenterUpdater';
 import defaultIconUrl from '/public/assets/images/vector/pin_default.svg';
 import activeIconUrl from '/public/assets/images/vector/pin_active.svg';
 import { MapFlyToMarker } from 'features/Map/components/MapFlyToMarker';
-import { FilterFlags } from 'shared/types';
 
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
