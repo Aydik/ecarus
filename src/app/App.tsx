@@ -7,7 +7,7 @@ import './styles/index.module.scss';
 import { setRootVariables } from 'shared/utils/setRootVariables.ts';
 import { Provider, useDispatch } from 'react-redux';
 import { AppDispatch, store } from 'app/store';
-import { fetchCities } from 'entities/City/services/city.service.ts';
+import { fetchCities } from 'entities/City/slice';
 import { Authentication } from 'features/Authentication';
 import { updateUser } from 'entities/User/slice';
 

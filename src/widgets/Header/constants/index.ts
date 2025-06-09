@@ -1,6 +1,6 @@
 import { NavLink } from 'shared/types';
 
-export const pages: NavLink[] = [
+export const PAGES: NavLink[] = [
   { url: '/', text: 'Главная' },
   { url: '/points', text: 'Пункты сбора' },
   { url: '/market', text: 'ЭкоМаркет' },

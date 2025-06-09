@@ -1,0 +1,10 @@
+.main {
+  height: 100vh;
+  position: relative;
+  box-sizing: border-box;
+  padding-top: var(--header-height);
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

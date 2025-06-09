@@ -1,5 +1,5 @@
 import styles from './index.module.scss';
-import { pages } from 'widgets/Header/constants';
+import { PAGES } from 'widgets/Header/constants';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { Typography } from 'shared/ui/Typography';

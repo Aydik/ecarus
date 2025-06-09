@@ -1,5 +1,5 @@
 import styles from './index.module.scss';
-import { pages } from 'widgets/Header/constants';
+import { PAGES } from 'widgets/Header/constants';
 import { NavLink } from 'widgets/Header/components/NavLink';
 import { FC } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -11,7 +11,7 @@ export const NavigationDesktop: FC = () => {
   return (
     <nav className={styles.nav}>
       <ul className={styles.navList}>
-        {pages.map((page) => (
+        {PAGES.map((page) => (
           <li key={page.url}>
             <NavLink url={page.url} text={page.text} isSelected={isSelected(page.url)} />
           </li>
